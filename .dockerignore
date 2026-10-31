@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.git
+.gitignore
+*.parquet
+*.gpkg
+*.zip
+*.tar.gz
+*.db

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+env/
+venv/
+*.parquet
+*.gpkg
+*.zip
+*.tar.gz
+*.db

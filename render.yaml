@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: bangladesh-gis-engine
+    env: python
+    region: singapore # Closest to Bangladesh for minimal latency (<30 ms)
+    plan: starter # Uses your $50 credit ($7/month)
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.api_pg:app --host 0.0.0.0 --port $PORT --workers 2
+    healthCheckPath: /api/mvt/roads/7/96/55.pbf
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false # Set in Render Dashboard
+      - key: NEON_API_KEY
+        sync: false
+      - key: OPENSKY_USERNAME
+        sync: false
+      - key: OPENSKY_PASSWORD
+        sync: false
+      - key: AISSTREAM_API_KEY
+        sync: false
+      - key: GFW_API_TOKEN
+        sync: false

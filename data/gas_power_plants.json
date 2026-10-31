@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sirajganj Combined Cycle Power Plant",
+        "type": "power_plant",
+        "source": "gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [89.741, 24.385]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Baghabari Power Plant",
+        "type": "power_plant",
+        "source": "gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [89.605, 24.126]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bheramara Combined Cycle Power Plant",
+        "type": "power_plant",
+        "source": "gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [88.995, 24.030]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rupsha / Khulna Power Plant",
+        "type": "power_plant",
+        "source": "gas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [89.551, 22.825]
+      }
+    }
+  ]
+}

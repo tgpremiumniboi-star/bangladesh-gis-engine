@@ -1,0 +1,3508 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Private Map Viewer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS (Loaded Locally) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #111;
+        }
+
+        /* Deep ocean background for offline map */
+        #map {
+            height: 100vh;
+            width: 100vw;
+            background-color: #0f172a;
+            /* Slate 900 (Ocean) */
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            max-height: calc(100vh - 40px);
+            box-sizing: border-box;
+            background: rgba(25, 25, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            width: 320px;
+        }
+
+        #layers-list {
+            overflow-y: auto;
+            padding-right: 6px;
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #layers-list::-webkit-scrollbar { width: 6px; }
+        #layers-list::-webkit-scrollbar-track { background: transparent; }
+        #layers-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+
+        #controls.collapsed #layers-list { display: none; }
+        #controls.collapsed #clear-layers-btn { display: none; }
+
+        #controls h3 {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        #controls .toggle-arrow { font-size: 13px; transition: transform 0.2s ease; }
+        #controls.collapsed .toggle-arrow { transform: rotate(-90deg); }
+
+        details {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        summary {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none; /* Hide default arrow */
+            transition: background 0.2s;
+            user-select: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { background: rgba(255, 255, 255, 0.05); }
+        summary::after { content: '▼'; font-size: 10px; color: #888; transition: transform 0.2s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        
+        .layer-group-content {
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 13px;
+            transition: transform 0.1s;
+            line-height: 1.4;
+        }
+        label:hover { transform: translateX(3px); }
+
+        input[type="checkbox"] {
+            margin: 0;
+            margin-right: 12px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: #3b82f6;
+            flex-shrink: 0;
+        }
+
+        #clear-layers-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+        #clear-layers-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .loading {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00bfff;
+            color: black;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 20px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.05);
+            }
+
+            100% {
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        .radar-pulse {
+            animation: radarThrob 2s infinite ease-out;
+        }
+        @keyframes radarThrob {
+            0% { stroke-opacity: 1; fill-opacity: 0.4; }
+            100% { stroke-opacity: 0.1; fill-opacity: 0.0; }
+        }
+        
+        /* Train Route Direction Animation */
+        @keyframes march {
+            to { stroke-dashoffset: -20; }
+        }
+        .route-marching-ants {
+            animation: march 1s linear infinite;
+        }
+        /* Disaster Pulse Animation */
+        @keyframes disasterPulse {
+            0% { transform: scale(0.98); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 0.4; }
+            100% { transform: scale(0.98); opacity: 0.8; }
+        }
+        .disaster-pulse {
+            animation: disasterPulse 2s ease-in-out infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.8));
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+
+        @keyframes deadZonePulse {
+            0% { opacity: 0.6; stroke-width: 1px; }
+            100% { opacity: 0.1; stroke-width: 2px; }
+        }
+        .dead-zone-ping {
+            animation: deadZonePulse 2s infinite alternate ease-in-out;
+            pointer-events: none;
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+
+        .glowing-power-line {
+            filter: drop-shadow(0 0 5px #00e5ff);
+            animation: march 0.8s linear infinite;
+        }
+
+        .triangulate-crosshair {
+            animation: pulseTarget 0.8s infinite alternate;
+        }
+        @keyframes pulseTarget {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px red); }
+            100% { transform: scale(1.5); filter: drop-shadow(0 0 10px red); }
+        }
+
+        .zoom-warning {
+            color: #ffaa00;
+            font-size: 13px;
+            margin-top: 15px;
+            max-width: 200px;
+            display: none;
+        }
+
+        /* Ensure the map zoom controls look nice on a dark background */
+        .leaflet-bar a {
+            background-color: #333 !important;
+            color: #fff !important;
+            border-color: #555 !important;
+        }
+
+        #search-box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            z-index: 1000;
+        }
+
+        #search-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 16px;
+            font-size: 15px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            background: rgba(30, 30, 30, 0.9);
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        #search-input::placeholder {
+            color: #999;
+        }
+
+        #search-results {
+            margin-top: 6px;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: none;
+        }
+
+        .search-result {
+            padding: 10px 16px;
+            color: #fff;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            font-size: 14px;
+        }
+
+        .search-result:last-child {
+            border-bottom: none;
+        }
+
+        .search-result:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-result .src-badge {
+            font-size: 11px;
+            color: #00bfff;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="search-box">
+        <input type="text" id="search-input" placeholder="🔍 Search for a place or address..." autocomplete="off">
+        <div id="search-results"></div>
+    </div>
+
+    <div id="controls">
+        <a href="/gl/" style="display: block; margin-bottom: 10px; padding: 10px 12px; background: linear-gradient(135deg, #00e5ff, #818cf8); color: #090d16; font-weight: 700; text-align: center; border-radius: 8px; text-decoration: none; font-size: 13px; box-shadow: 0 4px 12px rgba(0, 229, 255, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🚀 Switch to 3D WebGL (MapLibre 60 FPS)</a>
+        <h3 id="controls-toggle">🌍 Map Layers <span class="toggle-arrow">▼</span></h3>
+        <button id="clear-layers-btn" onclick="clearAllLayers()">⊘ Clear All Layers</button>
+        <div id="layers-list">
+            <details>
+                <summary>🌍 Geography & Demographics</summary>
+                <div class="layer-group-content">
+                    <label><input type="checkbox" id="layer-population"> <span style="color: #ff5500; font-weight: bold;">👥 Population Density (Kontur)</span></label>
+                    <label><input type="checkbox" id="layer-addresses"> <span style="color: #FFD700; font-weight: bold;">🏠 Street Addresses</span></label>
+                    <label><input type="checkbox" id="layer-contours"> <span style="color: #d97706;">Elevation Contours</span></label>
+                    <label><input type="checkbox" id="layer-hillshade"> <span style="color: #f97316;">🏔️ Elevation Vulnerability</span></label>
+                    <label><input type="checkbox" id="layer-neighborhoods" checked> <span style="color: #9932CC;">Neighborhoods (WOF)</span></label>
+                    <label><input type="checkbox" id="layer-landuse"> Land Use (Parks, Forests)</label>
+                </div>
+            </details>
+
+            <details>
+                <summary>🏙️ Infrastructure & Network</summary>
+                <div class="layer-group-content">
+                    <label><input type="checkbox" id="layer-roads" checked> Roads Network</label>
+                    <label><input type="checkbox" id="layer-ai-roads" checked> <span style="color: #ff00ff; font-weight: bold;">Meta AI Roads</span></label>
+                    <label><input type="checkbox" id="layer-buildings"> Buildings</label>
+                    <label><input type="checkbox" id="layer-power"> <span style="color: #ffcc00; text-shadow: 0 0 6px #ffcc00;">⚡ Power Grid</span></label>
+                    <label><input type="checkbox" id="layer-gas"> <span style="color: #ff8800; font-weight: bold; text-shadow: 0 0 4px #ff8800;">🔥 Gas Pipelines</span></label>
+                    <label><input type="checkbox" id="layer-gas-power"> <span style="color: #ff00ff; font-weight: bold; text-shadow: 0 0 4px #ff00ff;">🏭 Gas Power Plants</span></label>
+                    <label><input type="checkbox" id="layer-railways"> <span style="color: #ff4444; font-weight: bold;">🚆 Railway Network</span></label>
+                    <label><input type="checkbox" id="layer-transport"> <span style="color: #ffd700;">Public Transport</span></label>
+                    <label><input type="checkbox" id="layer-airports"> <span style="color: #00ffff; font-weight: bold;">✈️ Airports</span></label>
+                    <label><input type="checkbox" id="layer-helipads"> <span style="color: #ff00ff; font-weight: bold;">🚁 Helipads</span></label>
+                    <label><input type="checkbox" id="layer-celltowers"> <span style="color: #ff3333;">Cell Towers (Telecom)</span></label>
+                    <label><input type="checkbox" id="layer-hydrology" checked> <span style="color: #00bfff;">💧 Waterways (Hydrology)</span></label>
+                    <label><input type="checkbox" id="layer-pois"> OSM Points of Interest</label>
+                    <label><input type="checkbox" id="layer-overture"> <span style="color: #ffaa00;">Overture Businesses</span></label>
+                </div>
+            </details>
+
+            <details>
+                <summary>📡 Live Tracking</summary>
+                <div class="layer-group-content">
+                    <label><input type="checkbox" id="layer-wind"> <span style="color: #6ee7b7; font-weight: bold;">🌬️ Live Wind Particles</span></label>
+                    <label><input type="checkbox" id="layer-flights"> <span style="color: #22d3ee;">✈️ Live Flight Tracking</span></label>
+                    <label><input type="checkbox" id="layer-ships"> <span style="color: #3b82f6;">🚢 Live Ships (AIS)</span></label>
+                    <label><input type="checkbox" id="layer-marinetraffic"> <span style="color: #00ffff; font-weight: bold;">Live Ships (MarineTraffic)</span></label>
+                </div>
+            </details>
+
+            <details>
+                <summary>🚨 Environment & Disasters</summary>
+                <div class="layer-group-content">
+                    <label><input type="checkbox" id="layer-flood"> <span style="color: #3b82f6; font-weight: bold;">🌊 Live Flood Monitoring (FFWC)</span></label>
+                    <label><input type="checkbox" id="layer-floodrisk"> <span style="color: #38bdf8;">🌊 Flood Risk (Water Occurrence)</span></label>
+                    <label><input type="checkbox" id="layer-glofas-forecast"> <span style="color: #3b82f6;">🌊 Flood Forecast (GloFAS, 15d)</span></label>
+                    <label><input type="checkbox" id="layer-glofas-gauges"> <span style="color: #a855f7;">📍 River Gauge Alerts (GloFAS)</span></label>
+                    <label><input type="checkbox" id="layer-earthquakes"> <span style="color: #ef4444;">🌍 Earthquakes (90d)</span></label>
+                    <label><input type="checkbox" id="layer-disasters"> <span style="color: #f97316;">🌀 Disaster Alerts (GDACS)</span></label>
+                    <label><input type="checkbox" id="layer-fishing"> <span style="color: #fb923c;">🎣 Fishing Activity (30d)</span></label>
+                </div>
+            </details>
+
+            <details>
+                <summary>🛰️ Satellite Imagery</summary>
+                <div class="layer-group-content">
+                    <label><input type="checkbox" id="layer-satellite-daily"> <span style="color: #60a5fa;">🛰️ Satellite Imagery (Daily, NASA)</span></label>
+                    <label><input type="checkbox" id="layer-satellite-live"> <span style="color: #fbbf24;">🛰️ Live Weather Satellite (10min)</span></label>
+                    <label><input type="checkbox" id="layer-satellite-tracking"> <span style="color: #e879f9;">🛰️ Live Satellite Tracking</span></label>
+                    <label><input type="checkbox" id="layer-blackmarble"> <span style="color: #c084fc;">🌃 NASA Night Lights (Black Marble)</span></label>
+                </div>
+            </details>
+
+            <details open>
+                <summary>🎮 Simulation Modes</summary>
+                <div class="layer-group-content" style="display: flex; flex-direction: column; gap: 8px;">
+                    
+                    <select id="sim-mode-selector" style="background: rgba(20,20,20,0.8); color: white; border: 1px solid #666; padding: 8px; border-radius: 4px; font-weight:bold; cursor: pointer; margin-bottom: 5px;">
+                        <option value="none">--- Select a Mode ---</option>
+                        <option value="disaster">🌪️ Disaster Simulator</option>
+                        <option value="evacuate">🏃 Emergency Evacuation</option>
+                        <option value="flood">🌊 Flood Simulator</option>
+                        <option value="epidemic">🦟 Epidemic Simulator</option>
+                        <option value="traffic">🚗 Traffic Simulator</option>
+                        <option value="dispatch">🚨 999 Dispatch</option>
+                        <option value="megaproject">🏗️ Mega-Project Simulator</option>
+                        <option value="transit">🚆 Live Train Tracker</option>
+                        <option value="bus">🚌 Live Bus Tracker</option>
+                        <option value="tactical">🗺️ Tactical Routing</option>
+                    </select>
+
+                    <!-- Disaster Sim UI -->
+                    <div id="sim-ui-disaster" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(50,0,0,0.3); border-radius: 6px; border: 1px dashed #ff3333;">
+                        <label><input type="checkbox" id="layer-disaster"> <span style="color: #ff3333; font-weight: bold;">🌪️ Enable Map Clicks</span></label>
+                        
+                        <div id="disaster-radius-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Blast Radius: <span id="radius-val">10</span> km</label>
+                            <input type="range" id="disaster-radius" min="1" max="50" value="10" style="width: 100%;">
+                        </div>
+
+                        <div id="disaster-stats" style="display: none; background: rgba(50,0,0,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #ffcccc; margin-top: 5px; border: 1px solid #ff3333;">
+                            <i>Click anywhere on the map to trigger a disaster.</i>
+                        </div>
+                    </div>
+
+                    <!-- Evacuation Sim UI -->
+                    <div id="sim-ui-evacuate" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(0,50,0,0.3); border-radius: 6px; border: 1px dashed #22c55e;">
+                        <label><input type="checkbox" id="layer-evacuate"> <span style="color: #22c55e; font-weight: bold;">🏃 Enable Map Clicks</span></label>
+                        
+                        <div id="evacuate-radius-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Danger Radius: <span id="evac-radius-val">5</span> km</label>
+                            <input type="range" id="evacuate-radius" min="1" max="20" value="5" style="width: 100%;">
+                        </div>
+
+                        <div id="evacuate-stats" style="display: none; background: rgba(0,20,0,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #bbf7d0; margin-top: 5px; border: 1px solid #22c55e;">
+                            <i>Click anywhere to trigger mass evacuation from that point.</i>
+                        </div>
+                    </div>
+
+                    <!-- Flood Sim UI -->
+                    <div id="sim-ui-flood" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(0,100,255,0.3); border-radius: 6px; border: 1px dashed #00bfff;">
+                        <label><input type="checkbox" id="layer-flood-sim"> <span style="color: #00bfff; font-weight: bold;">🌊 Enable Map Clicks</span></label>
+                        
+                        <div id="flood-controls-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Zone Radius: <span id="flood-radius-val">5</span> km</label>
+                            <input type="range" id="flood-radius" min="1" max="20" value="5" style="width: 100%;">
+                            
+                            <label style="color: white; font-size: 13px; margin-top: 5px;">Water Level Rise (+m): <span id="flood-level-val">5.0</span></label>
+                            <input type="range" id="flood-level" min="0" max="20" step="0.5" value="5.0" style="width: 100%;">
+                        </div>
+
+                        <div id="flood-stats" style="display: none; background: rgba(0,20,50,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #bbf7d0; margin-top: 5px; border: 1px solid #00bfff;">
+                            <i>Click anywhere to generate a topographic flood mask.</i>
+                        </div>
+                    </div>
+
+                    <!-- Epidemic Sim UI -->
+                    <div id="sim-ui-epidemic" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(100,0,0,0.3); border-radius: 6px; border: 1px dashed #ff3333;">
+                        <label><input type="checkbox" id="layer-epidemic"> <span style="color: #ff3333; font-weight: bold;">🦟 Enable Map Clicks</span></label>
+                        
+                        <div id="epidemic-controls-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Zone Radius: <span id="epidemic-radius-val">10</span> km</label>
+                            <input type="range" id="epidemic-radius" min="1" max="50" value="10" style="width: 100%;">
+                            
+                            <label style="color: white; font-size: 13px; margin-top: 5px;">Simulate Days: <span id="epidemic-days-val">30</span></label>
+                            <input type="number" id="epidemic-days" min="1" max="180" value="30" style="width: 100%; padding: 4px; background: rgba(0,0,0,0.5); color: white; border: 1px solid #666; border-radius: 4px;">
+
+                            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                                <button id="epi-btn-play" style="flex:1; padding:4px; background:#22c55e; color:white; border:none; border-radius:3px; cursor:pointer;">▶ Play</button>
+                                <button id="epi-btn-pause" style="flex:1; padding:4px; background:#f59e0b; color:white; border:none; border-radius:3px; cursor:pointer;">⏸ Pause</button>
+                                <button id="epi-btn-reset" style="flex:1; padding:4px; background:#ef4444; color:white; border:none; border-radius:3px; cursor:pointer;">⏹ Reset</button>
+                            </div>
+                            <label style="color: white; font-size: 13px; margin-top: 5px;">Day: <span id="epidemic-current-day-val">0</span> / <span id="epi-total-days">0</span></label>
+                            <input type="range" id="epidemic-scrubber" min="0" max="0" value="0" style="width: 100%;">
+                        </div>
+
+                        <div id="epidemic-stats" style="display: none; background: rgba(50,0,0,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #ffcccc; margin-top: 5px; border: 1px solid #ff3333;">
+                            <i>Click anywhere to start an outbreak.</i>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Sim UI -->
+                    <div id="sim-ui-traffic" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(100,50,0,0.3); border-radius: 6px; border: 1px dashed #f59e0b;">
+                        <label><input type="checkbox" id="layer-traffic"> <span style="color: #f59e0b; font-weight: bold;">🚗 Enable Map Clicks</span></label>
+                        
+                        <div id="traffic-controls-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Zone Radius: <span id="traffic-radius-val">10</span> km</label>
+                            <input type="range" id="traffic-radius" min="1" max="30" value="10" style="width: 100%;">
+                            
+                            <label style="color: white; font-size: 13px; margin-top: 5px;">Commuters: <span id="traffic-commuters-val">50,000</span></label>
+                            <input type="number" id="traffic-commuters" min="1000" max="500000" step="1000" value="50000" style="width: 100%; padding: 4px; background: rgba(0,0,0,0.5); color: white; border: 1px solid #666; border-radius: 4px;">
+
+                            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                                <button id="traffic-btn-play" style="flex:1; padding:4px; background:#22c55e; color:white; border:none; border-radius:3px; cursor:pointer;">▶ Play</button>
+                                <button id="traffic-btn-pause" style="flex:1; padding:4px; background:#f59e0b; color:white; border:none; border-radius:3px; cursor:pointer;">⏸ Pause</button>
+                                <button id="traffic-btn-reset" style="flex:1; padding:4px; background:#ef4444; color:white; border:none; border-radius:3px; cursor:pointer;">⏹ Reset</button>
+                            </div>
+                            <label style="color: white; font-size: 13px; margin-top: 5px;">Time: <span id="traffic-current-time-val">07:00 AM</span></label>
+                            <input type="range" id="traffic-scrubber" min="0" max="15" value="0" style="width: 100%;">
+                        </div>
+
+                        <div id="traffic-stats" style="display: none; background: rgba(50,25,0,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #fde68a; margin-top: 5px; border: 1px solid #f59e0b;">
+                            <i>Click anywhere to set the downtown destination hub.</i>
+                        </div>
+                    </div>
+
+                    <!-- Dispatch Sim UI -->
+                    <div id="sim-ui-dispatch" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(0,20,50,0.3); border-radius: 6px; border: 1px dashed #00e5ff;">
+                        <label><input type="checkbox" id="layer-dispatch"> <span style="color: #00e5ff; font-weight: bold;">🚨 Enable Dispatch Clicks</span></label>
+                        
+                        <div id="dispatch-controls-container" style="display: none; flex-direction: column; gap: 4px;">
+                            <label style="color: white; font-size: 13px;">Emergency Type:</label>
+                            <div style="display: flex; gap: 5px; font-size:12px; color:white;">
+                                <label><input type="radio" name="dispatch-type" value="hospital" checked> 🚑 Medical</label>
+                                <label><input type="radio" name="dispatch-type" value="fire_station"> 🚒 Fire</label>
+                                <label><input type="radio" name="dispatch-type" value="police"> 🚓 Police</label>
+                            </div>
+                        </div>
+
+                        <div id="dispatch-stats" style="display: none; background: rgba(0,25,50,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #00e5ff; margin-top: 5px; border: 1px solid #00e5ff;">
+                            <i>Click anywhere to trigger a 999 incident.</i>
+                        </div>
+                    </div>
+
+                    <!-- Mega-Project Sim UI -->
+                    <div id="sim-ui-megaproject" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(50,0,50,0.3); border-radius: 6px; border: 1px dashed #d946ef;">
+                        <label><input type="checkbox" id="layer-megaproject"> <span style="color: #d946ef; font-weight: bold;">🏗️ Draw New Highway</span></label>
+                        <div id="mega-controls" style="display: none; flex-direction: column; gap: 4px;">
+                            <p style="font-size: 12px; color: #ccc; margin: 0;">Click points on the map to draw your proposed Mega-Project. Double click to finish.</p>
+                            <button id="btn-mega-run" style="width: 100%; padding: 8px; margin-top: 5px; background: #d946ef; color: white; border: none; border-radius: 4px; cursor: pointer;">Simulate Economic Impact</button>
+                            <button id="btn-mega-clear" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;">Clear Project</button>
+                        </div>
+                        <div id="mega-stats" style="display: none; background: rgba(20,0,20,0.8); padding: 10px; border-radius: 4px; font-size: 13px; color: #fdf4ff; margin-top: 5px; border: 1px solid #d946ef;">
+                        </div>
+                    </div>
+
+                    <!-- Transit Sim UI -->
+                    <div id="sim-ui-transit" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(0,0,50,0.3); border-radius: 6px; border: 1px dashed #3b82f6;">
+                        <label><input type="checkbox" id="layer-train"> <span style="color: #60a5fa; font-weight: bold;">🚆 Track Live Trains</span></label>
+                        <select id="train-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; display: none;">
+                            <option value="">Select a train...</option>
+                        </select>
+                        <select id="train-direction" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; display: none;">
+                        </select>
+                        <label><input type="checkbox" id="layer-railways" checked> <span style="color: #a8a29e;">🛤️ Bangladesh Railway Network</span></label>
+                    </div>
+
+                    <!-- Bus Sim UI -->
+                    <div id="sim-ui-bus" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(50,20,0,0.3); border-radius: 6px; border: 1px dashed #f97316;">
+                        <label><input type="checkbox" id="layer-bus"> <span style="color: #f97316; font-weight: bold;">🚌 Track Live Buses</span></label>
+                        <select id="bus-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; display: none;">
+                            <option value="">Select a bus route...</option>
+                        </select>
+                        <select id="bus-direction" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; display: none;">
+                        </select>
+                    </div>
+
+                    <!-- Tactical Routing UI -->
+                    <div id="sim-ui-tactical" style="display: none; flex-direction: column; gap: 8px; padding: 10px; background: rgba(50,50,0,0.3); border-radius: 6px; border: 1px dashed #f59e0b;">
+                        <label><input type="checkbox" id="layer-tactical"> <span style="color: #f59e0b; font-weight: bold;">🗺️ Enable Map Clicks</span></label>
+                        <div id="tactical-controls" style="display: none; flex-direction: column; gap: 4px;">
+                            <p style="font-size: 13px; color: #ccc;">Select start and end points on the map.</p>
+                            <button id="btn-start" style="width: 100%; padding: 8px; margin-bottom: 4px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Set Start (Green)</button>
+                            <button id="btn-end" style="width: 100%; padding: 8px; margin-bottom: 4px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Set End (Red)</button>
+                            <button id="btn-route" style="width: 100%; padding: 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Find Route</button>
+                            <button id="btn-clear-route" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;">Clear Route</button>
+                            <div id="routing-instructions" style="margin-top: 10px; max-height: 150px; overflow-y: auto; font-size: 12px; display: none; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div id="triangulate-icon"
+        style="position: absolute; top: 430px; right: 20px; background: rgba(30, 30, 30, 0.9); color: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; backdrop-filter: blur(5px);"
+        onclick="toggleTriangulateMode()" title="Triangulate Suspect">🎯</div>
+
+    <div id="viewshed-icon"
+        style="position: absolute; top: 480px; right: 20px; background: rgba(30, 30, 30, 0.9); color: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; backdrop-filter: blur(5px);"
+        onclick="toggleViewshedMode()" title="Line-of-Sight (Viewshed)">🔭</div>
+
+    <div id="loading" class="loading">Loading local data from Python API...</div>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS (Loaded Locally) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@1.3.0/dist/Leaflet.VectorGrid.bundled.min.js"></script>
+
+    <!-- Leaflet Velocity -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-velocity@2.1.4/dist/leaflet-velocity.min.css" />
+    <script src="https://unpkg.com/leaflet-velocity@2.1.4/dist/leaflet-velocity.min.js"></script>
+    
+    <!-- OSMBuildings (3D) -->
+    <script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+
+    <!-- Turf.js for advanced geometry calculations -->
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+    <script>
+        // Initialize the map centered on Dhaka (23.8103, 90.4125)
+        const map = L.map('map').setView([23.8103, 90.4125], 14);
+
+        // Local MBTiles raster basemap
+        L.tileLayer('/api/tiles/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Offline Map Data',
+            errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+        }).addTo(map);
+        // -----------------------------------------------------
+        // Vector Tile Layers
+        // -----------------------------------------------------
+        const vtOptions = {
+            interactive: true,
+            maxZoom: 22 // Vector layers can be overzoomed
+        };
+
+        // 0. Country Border
+        const borderLayer = L.vectorGrid.protobuf('/api/mvt/border/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            interactive: false,
+            vectorTileLayerStyles: {
+                'border': function (props, zoom) {
+                    return { fillColor: "#1e293b", color: "#334155", weight: 2, fillOpacity: 1, opacity: 1 };
+                }
+            }
+        }).addTo(map);
+
+        // 0.5 Neighborhoods
+        const neighborhoodLayer = L.vectorGrid.protobuf('/api/mvt/neighborhoods/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'neighborhoods': function (props, zoom) {
+                    // Points vs Polygons can be tricky, but we can check geometry type or just use a generic style
+                    // Since WOF has points (locality) and polygons (region), let's try returning both
+                    return { radius: 5, fillColor: "#9932CC", color: "#8A2BE2", weight: 2, opacity: 0.8, fillOpacity: 0.1, dashArray: '5, 5', fill: true };
+                }
+            }
+        });
+        neighborhoodLayer.on('click', function (e) {
+            L.popup().setContent(`<b>${e.layer.properties.wof_name || 'Unnamed Boundary'}</b><br>Type: ${e.layer.properties.wof_placetype || 'Unknown'}<br><span style="color:purple;">Source: Who's On First</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+
+
+        // 1. Land Use
+        const landuseLayer = L.vectorGrid.protobuf('/api/mvt/landuse/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'landuse': function (props, zoom) {
+                    return { fillColor: "#228b22", color: "#006400", weight: 1, fillOpacity: 0.2, opacity: 0.5 };
+                }
+            }
+        });
+
+        // 2. Buildings (3D Extruded using OSMBuildings)
+        let buildingLayer = null;
+        
+        document.getElementById('layer-buildings').addEventListener('change', function (e) {
+            if (this.checked) {
+                if (!buildingLayer) {
+                    buildingLayer = new OSMBuildings(map).load('/api/geojson/buildings/{z}/{x}/{y}.json');
+                } else {
+                    // OSMBuildings doesn't easily unbind/rebind, we can just style it transparent or we can just destroy and recreate
+                    buildingLayer = new OSMBuildings(map).load('/api/geojson/buildings/{z}/{x}/{y}.json');
+                }
+            } else {
+                if (buildingLayer) {
+                    buildingLayer.destroy(); // OSMBuildings-Leaflet supports destroy()
+                    buildingLayer = null;
+                }
+            }
+        });
+
+        // 3. Roads
+        const roadLayer = L.vectorGrid.protobuf('/api/mvt/roads/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            interactive: false,
+            vectorTileLayerStyles: {
+                'roads': function (props, zoom) {
+                    const type = props.fclass;
+                    let color = "#00bfff";
+                    let weight = 2;
+                    if (type === 'primary' || type === 'trunk') { color = "#ffaa00"; weight = 4; }
+                    else if (type === 'secondary') { color = "#00ff88"; weight = 3; }
+                    return { color: color, weight: weight, opacity: 0.7 };
+                }
+            }
+        });
+
+        // 4. AI Roads
+        const aiRoadLayer = L.vectorGrid.protobuf('/api/mvt/ai_roads/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            interactive: false,
+            vectorTileLayerStyles: {
+                'ai_roads': function (props, zoom) {
+                    return { color: "#ff00ff", weight: 2, opacity: 0.8, dashArray: '3, 4' };
+                }
+            }
+        });
+
+        // 5. POIs
+        const poiLayer = L.vectorGrid.protobuf('/api/mvt/pois/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'pois': function (props, zoom) {
+                    return { radius: 5, fillColor: "#0055ff", color: "#ffffff", weight: 1.5, fillOpacity: 0.9, opacity: 1, fill: true };
+                }
+            }
+        });
+        poiLayer.on('click', function (e) {
+            L.popup().setContent(`<b>${e.layer.properties.name || 'Unnamed POI'}</b><br><span style="color:gray;">Type: ${e.layer.properties.fclass || 'Unknown'} (OSM)</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 6. Overture
+        const overtureLayer = L.vectorGrid.protobuf('/api/mvt/overture/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'overture': function (props, zoom) {
+                    return { radius: 7, fillColor: "#ffaa00", color: "#000000", weight: 2, fillOpacity: 1, opacity: 1, fill: true };
+                }
+            }
+        });
+        overtureLayer.on('click', function (e) {
+            let name = e.layer.properties.names || 'Unnamed Overture Business';
+            if (name.includes("'primary':")) {
+                try {
+                    const nameObj = name.replace(/'/g, '"');
+                    name = JSON.parse(nameObj).primary || 'Unnamed Overture Business';
+                } catch (err) { }
+            }
+            L.popup().setContent(`<b>${name}</b><br><span style="color:gold;">Source: Overture Maps</span><br><span style="color:gray;">Categories: ${e.layer.properties.categories || 'Unknown'}</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 7. Cell Towers
+        const cellTowerLayer = L.vectorGrid.protobuf('/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2', {
+            ...vtOptions,
+            minZoom: 12,
+            vectorTileLayerStyles: {
+                'celltowers': function (props, zoom) {
+                    let typeColor = "#ff3333";
+                    if (props.radio === 'LTE') typeColor = "#9900ff";
+                    if (props.radio === 'UMTS') typeColor = "#ff3399";
+                    return { radius: 8, fillColor: typeColor, color: "#ffffff", weight: 2, fillOpacity: 0.8, opacity: 1, fill: true };
+                }
+            }
+        });
+        cellTowerLayer.on('click', function (e) {
+            try {
+                const props = e.layer.properties;
+                console.log("Clicked cell tower:", props);
+
+                let lat = e.latlng.lat;
+                let lng = e.latlng.lng;
+
+                if (props.lat !== undefined && props.lon !== undefined) {
+                    lat = Number(props.lat);
+                    lng = Number(props.lon);
+                }
+
+                const content = `
+                    <b>Cell Tower (${props.radio || 'Unknown'})</b><br>
+                    <b>Coordinates:</b> ${lat.toFixed(5)}, ${lng.toFixed(5)}<br>
+                    <b>Identifiers:</b> MCC:${props.mcc || 'N/A'} MNC:${props.mnc || 'N/A'} LAC:${props.lac || 'N/A'} CID:${props.cid || 'N/A'}<br>
+                    <b>Signal Range:</b> ${props.range || 0} meters<br>
+                    <b>Samples:</b> ${props.samples || 0}<br>
+                    <span style="color:red;">Source: OpenCelliD / MLS</span>
+                `;
+
+                L.popup().setContent(content).setLatLng(e.latlng).openOn(map);
+
+                // Faint circle for range
+                if (props.range && Number(props.range) > 0) {
+                    const circle = L.circle(e.latlng, { radius: Number(props.range), color: 'red', weight: 1, fillOpacity: 0.05 }).addTo(map);
+                    setTimeout(() => map.removeLayer(circle), 3000); // remove after 3s
+                }
+            } catch (err) {
+                console.error("Error showing cell tower popup:", err);
+            }
+        });
+
+        // 8. Public Transport
+        const transportLayer = L.vectorGrid.protobuf('/api/mvt/transport/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'transport': function (props, zoom) {
+                    let color = "#ffd700"; // default gold (stops/platforms)
+                    let radius = 5;
+                    if (props.railway === 'rail' || props.railway === 'narrow_gauge' || props.railway === 'subway') {
+                        color = "#8b4513"; // brown rail lines
+                    } else if (props.amenity === 'bus_station') {
+                        color = "#1e90ff"; radius = 6;
+                    } else if (props.amenity === 'ferry_terminal') {
+                        color = "#00ced1"; radius = 6;
+                    } else if (props.railway === 'station') {
+                        color = "#ff8c00"; radius = 6;
+                    }
+                    return { radius: radius, fillColor: color, color: color, weight: 2, fillOpacity: 0.9, opacity: 0.8, fill: true };
+                }
+            }
+        });
+        transportLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const kind = props.railway || props.public_transport || props.amenity || 'Unknown';
+            L.popup().setContent(`<b>${props.name || 'Unnamed Transport Feature'}</b><br>Type: ${kind}<br><span style="color:#ffd700;">Source: OSM Public Transport</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 8.2 Airports (Overture)
+        const airportsLayer = L.vectorGrid.protobuf('/api/mvt/airports/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'airports': function (props, zoom) {
+                    return { radius: 8, fillColor: "#00ffff", color: "#00ffff", weight: 2, fillOpacity: 0.4, opacity: 1.0, fill: true };
+                }
+            }
+        });
+        airportsLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const name = props.name || 'Unnamed Airport';
+            const cat = props.type || 'aerodrome';
+            L.popup().setContent(`<b>✈️ ${name}</b><br>Type: ${cat}<br><span style="color:#00ffff;">Source: OSM Data</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 8.3 Helipads (Overture)
+        const helipadsLayer = L.vectorGrid.protobuf('/api/mvt/helipads/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'helipads': function (props, zoom) {
+                    return { radius: 6, fillColor: "#ff00ff", color: "#ff00ff", weight: 2, fillOpacity: 0.5, opacity: 1.0, fill: true };
+                }
+            }
+        });
+        helipadsLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const name = props.name || 'Unnamed Helipad';
+            const cat = props.type || 'helipad';
+            L.popup().setContent(`<b>🚁 ${name}</b><br>Type: ${cat}<br><span style="color:#ff00ff;">Source: OSM Data</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+
+        // 8.5 Railway Network
+        const railwayLayer = L.vectorGrid.protobuf('/api/mvt/railways/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'railways': function (props, zoom) {
+                    if (props.type === 'railway_station' || props.type === 'halt' || props.type === 'tram_stop') {
+                        return { radius: 6, fillColor: "#ffffff", color: "#ff4444", weight: 2, fillOpacity: 1, fill: true };
+                    } else {
+                        return { color: "#ff4444", weight: 4, dashArray: "10, 10", opacity: 0.9 };
+                    }
+                }
+            }
+        });
+        railwayLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            L.popup().setContent(`<b>${props.name || 'Unnamed Railway Feature'}</b><br>Type: ${props.type || 'unknown'}<br><span style="color:#ff4444;">Source: OSM Railway Network</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 8.7 Addresses Layer
+        const addressLayer = L.vectorGrid.protobuf('/api/mvt/addresses/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'addresses': function (props, zoom) {
+                    return { radius: 3, fillColor: '#FFD700', color: '#B8860B', weight: 1, fillOpacity: 0.8, fill: true };
+                }
+            }
+        });
+        addressLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const house = props.housenumber ? props.housenumber + " " : "";
+            const street = props.street || "";
+            const name = props.name || "";
+            const title = name ? `<b>${name}</b><br>` : "";
+            const address = props.full_address || `${house}${street}`;
+            L.popup().setContent(`${title}${address}<br>City: ${props.city || 'unknown'}<br><span style="color:#FFD700;">Source: OSM Addresses</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 9. Power Grid & Infrastructure (neon style: glow halo + bright core)
+        const powerLayer = L.vectorGrid.protobuf('/api/mvt/power_grid/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'power_grid': function (props, zoom) {
+                    const kind = props.type;
+                    if (kind === 'line') {
+                        // Glowing yellow/orange transmission line: soft wide halo + crisp bright core
+                        return [
+                            { color: "#ffcc00", weight: 8, opacity: 0.18 },
+                            { color: "#ffe066", weight: 2.5, opacity: 0.95 }
+                        ];
+                    }
+                    if (kind === 'plant') {
+                        // Glowing purple power plant
+                        return [
+                            { radius: 16, color: "#b967ff", weight: 0, fillColor: "#b967ff", fillOpacity: 0.18, fill: true },
+                            { radius: 7, color: "#e0b3ff", weight: 2, fillColor: "#b967ff", fillOpacity: 0.9, fill: true }
+                        ];
+                    }
+                    // Substations: glowing cyan
+                    return [
+                        { radius: 14, color: "#00eaff", weight: 0, fillColor: "#00eaff", fillOpacity: 0.18, fill: true },
+                        { radius: 6, color: "#aef8ff", weight: 2, fillColor: "#00eaff", fillOpacity: 0.9, fill: true }
+                    ];
+                }
+            }
+        });
+        powerLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const kind = props.type || 'unknown';
+            const label = kind.charAt(0).toUpperCase() + kind.slice(1);
+            const voltage = props.voltage ? `${props.voltage} V` : 'Unknown';
+            L.popup().setContent(`<b>${props.name || label + ' (Unnamed)'}</b><br>Type: ${label}<br>Voltage: ${voltage}<br><span style="color:#ffcc00;">Source: OSM Power Infrastructure</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 10. Hydrology (Waterways & Coastline)
+        const hydrologyLayer = L.vectorGrid.protobuf('/api/mvt/hydrology/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            vectorTileLayerStyles: {
+                'hydrology': function (props, zoom) {
+                    const type = props.type;
+                    if (type === 'coastline') {
+                        return { color: "#00bfff", weight: 3, opacity: 0.9 };
+                    }
+                    if (type === 'river') {
+                        return { color: "#1e90ff", weight: 3, opacity: 0.85 };
+                    }
+                    if (type === 'canal') {
+                        return { color: "#1e90ff", weight: 2, opacity: 0.75, dashArray: '1, 4' };
+                    }
+                    if (type === 'stream' || type === 'drain' || type === 'ditch') {
+                        return { color: "#38bdf8", weight: 1, opacity: 0.6 };
+                    }
+                    // Lakes, reservoirs, wetlands, ponds and everything else -> water body fill
+                    return { fillColor: "#0ea5e9", color: "#38bdf8", weight: 1, fillOpacity: 0.45, opacity: 0.6 };
+                }
+            }
+        });
+        hydrologyLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const label = (props.type || 'water feature').replace(/_/g, ' ');
+            L.popup().setContent(`<b>${props.name || 'Unnamed ' + label}</b><br>Type: ${label}<br><span style="color:#00bfff;">Source: OSM Hydrology</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 11. Flood Risk (JRC Global Surface Water occurrence, raster overlay)
+        const floodRiskLayer = L.tileLayer('/api/floodtiles/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            maxNativeZoom: 11,
+            opacity: 0.65,
+            attribution: 'JRC Global Surface Water',
+            errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+        });
+
+        // 12. Elevation Vulnerability (SRTM/Terrarium hillshade + hypsometric tint)
+        const hillshadeLayer = L.tileLayer('/api/hillshade/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            maxNativeZoom: 11,
+            opacity: 0.7,
+            attribution: 'SRTM / Terrarium',
+            errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+        });
+
+        // 13. Elevation Contours
+        const contourLayer = L.vectorGrid.protobuf('/api/mvt/contours/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            minZoom: 11,
+            vectorTileLayerStyles: {
+                'contours': function (props, zoom) {
+                    const isMajor = props.elevation % 100 === 0;
+                    return {
+                        color: "#d97706",
+                        weight: isMajor ? 1.8 : 0.8,
+                        opacity: isMajor ? 0.85 : 0.5,
+                        dashArray: isMajor ? null : '2, 3'
+                    };
+                }
+            }
+        });
+        contourLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            L.popup().setContent(`<b>${props.elevation} m</b><br><span style="color:#d97706;">Source: SRTM contour</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // 13.5 Population Density (Kontur H3)
+        const populationLayer = L.vectorGrid.protobuf('/api/mvt/population/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            minZoom: 11,
+            vectorTileLayerStyles: {
+                'population': function (props, zoom) {
+                    const pop = props.population || 0;
+                    // Color scale: yellow (low) to dark red (high)
+                    let color = "#ffea00"; // < 10
+                    let opacity = 0.2;
+                    if (pop > 10) { color = "#ffb300"; opacity = 0.3; }
+                    if (pop > 100) { color = "#ff7b00"; opacity = 0.4; }
+                    if (pop > 500) { color = "#ff3d00"; opacity = 0.6; }
+                    if (pop > 2000) { color = "#d50000"; opacity = 0.8; }
+                    if (pop > 10000) { color = "#880000"; opacity = 0.9; }
+
+                    return { fillColor: color, color: color, weight: 0.5, fillOpacity: opacity, opacity: opacity + 0.1, fill: true };
+                }
+            }
+        });
+        populationLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            const pop = props.population || 0;
+            L.popup().setContent(`<b>👥 Population: ${pop.toLocaleString()}</b><br>400m Hexagon<br><span style="color:#ff3d00;">Source: Kontur Population</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // -----------------------------------------------------
+        // 14. Live Flight Tracking (OpenSky Network, polled every 10s)
+        // -----------------------------------------------------
+        const flightLayer = L.layerGroup();
+        let flightPollTimer = null;
+
+        function planeIcon(track) {
+            return L.divIcon({
+                className: 'flight-icon',
+                html: `<div style="transform: rotate(${track || 0}deg); font-size: 20px; line-height: 20px; text-shadow: 0 0 4px #000, 0 0 4px #000;">✈️</div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+        }
+
+        async function updateFlights() {
+            try {
+                const res = await fetch('/api/flights');
+                const data = await res.json();
+                flightLayer.clearLayers();
+                (data.flights || []).forEach(f => {
+                    if (f.on_ground || f.lat == null || f.lon == null) return;
+                    const alt = f.altitude_m != null ? `${Math.round(f.altitude_m)} m` : 'Unknown';
+                    const speed = f.velocity_ms != null ? `${Math.round(f.velocity_ms * 3.6)} km/h` : 'Unknown';
+                    const marker = L.marker([f.lat, f.lon], { icon: planeIcon(f.true_track) });
+                    marker.bindPopup(
+                        `<b>${f.callsign || f.icao24}</b><br>` +
+                        `<span style="color:gray;">${f.origin_country || 'Unknown origin'}</span><br>` +
+                        `Altitude: ${alt}<br>Speed: ${speed}<br>` +
+                        `<span style="color:#22d3ee;">Source: OpenSky Network (live)</span>`
+                    );
+                    marker.addTo(flightLayer);
+                });
+            } catch (err) {
+                console.error("Flight tracking fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-flights').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(flightLayer);
+                updateFlights();
+                flightPollTimer = setInterval(updateFlights, 30000);
+            } else {
+                map.removeLayer(flightLayer);
+                if (flightPollTimer) clearInterval(flightPollTimer);
+                flightPollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // 15. Live Ship Tracking (aisstream.io, polled every 10s)
+        // -----------------------------------------------------
+        const shipLayer = L.layerGroup();
+        let shipPollTimer = null;
+
+        function shipIcon(heading) {
+            return L.divIcon({
+                className: 'ship-icon',
+                html: `<div style="transform: rotate(${heading || 0}deg); font-size: 18px; line-height: 18px; text-shadow: 0 0 4px #000, 0 0 4px #000;">🚢</div>`,
+                iconSize: [18, 18],
+                iconAnchor: [9, 9]
+            });
+        }
+
+        async function updateShips() {
+            try {
+                const res = await fetch('/api/ships');
+                const data = await res.json();
+                shipLayer.clearLayers();
+                (data.ships || []).forEach(s => {
+                    if (s.lat == null || s.lon == null) return;
+                    const heading = s.heading != null && s.heading <= 360 ? s.heading : (s.cog || 0);
+                    const speed = s.sog != null ? `${s.sog.toFixed(1)} kn` : 'Unknown';
+                    const marker = L.marker([s.lat, s.lon], { icon: shipIcon(heading) });
+                    marker.bindPopup(
+                        `<b>${s.name || 'MMSI ' + s.mmsi}</b><br>` +
+                        `MMSI: ${s.mmsi}<br>Speed: ${speed}<br>` +
+                        `<span style="color:#34d399;">Source: aisstream.io (live)</span>`
+                    );
+                    marker.addTo(shipLayer);
+                });
+            } catch (err) {
+                console.error("Ship tracking fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-ships').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(shipLayer);
+                updateShips();
+                shipPollTimer = setInterval(updateShips, 10000);
+            } else {
+                map.removeLayer(shipLayer);
+                if (shipPollTimer) clearInterval(shipPollTimer);
+                shipPollTimer = null;
+            }
+        });
+
+        // 16. Fishing Vessel Activity (Global Fishing Watch, trailing 30 days)
+        const fishingLayer = L.vectorGrid.protobuf('/api/mvt/fishing/{z}/{x}/{y}.pbf', {
+            ...vtOptions,
+            maxNativeZoom: 9,
+            vectorTileLayerStyles: {
+                'main': function (props, zoom) {
+                    let total = 0;
+                    for (const [k, v] of Object.entries(props)) {
+                        if (k === 'cell' || k === 'id') continue;
+                        const n = Number(v);
+                        if (!isNaN(n)) total += n;
+                    }
+                    const intensity = Math.min(1, Math.log(total + 1) / Math.log(50));
+                    return {
+                        fillColor: "#f97316",
+                        color: "#fb923c",
+                        weight: 0.5,
+                        fillOpacity: 0.1 + intensity * 0.6,
+                        opacity: 0.2 + intensity * 0.4
+                    };
+                }
+            }
+        });
+        fishingLayer.on('click', function (e) {
+            const props = e.layer.properties;
+            let total = 0;
+            L.popup().setContent(`<b>${total.toFixed(1)} fishing hours</b><br>Trailing 30 days<br><span style="color:#fb923c;">Source: Global Fishing Watch</span>`).setLatLng(e.latlng).openOn(map);
+        });
+
+        // -----------------------------------------------------
+        // 8. Live Ships (MarineTraffic Proxy)
+        // -----------------------------------------------------
+        const shipsLayer = L.layerGroup();
+        let mtShipPollTimer = null;
+
+        async function updateMarineTrafficShips() {
+            try {
+                const response = await fetch('/api/ships/bd');
+                if (!response.ok) throw new Error("Failed to fetch ships");
+                const data = await response.json();
+
+                shipsLayer.clearLayers();
+                if (data && data.data && data.data.rows) {
+                    data.data.rows.forEach(ship => {
+                        const lat = parseFloat(ship.LAT);
+                        const lon = parseFloat(ship.LON);
+                        if (!isNaN(lat) && !isNaN(lon)) {
+                            let heading = parseFloat(ship.HEADING);
+                            if (isNaN(heading) || heading > 360) heading = parseFloat(ship.COURSE);
+                            if (isNaN(heading)) heading = 0;
+
+                            const marker = L.marker([lat, lon], { icon: shipIcon(heading) });
+
+                            const popupContent = `
+                                <b>🚢 ${ship.SHIPNAME || 'Unknown Ship'}</b><br>
+                                <b>Type:</b> Cargo/Tanker/Vessel<br>
+                                <b>Destination:</b> ${ship.DESTINATION || 'N/A'}<br>
+                                <b>Speed:</b> ${ship.SPEED} knots<br>
+                                <b>Course:</b> ${ship.COURSE}°<br>
+                                <b>Length:</b> ${ship.LENGTH}m x ${ship.WIDTH}m<br>
+                                <span style="color:cyan;">Source: MarineTraffic (Live)</span>
+                            `;
+                            marker.bindPopup(popupContent);
+                            shipsLayer.addLayer(marker);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error("Error loading MarineTraffic ships:", e);
+            }
+        }
+
+        // -----------------------------------------------------
+        // Earthquakes (USGS, refreshed every 5 minutes while enabled)
+        // -----------------------------------------------------
+        const earthquakeLayer = L.layerGroup();
+        let earthquakePollTimer = null;
+
+        function earthquakeColor(mag) {
+            if (mag >= 4.5) return "#ef4444";
+            if (mag >= 3.5) return "#f97316";
+            return "#facc15";
+        }
+
+        async function updateEarthquakes() {
+            try {
+                const res = await fetch('/api/earthquakes');
+                const data = await res.json();
+                earthquakeLayer.clearLayers();
+                (data.features || []).forEach(f => {
+                    const [lon, lat, depth] = f.geometry.coordinates;
+                    const mag = f.properties.mag || 0;
+                    const marker = L.circleMarker([lat, lon], {
+                        radius: Math.max(4, mag * 3),
+                        color: "#7f1d1d",
+                        weight: depth < 70 ? 2 : 1,
+                        fillColor: earthquakeColor(mag),
+                        fillOpacity: 0.7
+                    });
+                    const when = new Date(f.properties.time).toLocaleString();
+                    marker.bindPopup(
+                        `<b>M ${mag.toFixed(1)} - ${f.properties.place}</b><br>` +
+                        `Depth: ${depth.toFixed(0)} km<br>Time: ${when}<br>` +
+                        `<span style="color:#ef4444;">Source: USGS</span>`
+                    );
+                    marker.addTo(earthquakeLayer);
+                });
+            } catch (err) {
+                console.error("Earthquake fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-earthquakes').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(earthquakeLayer);
+                updateEarthquakes();
+                earthquakePollTimer = setInterval(updateEarthquakes, 300000);
+            } else {
+                map.removeLayer(earthquakeLayer);
+                if (earthquakePollTimer) clearInterval(earthquakePollTimer);
+                earthquakePollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // Disaster Alerts (GDACS, refreshed every 15 minutes while enabled)
+        // -----------------------------------------------------
+        const disasterLayer = L.layerGroup();
+        let disasterPollTimer = null;
+
+        const DISASTER_ICONS = { TC: '🌀', FL: '🌊', WF: '🔥', DR: '🏜️', VO: '🌋', TS: '🌊' };
+        const DISASTER_COLORS = { Green: '#22c55e', Orange: '#f97316', Red: '#ef4444' };
+
+        function disasterIcon(eventtype, alertlevel) {
+            const emoji = DISASTER_ICONS[eventtype] || '⚠️';
+            const color = DISASTER_COLORS[alertlevel] || '#facc15';
+            return L.divIcon({
+                className: 'disaster-icon',
+                html: `<div style="background:${color}; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 8px ${color};">${emoji}</div>`,
+                iconSize: [28, 28],
+                iconAnchor: [14, 14]
+            });
+        }
+
+        async function updateDisasters() {
+            try {
+                const res = await fetch('/api/disasters');
+                const data = await res.json();
+                disasterLayer.clearLayers();
+                (data.disasters || []).forEach(d => {
+                    const marker = L.marker([d.lat, d.lon], { icon: disasterIcon(d.eventtype, d.alertlevel) });
+                    marker.bindPopup(
+                        `<b>${d.name}</b><br>` +
+                        `Alert level: <span style="color:${DISASTER_COLORS[d.alertlevel] || '#facc15'};">${d.alertlevel}</span><br>` +
+                        `${d.fromdate ? d.fromdate.slice(0, 10) : ''} to ${d.todate ? d.todate.slice(0, 10) : 'ongoing'}<br>` +
+                        (d.report_url ? `<a href="${d.report_url}" target="_blank" style="color:#38bdf8;">Full GDACS report</a><br>` : '') +
+                        `<span style="color:#f97316;">Source: GDACS</span>`
+                    );
+                    marker.addTo(disasterLayer);
+                });
+            } catch (err) {
+                console.error("Disaster alerts fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-disasters').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(disasterLayer);
+                updateDisasters();
+                disasterPollTimer = setInterval(updateDisasters, 900000);
+            } else {
+                map.removeLayer(disasterLayer);
+                if (disasterPollTimer) clearInterval(disasterPollTimer);
+                disasterPollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // GloFAS Flood Forecasting (Copernicus, 15-day forward-looking forecast
+        // + river gauge return-period alerts - predictive, unlike the JRC
+        // historical water-occurrence layer)
+        // -----------------------------------------------------
+        const glofasForecastLayer = L.tileLayer('/api/wms/glofas/forecast/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            maxNativeZoom: 9,
+            opacity: 0.75,
+            attribution: 'Copernicus GloFAS',
+            errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+        });
+
+        const glofasGaugesLayer = L.tileLayer('/api/wms/glofas/gauges/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            maxNativeZoom: 9,
+            opacity: 0.9,
+            attribution: 'Copernicus GloFAS',
+            errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+        });
+
+        // -----------------------------------------------------
+        // Satellite Imagery: NASA GIBS daily true-color (direct, no backend
+        // needed - GIBS is a standard public WMTS meant for embedding).
+        // Uses yesterday's date since same-day global mosaics can have gaps.
+        // -----------------------------------------------------
+        function gibsYesterday() {
+            const d = new Date();
+            d.setUTCDate(d.getUTCDate() - 1);
+            return d.toISOString().slice(0, 10);
+        }
+
+        const satelliteDailyLayer = L.tileLayer(
+            `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${gibsYesterday()}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`,
+            {
+                maxZoom: 18,
+                maxNativeZoom: 9,
+                opacity: 1,
+                attribution: 'NASA GIBS / VIIRS',
+                errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+            }
+        );
+
+        // Live Weather Satellite: Himawari-9 via NASA GIBS, already reprojected
+        // to standard Web Mercator WMTS (no custom projection math needed).
+        // The literal "default" time value always resolves server-side to the
+        // latest ~10-minute scan, and GIBS marks that response no-cache, so we
+        // just periodically call redraw() to bypass the browser tile cache.
+        const satelliteLiveLayer = L.tileLayer(
+            'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/Himawari_AHI_Band3_Red_Visible_1km/default/default/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png',
+            {
+                maxZoom: 18,
+                maxNativeZoom: 7,
+                opacity: 0.85,
+                attribution: 'NASA GIBS / Himawari-9 (JMA)',
+                errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+            }
+        );
+        let satelliteLivePollTimer = null;
+
+        document.getElementById('layer-satellite-live').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(satelliteLiveLayer);
+                satelliteLivePollTimer = setInterval(() => satelliteLiveLayer.redraw(), 300000);
+            } else {
+                map.removeLayer(satelliteLiveLayer);
+                if (satelliteLivePollTimer) clearInterval(satelliteLivePollTimer);
+                satelliteLivePollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // Night Lights: NASA Black Marble (2016 Composite)
+        // -----------------------------------------------------
+        const blackMarbleLayer = L.tileLayer(
+            'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png',
+            {
+                maxZoom: 18,
+                maxNativeZoom: 8,
+                opacity: 0.9,
+                attribution: 'NASA GIBS / VIIRS Black Marble',
+                errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+            }
+        );
+
+        // -----------------------------------------------------
+        // Live Satellite Tracking (CelesTrak TLEs propagated server-side,
+        // polled every 30s - satellites move ~7.5 km/s so this needs to
+        // refresh much faster than the other live layers)
+        // -----------------------------------------------------
+        const satelliteTrackingLayer = L.layerGroup();
+        let satelliteTrackingPollTimer = null;
+
+        const satelliteIcon = L.divIcon({
+            className: 'sat-icon',
+            html: `<div style="font-size: 18px; text-shadow: 0 0 4px #000, 0 0 4px #000;">🛰️</div>`,
+            iconSize: [18, 18],
+            iconAnchor: [9, 9]
+        });
+
+        async function updateSatelliteTracking() {
+            try {
+                const res = await fetch('/api/satellites');
+                const data = await res.json();
+                satelliteTrackingLayer.clearLayers();
+                (data.satellites || []).forEach(s => {
+                    const marker = L.marker([s.lat, s.lon], { icon: satelliteIcon });
+                    marker.bindPopup(
+                        `<b>${s.name}</b><br>` +
+                        `Altitude: ${s.altitude_km} km<br>` +
+                        `<span style="color:#e879f9;">Source: CelesTrak / SGP4 (live)</span>`
+                    );
+                    marker.addTo(satelliteTrackingLayer);
+                });
+            } catch (err) {
+                console.error("Satellite tracking fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-satellite-tracking').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(satelliteTrackingLayer);
+                updateSatelliteTracking();
+                satelliteTrackingPollTimer = setInterval(updateSatelliteTracking, 30000);
+            } else {
+                map.removeLayer(satelliteTrackingLayer);
+                if (satelliteTrackingPollTimer) clearInterval(satelliteTrackingPollTimer);
+                satelliteTrackingPollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // Live Wind Particles (Leaflet-Velocity)
+        // -----------------------------------------------------
+        let windLayer = null;
+        let windPollTimer = null;
+
+        async function updateWindLayer() {
+            try {
+                const res = await fetch('/api/weather/wind.json');
+                const data = await res.json();
+                
+                if (windLayer) {
+                    map.removeLayer(windLayer);
+                }
+                
+                windLayer = L.velocityLayer({
+                    displayValues: true,
+                    displayOptions: {
+                        velocityType: 'Global Wind',
+                        position: 'bottomleft',
+                        emptyString: 'No wind data'
+                    },
+                    data: data,
+                    maxVelocity: 15,
+                    velocityScale: 0.01,
+                    colorScale: [
+                        "rgb(36,104, 180)",
+                        "rgb(60,157, 194)",
+                        "rgb(128,205,193)",
+                        "rgb(151,218,168)",
+                        "rgb(198,231,181)",
+                        "rgb(238,247,217)",
+                        "rgb(255,238,159)",
+                        "rgb(252,217,125)",
+                        "rgb(255,182,100)",
+                        "rgb(252,150,75)",
+                        "rgb(250,112,52)",
+                        "rgb(245,64,32)",
+                        "rgb(237,45,28)",
+                        "rgb(220,24,32)",
+                        "rgb(180,0,35)"
+                    ]
+                });
+                
+                if (document.getElementById('layer-wind').checked) {
+                    map.addLayer(windLayer);
+                }
+            } catch (err) {
+                console.error("Wind fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-wind').addEventListener('change', function () {
+            if (this.checked) {
+                if (!windLayer) {
+                    updateWindLayer();
+                } else {
+                    map.addLayer(windLayer);
+                }
+                windPollTimer = setInterval(updateWindLayer, 3600000); // 1 hour
+            } else {
+                if (windLayer) map.removeLayer(windLayer);
+                if (windPollTimer) clearInterval(windPollTimer);
+                windPollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // Live Flood Monitoring (FFWC)
+        // -----------------------------------------------------
+        const floodLayerGroup = L.layerGroup();
+        let floodPollTimer = null;
+        
+        async function updateFloodMonitoring() {
+            try {
+                // 1. Fetch Rivers GeoJSON (Static)
+                const riverRes = await fetch('/api/ffwc/river_attributes');
+                const riverData = await riverRes.json();
+                
+                floodLayerGroup.clearLayers();
+                
+                L.geoJSON(riverData, {
+                    style: { color: '#3b82f6', weight: 2, opacity: 0.6 }
+                }).addTo(floodLayerGroup);
+
+                // 2. Fetch Static Stations Info
+                const stationsRes = await fetch('/api/ffwc/stations');
+                const stationsInfo = await stationsRes.json();
+
+                // 3. Fetch Live Recent Observations via backend proxy
+                const liveRes = await fetch('/api/ffwc/live');
+                const liveData = await liveRes.json();
+
+                // 4. Match and plot stations
+                stationsInfo.forEach(station => {
+                    const lat = parseFloat(station.latitude);
+                    const lon = parseFloat(station.longitude);
+                    if (isNaN(lat) || isNaN(lon)) return;
+
+                    let currentLevel = null;
+                    let lastTime = '';
+                    const stationLive = liveData[station.id];
+                    if (stationLive && stationLive.length > 0) {
+                        const latestRecord = stationLive[stationLive.length - 1];
+                        lastTime = Object.keys(latestRecord)[0];
+                        currentLevel = parseFloat(latestRecord[lastTime]);
+                    }
+
+                    const dl = parseFloat(station.dl);
+                    let markerColor = '#10b981'; // Green (Safe)
+                    let statusText = 'Normal';
+                    
+                    if (currentLevel !== null && !isNaN(dl)) {
+                        if (currentLevel >= dl) {
+                            markerColor = '#ef4444'; // Red
+                            statusText = 'DANGER';
+                        } else if (currentLevel >= dl - 0.5) {
+                            markerColor = '#f59e0b'; // Orange
+                            statusText = 'Warning';
+                        }
+                    } else if (currentLevel === null) {
+                        markerColor = '#6b7280'; // Gray
+                        statusText = 'No Recent Data';
+                    }
+
+                    const marker = L.circleMarker([lat, lon], {
+                        radius: currentLevel >= dl ? 10 : 7,
+                        fillColor: markerColor,
+                        color: '#fff',
+                        weight: 2,
+                        fillOpacity: 1
+                    });
+                    
+                    let dlHtml = isNaN(dl) ? 'N/A' : `${station.dl} m`;
+                    let clHtml = currentLevel !== null ? `${currentLevel} m` : 'N/A';
+
+                    marker.bindPopup(`
+                        <div style="font-size: 14px;">
+                            <b style="color: #000; font-size: 16px;">${station.station}</b><br>
+                            <span style="color: #555;">River: ${station.river}</span><br><br>
+                            Status: <b style="color:${markerColor}">${statusText}</b><br>
+                            Danger Level: <b>${dlHtml}</b><br>
+                            Current Level: <b>${clHtml}</b><br>
+                            <span style="font-size:11px; color:#888;">${lastTime ? 'Updated: ' + lastTime : ''}</span>
+                        </div>
+                    `);
+                    marker.addTo(floodLayerGroup);
+                });
+            } catch (err) {
+                console.error("Flood Monitoring fetch failed:", err);
+            }
+        }
+
+        document.getElementById('layer-flood').addEventListener('change', function () {
+            if (this.checked) {
+                map.addLayer(floodLayerGroup);
+                updateFloodMonitoring();
+                floodPollTimer = setInterval(updateFloodMonitoring, 300000); // 5 mins
+            } else {
+                map.removeLayer(floodLayerGroup);
+                if (floodPollTimer) clearInterval(floodPollTimer);
+                floodPollTimer = null;
+            }
+        });
+
+        // -----------------------------------------------------
+        // Layer Toggling Logic
+        // -----------------------------------------------------
+        const baseLayers = ['layer-osm', 'layer-satellite'];
+        const layersMap = {
+            'layer-neighborhoods': neighborhoodLayer,
+            'layer-landuse': landuseLayer,
+            'layer-roads': roadLayer,
+            'layer-ai-roads': aiRoadLayer,
+            'layer-power': powerLayer,
+            'layer-railways': railwayLayer,
+            'layer-transport': transportLayer,
+            'layer-airports': airportsLayer,
+            'layer-helipads': helipadsLayer,
+            'layer-celltowers': cellTowerLayer,
+            'layer-hydrology': hydrologyLayer,
+            'layer-pois': poiLayer,
+            'layer-overture': overtureLayer,
+            'layer-population': populationLayer,
+            'layer-addresses': addressLayer,
+            'layer-contours': contourLayer,
+            'layer-hillshade': hillshadeLayer,
+            'layer-floodrisk': floodRiskLayer,
+            'layer-glofas-forecast': glofasForecastLayer,
+            'layer-fishing': fishingLayer,
+            'layer-marinetraffic': shipsLayer,
+            'layer-glofas-gauges': glofasGaugesLayer,
+            'layer-satellite-daily': satelliteDailyLayer,
+            'layer-blackmarble': blackMarbleLayer
+        };
+
+        const shipCheckbox = document.getElementById('layer-marinetraffic');
+        if (shipCheckbox) {
+            shipCheckbox.addEventListener('change', function (e) {
+                if (e.target.checked) {
+                    updateMarineTrafficShips();
+                    mtShipPollTimer = setInterval(updateMarineTrafficShips, 50000); // 60 seconds
+                } else {
+                    if (mtShipPollTimer) clearInterval(mtShipPollTimer);
+                    mtShipPollTimer = null;
+                }
+            });
+        }
+
+        function updateLayers() {
+            for (const [checkboxId, layer] of Object.entries(layersMap)) {
+                const cb = document.getElementById(checkboxId);
+                if (cb && cb.checked) {
+                    if (!map.hasLayer(layer)) {
+                        map.addLayer(layer);
+                    }
+                } else {
+                    if (map.hasLayer(layer)) {
+                        map.removeLayer(layer);
+                    }
+                }
+            }
+        }
+
+        // Add event listeners to checkboxes
+        for (const checkboxId of Object.keys(layersMap)) {
+            const el = document.getElementById(checkboxId);
+            if(el) el.addEventListener('change', updateLayers);
+        }
+
+        function clearAllLayers() {
+            // Checkboxes managed by layersMap
+            for (const checkboxId of Object.keys(layersMap)) {
+                const cb = document.getElementById(checkboxId);
+                if (cb && cb.checked) {
+                    cb.checked = false;
+                    cb.dispatchEvent(new Event('change'));
+                }
+            }
+            // Other checkboxes managed independently
+            const customLayers = ['layer-flood', 'layer-satellite-live', 'layer-satellite-tracking', 'layer-satellite-daily', 'layer-glofas-gauges', 'layer-earthquakes', 'layer-disasters', 'layer-ships', 'layer-flights', 'layer-wind', 'layer-buildings', 'layer-train', 'layer-bus', 'layer-railways'];
+            customLayers.forEach(id => {
+                const cb = document.getElementById(id);
+                if (cb && cb.checked) {
+                    cb.checked = false;
+                    cb.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        // -----------------------------------------------------
+        // Train Tracking Logic (Subarna Express)
+// National Train Network Simulator
+        // -----------------------------------------------------
+        let trainLayerGroup = L.layerGroup();
+        let trainAnimationId = null;
+        let trainSchedules = null;
+        let stationCoords = null;
+        let currentTrainMarker = null;
+
+        const trainSelector = document.getElementById('train-selector');
+        const trainDirection = document.getElementById('train-direction');
+        const layerTrainCheckbox = document.getElementById('layer-train');
+
+        // Load data on first click
+        layerTrainCheckbox.addEventListener('change', async function(e) {
+            if (e.target.checked) {
+                trainSelector.style.display = 'block';
+                trainLayerGroup.addTo(map);
+
+                if (!trainSchedules) {
+                    try {
+                        const res = await fetch('/api/train_schedules');
+                        trainSchedules = await res.json();
+                        const res2 = await fetch('/api/station_coords');
+                        stationCoords = await res2.json();
+
+                        // Populate dropdown
+                        const trains = Object.keys(trainSchedules).sort();
+                        trains.forEach(t => {
+                            const opt = document.createElement('option');
+                            opt.value = t;
+                            opt.textContent = t.replace(/-/g, ' ').toUpperCase();
+                            trainSelector.appendChild(opt);
+                        });
+                    } catch(err) {
+                        console.error('Failed to load train data', err);
+                        alert('Could not load train schedules.');
+                        e.target.checked = false;
+                        trainSelector.style.display = 'none';
+                        trainDirection.style.display = 'none';
+                        return;
+                    }
+                }
+            } else {
+                trainSelector.style.display = 'none';
+                trainDirection.style.display = 'none';
+                trainSelector.value = "";
+                trainDirection.innerHTML = "";
+                if (trainAnimationId) cancelAnimationFrame(trainAnimationId);
+                trainLayerGroup.clearLayers();
+                map.removeLayer(trainLayerGroup);
+            }
+        });
+
+        // Helper to parse "11:53 am" to seconds since midnight
+        function parseTimeStr(timeStr) {
+            if (!timeStr || timeStr === '-' || timeStr.trim() === '') return null;
+            const match = timeStr.trim().toLowerCase().match(/(\d{1,2}):(\d{2})\s*(am|pm)/);
+            if (!match) return null;
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
+            const period = match[3];
+            
+            if (period === 'pm' && hours < 12) hours += 12;
+            if (period === 'am' && hours === 12) hours = 0;
+            
+            return (hours * 3600) + (minutes * 60);
+        }
+
+        async function updateTrainRoute() {
+            const selectedTrain = trainSelector.value;
+            const directionIndex = trainDirection.value ? parseInt(trainDirection.value) : 0;
+            
+            if (trainAnimationId) cancelAnimationFrame(trainAnimationId);
+            trainLayerGroup.clearLayers();
+
+            if (!selectedTrain) {
+                trainDirection.style.display = 'none';
+                return;
+            }
+
+            const scheduleDirs = trainSchedules[selectedTrain];
+            if (!scheduleDirs || scheduleDirs.length === 0) return;
+            
+            const schedule = scheduleDirs[directionIndex]; 
+            
+            // Build valid stations list
+            const routeStations = [];
+            for (let i = 1; i < schedule.length; i++) {
+                const row = schedule[i];
+                const sName = row[0].trim();
+                const arrival = parseTimeStr(row[1]);
+                const departure = parseTimeStr(row[2]);
+                
+                if (stationCoords[sName]) {
+                    routeStations.push({
+                        name: sName,
+                        coords: stationCoords[sName],
+                        arrival: arrival,
+                        departure: departure
+                    });
+                }
+            }
+
+            if (routeStations.length < 2) {
+                alert('Not enough station coordinates found for this route.');
+                return;
+            }
+
+            let routeGeom = null;
+            try {
+                // Use our new precise Railway Router instead of OSRM!
+                const requestBody = { stations: routeStations.map(s => [s.coords[0], s.coords[1]]) };
+                const res = await fetch('/api/route_train_db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                const data = await res.json();
+                if (res.ok && data.code === 'Ok') {
+                    routeGeom = data.routes[0].geometry;
+                } else {
+                    throw new Error(data.error || 'Railway Router failed');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Failed to calculate exact path.');
+                return;
+            }
+
+            // Draw track (make it visible so user sees the route)
+            L.geoJSON(routeGeom, {
+                style: { 
+                    opacity: 0.8, 
+                    color: '#10b981', // Changed to vibrant green for better visibility of motion
+                    weight: 4, 
+                    dashArray: '10, 10',
+                    className: 'route-marching-ants'
+                }
+            }).addTo(trainLayerGroup);
+
+            // Draw Stations
+            routeStations.forEach(st => {
+                L.circleMarker([st.coords[0], st.coords[1]], {
+                    radius: 5, color: '#fbbf24', weight: 2, fillColor: '#000', fillOpacity: 1
+                }).bindTooltip(st.name, {permanent: true, direction: 'right', className: 'station-tooltip'})
+                .addTo(trainLayerGroup);
+            });
+
+            currentTrainMarker = L.circleMarker([routeStations[0].coords[0], routeStations[0].coords[1]], {
+                radius: 8, color: '#fff', weight: 3, fillColor: '#3b82f6', fillOpacity: 1
+            }).addTo(trainLayerGroup).bindPopup('<b>' + selectedTrain.toUpperCase() + '</b><br>Status: Initializing');
+            
+            map.flyTo(routeStations[0].coords, 9);
+
+            const lineString = turf.lineString(routeGeom.coordinates);
+            
+            // We need to map stations to distances along the route.
+            // Since OSRM routes exactly through the waypoints, the distances to waypoints are roughly the distances of the segments.
+            let cumulativeDist = 0;
+            const stationDistances = [];
+            for (let i = 0; i < routeStations.length; i++) {
+                const pt = turf.point([routeStations[i].coords[1], routeStations[i].coords[0]]);
+                const snapped = turf.nearestPointOnLine(lineString, pt);
+                stationDistances.push({
+                    ...routeStations[i],
+                    distKm: snapped.properties.location // distance along line in km
+                });
+            }
+
+            function updateTrainRealTime() {
+                if (!layerTrainCheckbox.checked || trainSelector.value !== selectedTrain) return;
+
+                const now = new Date();
+                const currentSecs = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+                
+                // For demonstration purposes, if you want to test it easily, uncomment this to fake the time!
+                // const currentSecs = parseTimeStr('12:00 pm'); 
+
+                let statusText = "Sleeping at Depot";
+                let currentPos = null;
+
+                // Find where we are in the schedule
+                for (let i = 0; i < stationDistances.length - 1; i++) {
+                    const st = stationDistances[i];
+                    const nextSt = stationDistances[i+1];
+
+                    const depTime = st.departure || st.arrival;
+                    const arrTime = nextSt.arrival || nextSt.departure;
+
+                    if (!depTime || !arrTime) continue;
+
+                    if (currentSecs >= depTime && currentSecs <= arrTime) {
+                        // En route between st and nextSt
+                        const totalTime = arrTime - depTime;
+                        const elapsed = currentSecs - depTime;
+                        const progress = elapsed / totalTime;
+
+                        const segmentDist = nextSt.distKm - st.distKm;
+                        const targetDist = st.distKm + (segmentDist * progress);
+
+                        const along = turf.along(lineString, targetDist, {units: 'kilometers'});
+                        currentPos = along.geometry.coordinates;
+                        statusText = `En route to ${nextSt.name}`;
+                        break;
+                    } 
+                    else if (st.arrival && st.departure && currentSecs >= st.arrival && currentSecs <= st.departure) {
+                        // Stopped at station
+                        currentPos = [st.coords[1], st.coords[0]];
+                        statusText = `Stopped at ${st.name} (Departs ${Math.floor(st.departure/3600)}:${(st.departure%3600)/60})`;
+                        break;
+                    }
+                }
+
+                if (!currentPos) {
+                    // Check if before first departure or after last arrival
+                    const firstSt = stationDistances[0];
+                    const lastSt = stationDistances[stationDistances.length-1];
+                    if (currentSecs < (firstSt.departure || firstSt.arrival)) {
+                        currentPos = [firstSt.coords[1], firstSt.coords[0]];
+                        statusText = `Waiting to depart ${firstSt.name}`;
+                    } else {
+                        currentPos = [lastSt.coords[1], lastSt.coords[0]];
+                        statusText = `Arrived at destination (${lastSt.name})`;
+                    }
+                }
+
+                if (currentPos) {
+                    currentTrainMarker.setLatLng([currentPos[1], currentPos[0]]);
+                    currentTrainMarker.setPopupContent(`<b>${selectedTrain.toUpperCase()}</b><br>Status: ${statusText}<br>Real Time: ${now.toLocaleTimeString()}`);
+                }
+
+                trainAnimationId = requestAnimationFrame(updateTrainRealTime);
+            }
+
+            trainAnimationId = requestAnimationFrame(updateTrainRealTime);
+        }
+
+        trainSelector.addEventListener('change', function(e) {
+            const selectedTrain = e.target.value;
+            if (!selectedTrain) {
+                trainDirection.style.display = 'none';
+                updateTrainRoute();
+                return;
+            }
+            
+            // Update direction options
+            trainDirection.innerHTML = '';
+            const scheduleDirs = trainSchedules[selectedTrain];
+            scheduleDirs.forEach((dir, idx) => {
+                if(dir.length > 1) {
+                    const firstSt = dir[1][0].trim();
+                    const lastSt = dir[dir.length-1][0].trim();
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.textContent = `${firstSt} ➔ ${lastSt}`;
+                    trainDirection.appendChild(opt);
+                }
+            });
+            trainDirection.style.display = 'block';
+            updateTrainRoute();
+        });
+
+        trainDirection.addEventListener('change', updateTrainRoute);
+
+        // -----------------------------------------------------
+        // Bus Tracking Logic
+        // -----------------------------------------------------
+        let busLayerGroup = L.layerGroup();
+        let busAnimationId = null;
+        let busSchedules = null;
+        let busCoords = null;
+        let currentBusMarker = null;
+
+        const busSelector = document.getElementById('bus-selector');
+        const busDirection = document.getElementById('bus-direction');
+        const layerBusCheckbox = document.getElementById('layer-bus');
+
+        layerBusCheckbox.addEventListener('change', async function(e) {
+            if (e.target.checked) {
+                busSelector.style.display = 'block';
+                busLayerGroup.addTo(map);
+
+                if (!busSchedules) {
+                    try {
+                        const [res1, res2, coordsRes] = await Promise.all([
+                            fetch('/api/bus_schedules?operator=si'),
+                            fetch('/api/bus_schedules?operator=london'),
+                            fetch('/api/bus_station_coords')
+                        ]);
+                        const data1 = await res1.json();
+                        const data2 = await res2.json();
+                        busCoords = await coordsRes.json();
+                        
+                        // Merge schedules with prefixes
+                        busSchedules = {};
+                        for (const key in data1.schedules) {
+                            busSchedules[`SI_${key}`] = data1.schedules[key];
+                        }
+                        for (const key in data2.schedules) {
+                            busSchedules[`LX_${key}`] = data2.schedules[key];
+                        }
+
+                        const groups = Object.keys(busSchedules).sort();
+                        groups.forEach(t => {
+                            const opt = document.createElement('option');
+                            opt.value = t;
+                            opt.textContent = t.replace(/_/g, ' ').toUpperCase();
+                            busSelector.appendChild(opt);
+                        });
+                    } catch(err) {
+                        console.error('Failed to load bus data', err);
+                        alert('Could not load bus schedules.');
+                        e.target.checked = false;
+                        busSelector.style.display = 'none';
+                        busDirection.style.display = 'none';
+                        return;
+                    }
+                }
+            } else {
+                busSelector.style.display = 'none';
+                busDirection.style.display = 'none';
+                busSelector.value = "";
+                busDirection.innerHTML = "";
+                if (busAnimationId) cancelAnimationFrame(busAnimationId);
+                busLayerGroup.clearLayers();
+                map.removeLayer(busLayerGroup);
+            }
+        });
+
+        busSelector.addEventListener('change', function(e) {
+            const selectedGroup = e.target.value;
+            if (!selectedGroup) {
+                busDirection.style.display = 'none';
+                updateBusRoute();
+                return;
+            }
+            
+            busDirection.innerHTML = '';
+            const buses = busSchedules[selectedGroup];
+            buses.forEach((bus, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${bus.coach_no} (${bus.departure_time})`;
+                busDirection.appendChild(opt);
+            });
+            busDirection.style.display = 'block';
+            updateBusRoute();
+        });
+
+        busDirection.addEventListener('change', updateBusRoute);
+
+        async function updateBusRoute() {
+            const selectedGroup = busSelector.value;
+            const tripIndex = busDirection.value ? parseInt(busDirection.value) : 0;
+            
+            if (busAnimationId) cancelAnimationFrame(busAnimationId);
+            busLayerGroup.clearLayers();
+
+            if (!selectedGroup || busDirection.value === "") {
+                return;
+            }
+
+            const busList = busSchedules[selectedGroup];
+            if (!busList || busList.length === 0) return;
+            
+            const bus = busList[tripIndex]; 
+            
+            const startName = bus.starting_counter;
+            const endName = bus.end_counter;
+            const arrival = parseTimeStr(bus.arrival_time);
+            const departure = parseTimeStr(bus.departure_time);
+
+            if (!busCoords[startName] || !busCoords[endName]) {
+                alert('Station coordinates missing for this bus.');
+                return;
+            }
+
+            const startCoord = busCoords[startName];
+            const endCoord = busCoords[endName];
+
+            let routeGeom = null;
+            try {
+                const url = `/api/route?slat=${startCoord[0]}&slon=${startCoord[1]}&elat=${endCoord[0]}&elon=${endCoord[1]}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.geometry) {
+                    routeGeom = data.geometry;
+                } else {
+                    throw new Error(data.error || 'Routing failed');
+                }
+            } catch (err) {
+                console.warn("Routing failed, falling back to direct line:", err);
+                routeGeom = turf.lineString([[startCoord[1], startCoord[0]], [endCoord[1], endCoord[0]]]).geometry;
+            }
+
+            L.geoJSON(routeGeom, {
+                style: { 
+                    opacity: 0.8, 
+                    color: '#f97316',
+                    weight: 4, 
+                    dashArray: '10, 10',
+                    className: 'route-marching-ants'
+                }
+            }).addTo(busLayerGroup);
+
+            [ {name: startName, coords: startCoord}, {name: endName, coords: endCoord} ].forEach(st => {
+                L.circleMarker([st.coords[0], st.coords[1]], {
+                    radius: 5, color: '#fbbf24', weight: 2, fillColor: '#000', fillOpacity: 1
+                }).bindTooltip(st.name, {permanent: true, direction: 'right', className: 'station-tooltip'})
+                .addTo(busLayerGroup);
+            });
+
+            currentBusMarker = L.circleMarker([startCoord[0], startCoord[1]], {
+                radius: 8, color: '#fff', weight: 3, fillColor: '#f97316', fillOpacity: 1
+            }).addTo(busLayerGroup).bindPopup(`<b>${bus.coach_no}</b><br>Status: Initializing`);
+            
+            map.flyTo(startCoord, 9);
+
+            const lineString = turf.lineString(routeGeom.coordinates);
+            const totalDistKm = turf.length(lineString, {units: 'kilometers'});
+
+            function updateBusRealTime() {
+                if (!layerBusCheckbox.checked || busSelector.value !== selectedGroup || busDirection.value !== String(tripIndex)) return;
+
+                const now = new Date();
+                const currentSecs = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+                
+                let statusText = "Sleeping at Depot";
+                let currentPos = null;
+
+                if (departure && arrival) {
+                    let fixedArrival = arrival;
+                    if (fixedArrival < departure) {
+                        fixedArrival += 24 * 3600;
+                    }
+                    let fixedCurrent = currentSecs;
+                    if (fixedCurrent < departure && fixedArrival >= 24 * 3600 && fixedCurrent < fixedArrival - 24 * 3600) {
+                        fixedCurrent += 24 * 3600;
+                    }
+
+                    if (fixedCurrent >= departure && fixedCurrent <= fixedArrival) {
+                        const totalTime = fixedArrival - departure;
+                        const elapsed = fixedCurrent - departure;
+                        const progress = elapsed / totalTime;
+
+                        const targetDist = totalDistKm * progress;
+                        const along = turf.along(lineString, targetDist, {units: 'kilometers'});
+                        currentPos = along.geometry.coordinates;
+                        statusText = `En route to ${endName}`;
+                    } else if (fixedCurrent < departure) {
+                        currentPos = [startCoord[1], startCoord[0]];
+                        statusText = `Waiting to depart ${startName}`;
+                    } else {
+                        currentPos = [endCoord[1], endCoord[0]];
+                        statusText = `Arrived at destination (${endName})`;
+                    }
+                } else {
+                    currentPos = [startCoord[1], startCoord[0]];
+                    statusText = `Schedule unknown`;
+                }
+
+                if (currentPos) {
+                    currentBusMarker.setLatLng([currentPos[1], currentPos[0]]);
+                    currentBusMarker.setPopupContent(`<b>${bus.coach_no}</b><br>Status: ${statusText}<br>Real Time: ${now.toLocaleTimeString()}`);
+                }
+
+                busAnimationId = requestAnimationFrame(updateBusRealTime);
+            }
+
+            busAnimationId = requestAnimationFrame(updateBusRealTime);
+        }
+
+
+
+        // -----------------------------------------------------
+        // Railway Network (Vector Tiles)
+        // -----------------------------------------------------
+        let railwaysLayer = null;
+        document.getElementById('layer-railways').addEventListener('change', function (e) {
+            if (e.target.checked) {
+                railwaysLayer = L.vectorGrid.protobuf("/api/mvt/railways/{z}/{x}/{y}.pbf", {
+                    vectorTileLayerStyles: {
+                        railways: {
+                            weight: 4,
+                            color: '#ff0000', // Bright red to ensure it is visible!
+                            opacity: 1,
+                            dashArray: '4, 4'
+                        }
+                    },
+                    interactive: true
+                }).addTo(map);
+            } else {
+                if (railwaysLayer) {
+                    map.removeLayer(railwaysLayer);
+                    railwaysLayer = null;
+                }
+            }
+        });
+        // Trigger default checked state
+        document.getElementById('layer-railways').dispatchEvent(new Event('change'));
+
+        let gasPipelineLayer = null;
+        document.getElementById('layer-gas').addEventListener('change', async function(e) {
+            if (e.target.checked) {
+                try {
+                    const res = await fetch('/api/gas_pipelines');
+                    const data = await res.json();
+                    gasPipelineLayer = L.geoJSON(data, {
+                        style: function (feature) {
+                            return {
+                                color: '#ff8800',
+                                weight: 5,
+                                opacity: 0.8,
+                                shadowColor: '#ff0000',
+                                shadowBlur: 10
+                            };
+                        },
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup('<b>Gas Pipeline:</b> ' + feature.properties.name);
+                        }
+                    }).addTo(map);
+                } catch(err) {
+                    console.error("Failed to load gas pipelines", err);
+                }
+            } else {
+                if (gasPipelineLayer) {
+                    map.removeLayer(gasPipelineLayer);
+                    gasPipelineLayer = null;
+                }
+            }
+        });
+
+        let gasPowerLayer = null;
+        document.getElementById('layer-gas-power').addEventListener('change', async function(e) {
+            if (e.target.checked) {
+                try {
+                    const res = await fetch('/api/gas_power_plants');
+                    const data = await res.json();
+                    
+                    const myIcon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: "<div style='background-color:#ff00ff;width:12px;height:12px;border-radius:50%;border:2px solid white;box-shadow:0 0 10px #ff00ff;'></div>",
+                        iconSize: [12, 12],
+                        iconAnchor: [6, 6]
+                    });
+
+                    gasPowerLayer = L.geoJSON(data, {
+                        pointToLayer: function(feature, latlng) {
+                            return L.marker(latlng, {icon: myIcon});
+                        },
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup('<b>🏭 Gas Power Plant:</b> ' + feature.properties.name);
+                        }
+                    }).addTo(map);
+                } catch(err) {
+                    console.error("Failed to load gas power plants", err);
+                }
+            } else {
+                if (gasPowerLayer) {
+                    map.removeLayer(gasPowerLayer);
+                    gasPowerLayer = null;
+                }
+            }
+        });
+
+        // -----------------------------------------------------
+        // Disaster Resiliency Simulator
+        // -----------------------------------------------------
+        let disasterLayerGroup = L.layerGroup().addTo(map);
+        let evacLayerGroup = L.layerGroup().addTo(map);
+        let floodSimLayerGroup = L.layerGroup().addTo(map);
+        let epidemicLayerGroup = L.layerGroup().addTo(map);
+        let trafficLayerGroup = L.layerGroup().addTo(map);
+        let trafficMarkersGroup = L.layerGroup().addTo(map);
+        let dispatchLayerGroup = L.layerGroup().addTo(map);
+        let megaProjectLayerGroup = L.layerGroup().addTo(map);
+        let disasterCircle = null;
+        let evacCircle = null;
+        let epidemicCircle = null;
+        let trafficCircle = null;
+        let epidemicSimData = null;
+        let trafficSimData = null;
+        let epidemicTimer = null;
+        let trafficTimer = null;
+        let dispatchTimer = null;
+        let epidemicCurrentDay = 0;
+        let trafficCurrentBucket = 0;
+        const timeBuckets = ["07:00 AM", "07:15 AM", "07:30 AM", "07:45 AM",
+                             "08:00 AM", "08:15 AM", "08:30 AM", "08:45 AM",
+                             "09:00 AM", "09:15 AM", "09:30 AM", "09:45 AM",
+                             "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM"];
+
+        let disasterActive = false;
+        let evacuateActive = false;
+        let floodActive = false;
+        let tacticalActive = false;
+        let epidemicActive = false;
+        let trafficActive = false;
+        let dispatchActive = false;
+        let megaProjectActive = false;
+        
+        let megaProjectCoords = [];
+        let megaProjectLine = null;
+
+        document.getElementById('sim-mode-selector').addEventListener('change', function(e) {
+            const mode = e.target.value;
+            
+            // Hide all UIs
+            document.getElementById('sim-ui-disaster').style.display = 'none';
+            document.getElementById('sim-ui-transit').style.display = 'none';
+            document.getElementById('sim-ui-bus').style.display = 'none';
+            document.getElementById('sim-ui-evacuate').style.display = 'none';
+            document.getElementById('sim-ui-flood').style.display = 'none';
+            document.getElementById('sim-ui-epidemic').style.display = 'none';
+            document.getElementById('sim-ui-traffic').style.display = 'none';
+            document.getElementById('sim-ui-dispatch').style.display = 'none';
+            document.getElementById('sim-ui-megaproject').style.display = 'none';
+            document.getElementById('sim-ui-tactical').style.display = 'none';
+
+            // Reset toggles (simulates unchecking the master checkboxes)
+            if (document.getElementById('layer-disaster').checked) document.getElementById('layer-disaster').click();
+            if (document.getElementById('layer-train').checked) document.getElementById('layer-train').click();
+            if (document.getElementById('layer-bus').checked) document.getElementById('layer-bus').click();
+            if (document.getElementById('layer-evacuate').checked) document.getElementById('layer-evacuate').click();
+            if (document.getElementById('layer-flood-sim').checked) document.getElementById('layer-flood-sim').click();
+            if (document.getElementById('layer-epidemic').checked) document.getElementById('layer-epidemic').click();
+            if (document.getElementById('layer-traffic').checked) document.getElementById('layer-traffic').click();
+            if (document.getElementById('layer-dispatch').checked) document.getElementById('layer-dispatch').click();
+            if (document.getElementById('layer-megaproject').checked) document.getElementById('layer-megaproject').click();
+            if (document.getElementById('layer-tactical').checked) document.getElementById('layer-tactical').click();
+
+            if (mode === 'disaster') {
+                document.getElementById('sim-ui-disaster').style.display = 'flex';
+                document.getElementById('layer-disaster').click(); // Auto-enable
+            } else if (mode === 'transit') {
+                document.getElementById('sim-ui-transit').style.display = 'flex';
+                document.getElementById('layer-train').click(); // Auto-enable
+            } else if (mode === 'bus') {
+                document.getElementById('sim-ui-bus').style.display = 'flex';
+                document.getElementById('layer-bus').click(); // Auto-enable
+            } else if (mode === 'evacuate') {
+                document.getElementById('sim-ui-evacuate').style.display = 'flex';
+                document.getElementById('layer-evacuate').click();
+            } else if (mode === 'flood') {
+                document.getElementById('sim-ui-flood').style.display = 'flex';
+                document.getElementById('layer-flood-sim').click();
+            } else if (mode === 'epidemic') {
+                document.getElementById('sim-ui-epidemic').style.display = 'flex';
+                document.getElementById('layer-epidemic').click();
+            } else if (mode === 'traffic') {
+                document.getElementById('sim-ui-traffic').style.display = 'flex';
+                document.getElementById('layer-traffic').click();
+            } else if (mode === 'dispatch') {
+                document.getElementById('sim-ui-dispatch').style.display = 'flex';
+                document.getElementById('layer-dispatch').click();
+            } else if (mode === 'megaproject') {
+                document.getElementById('sim-ui-megaproject').style.display = 'flex';
+                document.getElementById('layer-megaproject').click();
+            } else if (mode === 'tactical') {
+                document.getElementById('sim-ui-tactical').style.display = 'flex';
+                document.getElementById('layer-tactical').click();
+            }
+        });
+
+        document.getElementById('layer-disaster').addEventListener('change', function (e) {
+            disasterActive = e.target.checked;
+            document.getElementById('disaster-stats').style.display = disasterActive ? 'block' : 'none';
+            document.getElementById('disaster-radius-container').style.display = disasterActive ? 'flex' : 'none';
+            if (!disasterActive) {
+                disasterLayerGroup.clearLayers();
+                if (disasterCircle) {
+                    map.removeLayer(disasterCircle);
+                    disasterCircle = null;
+                }
+                document.getElementById('disaster-stats').innerHTML = '<i>Click anywhere on the map to trigger a disaster.</i>';
+            }
+        });
+
+        document.getElementById('disaster-radius').addEventListener('input', function(e) {
+            document.getElementById('radius-val').innerText = e.target.value;
+        });
+
+        document.getElementById('layer-evacuate').addEventListener('change', function (e) {
+            evacuateActive = e.target.checked;
+            document.getElementById('evacuate-stats').style.display = evacuateActive ? 'block' : 'none';
+            document.getElementById('evacuate-radius-container').style.display = evacuateActive ? 'flex' : 'none';
+            if (!evacuateActive) {
+                evacLayerGroup.clearLayers();
+                if (evacCircle) {
+                    map.removeLayer(evacCircle);
+                    evacCircle = null;
+                }
+                document.getElementById('evacuate-stats').innerHTML = '<i>Click anywhere to trigger mass evacuation from that point.</i>';
+            }
+        });
+
+        document.getElementById('evacuate-radius').addEventListener('input', function(e) {
+            document.getElementById('evac-radius-val').innerText = e.target.value;
+        });
+
+        document.getElementById('layer-flood-sim').addEventListener('change', function (e) {
+            floodActive = e.target.checked;
+            document.getElementById('flood-stats').style.display = floodActive ? 'block' : 'none';
+            document.getElementById('flood-controls-container').style.display = floodActive ? 'flex' : 'none';
+            if (!floodActive) {
+                floodSimLayerGroup.clearLayers();
+                document.getElementById('flood-stats').innerHTML = '<i>Click anywhere to generate a topographic flood mask.</i>';
+            }
+        });
+
+        document.getElementById('layer-tactical').addEventListener('change', function (e) {
+            tacticalActive = e.target.checked;
+            document.getElementById('tactical-controls').style.display = tacticalActive ? 'flex' : 'none';
+            if (!tacticalActive) {
+                clearTacticalRoute();
+            }
+        });
+
+        function clearTacticalRoute() {
+            if (startMarker) map.removeLayer(startMarker);
+            if (endMarker) map.removeLayer(endMarker);
+            if (routeLine) map.removeLayer(routeLine);
+            startMarker = null;
+            endMarker = null;
+            routeLine = null;
+            routeStart = null;
+            routeEnd = null;
+            routeMode = null;
+            document.getElementById('btn-start').style.border = 'none';
+            document.getElementById('btn-end').style.border = 'none';
+            document.getElementById('routing-instructions').style.display = 'none';
+            document.getElementById('btn-clear-route').style.display = 'none';
+        }
+
+        document.getElementById('btn-clear-route').addEventListener('click', clearTacticalRoute);
+
+        document.getElementById('flood-radius').addEventListener('input', function(e) {
+            document.getElementById('flood-radius-val').innerText = e.target.value;
+        });
+        document.getElementById('flood-level').addEventListener('input', function(e) {
+            document.getElementById('flood-level-val').innerText = e.target.value;
+        });
+
+        // Epidemic Logic
+        document.getElementById('layer-epidemic').addEventListener('change', function (e) {
+            epidemicActive = e.target.checked;
+            document.getElementById('epidemic-stats').style.display = epidemicActive ? 'block' : 'none';
+            document.getElementById('epidemic-controls-container').style.display = epidemicActive ? 'flex' : 'none';
+            if (!epidemicActive) {
+                epidemicLayerGroup.clearLayers();
+                if (epidemicCircle) {
+                    map.removeLayer(epidemicCircle);
+                    epidemicCircle = null;
+                }
+                if (epidemicTimer) clearInterval(epidemicTimer);
+                epidemicSimData = null;
+                document.getElementById('epidemic-stats').innerHTML = '<i>Click anywhere to start an outbreak.</i>';
+            }
+        });
+        document.getElementById('epidemic-radius').addEventListener('input', function(e) {
+            document.getElementById('epidemic-radius-val').innerText = e.target.value;
+        });
+        document.getElementById('epidemic-days').addEventListener('input', function(e) {
+            document.getElementById('epidemic-days-val').innerText = e.target.value;
+        });
+        document.getElementById('epidemic-scrubber').addEventListener('input', function(e) {
+            if (epidemicSimData) {
+                epidemicCurrentDay = parseInt(e.target.value);
+                renderEpidemicFrame(epidemicCurrentDay);
+            }
+        });
+        document.getElementById('epi-btn-play').addEventListener('click', function() {
+            if (!epidemicSimData) return;
+            if (epidemicTimer) clearInterval(epidemicTimer);
+            if (epidemicCurrentDay >= epidemicSimData.totalDays - 1) epidemicCurrentDay = 0;
+            epidemicTimer = setInterval(() => {
+                epidemicCurrentDay++;
+                if (epidemicCurrentDay >= epidemicSimData.totalDays) {
+                    clearInterval(epidemicTimer);
+                    epidemicTimer = null;
+                } else {
+                    document.getElementById('epidemic-scrubber').value = epidemicCurrentDay;
+                    renderEpidemicFrame(epidemicCurrentDay);
+                }
+            }, 300); // 300ms per day
+        });
+        document.getElementById('epi-btn-pause').addEventListener('click', function() {
+            if (epidemicTimer) clearInterval(epidemicTimer);
+            epidemicTimer = null;
+        });
+        document.getElementById('epi-btn-reset').addEventListener('click', function() {
+            if (epidemicTimer) clearInterval(epidemicTimer);
+            epidemicTimer = null;
+            epidemicCurrentDay = 0;
+            document.getElementById('epidemic-scrubber').value = 0;
+            if (epidemicSimData) renderEpidemicFrame(0);
+        });
+
+        function renderEpidemicFrame(dayIndex) {
+            document.getElementById('epidemic-current-day-val').innerText = dayIndex;
+            epidemicLayerGroup.eachLayer(layer => {
+                if (layer.feature && layer.feature.properties && layer.feature.properties.history) {
+                    const history = layer.feature.properties.history;
+                    const cases = history[dayIndex] || 0;
+                    
+                    let color = 'transparent';
+                    let fillOp = 0;
+                    if (cases > 0) {
+                        if (cases < 10) { color = '#facc15'; fillOp = 0.3; }
+                        else if (cases < 50) { color = '#f97316'; fillOp = 0.5; }
+                        else if (cases < 100) { color = '#ef4444'; fillOp = 0.7; }
+                        else { color = '#991b1b'; fillOp = 0.9; }
+                    }
+                    
+                    layer.setStyle({
+                        fillColor: color,
+                        fillOpacity: fillOp,
+                        color: cases > 0 ? color : 'transparent',
+                        weight: cases > 0 ? 1 : 0
+                    });
+                    
+                    if (cases > 0) {
+                        layer.setTooltipContent(`<b>Day ${dayIndex}</b><br>Active Cases: ${cases.toLocaleString()}<br>Pop: ${layer.feature.properties.population.toLocaleString()}`);
+                    }
+                }
+            });
+        }
+
+        // Traffic Logic
+        document.getElementById('layer-traffic').addEventListener('change', function (e) {
+            trafficActive = e.target.checked;
+            document.getElementById('traffic-stats').style.display = trafficActive ? 'block' : 'none';
+            document.getElementById('traffic-controls-container').style.display = trafficActive ? 'flex' : 'none';
+            if (!trafficActive) {
+                trafficLayerGroup.clearLayers();
+                trafficMarkersGroup.clearLayers();
+                if (trafficCircle) {
+                    map.removeLayer(trafficCircle);
+                    trafficCircle = null;
+                }
+                if (trafficTimer) clearInterval(trafficTimer);
+                trafficSimData = null;
+                document.getElementById('traffic-stats').innerHTML = '<i>Click anywhere to set the downtown destination hub.</i>';
+            }
+        });
+        document.getElementById('traffic-radius').addEventListener('input', function(e) {
+            document.getElementById('traffic-radius-val').innerText = e.target.value;
+        });
+        document.getElementById('traffic-commuters').addEventListener('input', function(e) {
+            document.getElementById('traffic-commuters-val').innerText = parseInt(e.target.value).toLocaleString();
+        });
+
+        // Dispatch Logic
+        document.getElementById('layer-dispatch').addEventListener('change', function (e) {
+            dispatchActive = e.target.checked;
+            document.getElementById('dispatch-stats').style.display = dispatchActive ? 'block' : 'none';
+            document.getElementById('dispatch-controls-container').style.display = dispatchActive ? 'flex' : 'none';
+            if (!dispatchActive) {
+                dispatchLayerGroup.clearLayers();
+                if (dispatchTimer) clearInterval(dispatchTimer);
+                document.getElementById('dispatch-stats').innerHTML = '<i>Click anywhere to trigger a 999 incident.</i>';
+            }
+        });
+        
+        // MegaProject Logic
+        document.getElementById('layer-megaproject').addEventListener('change', function (e) {
+            megaProjectActive = e.target.checked;
+            document.getElementById('mega-controls').style.display = megaProjectActive ? 'flex' : 'none';
+            if (!megaProjectActive) {
+                megaProjectLayerGroup.clearLayers();
+                megaProjectCoords = [];
+                megaProjectLine = null;
+                document.getElementById('mega-stats').style.display = 'none';
+                document.getElementById('btn-mega-run').style.display = 'block';
+                document.getElementById('btn-mega-clear').style.display = 'none';
+            }
+        });
+        document.getElementById('btn-mega-clear').addEventListener('click', () => {
+            megaProjectLayerGroup.clearLayers();
+            megaProjectCoords = [];
+            megaProjectLine = null;
+            document.getElementById('mega-stats').style.display = 'none';
+            document.getElementById('btn-mega-run').style.display = 'block';
+            document.getElementById('btn-mega-clear').style.display = 'none';
+        });
+        document.getElementById('btn-mega-run').addEventListener('click', async () => {
+            if (megaProjectCoords.length < 2) return alert("Draw a route first!");
+            
+            document.getElementById('mega-stats').style.display = 'block';
+            document.getElementById('mega-stats').innerHTML = `Executing PG-Routing baseline...<br>⏳ Please wait, calculating city-wide impact...`;
+            document.getElementById('btn-mega-run').style.display = 'none';
+            
+            try {
+                const res = await fetch('/api/simulate_megaproject', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ coordinates: megaProjectCoords })
+                });
+                const data = await res.json();
+                if (data.code !== 'Ok') throw new Error(data.error);
+                
+                const s = data.stats;
+                document.getElementById('mega-stats').innerHTML = `
+                    <div style="font-size:15px; font-weight:bold; color:#d946ef; border-bottom:1px solid #d946ef; margin-bottom:5px; padding-bottom:5px;">📊 GOVERNMENT ECONOMIC REPORT</div>
+                    <b>🚗 Baseline Cost:</b> ${s.baseline_time.toLocaleString()} minutes<br>
+                    <b>🏎️ Post-Project Cost:</b> ${s.new_time.toLocaleString()} minutes<br>
+                    <b>📉 Congestion Reduction:</b> <span style="color:#22c55e;">${s.reduction_pct}%</span><br>
+                    <div style="margin-top:8px; font-size:16px; color:#4ade80;">
+                        <b>💰 Annual Savings: $${s.annual_savings_mil} Million</b>
+                    </div>
+                `;
+                document.getElementById('btn-mega-clear').style.display = 'block';
+                
+            } catch (err) {
+                document.getElementById('mega-stats').innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
+                document.getElementById('btn-mega-run').style.display = 'block';
+            }
+        });
+
+        document.getElementById('traffic-scrubber').addEventListener('input', function(e) {
+            if (trafficSimData) {
+                trafficCurrentBucket = parseInt(e.target.value);
+                renderTrafficFrame(trafficCurrentBucket);
+            }
+        });
+        document.getElementById('traffic-btn-play').addEventListener('click', function() {
+            if (!trafficSimData) return;
+            if (trafficTimer) clearInterval(trafficTimer);
+            if (trafficCurrentBucket >= 15) trafficCurrentBucket = 0;
+            trafficTimer = setInterval(() => {
+                trafficCurrentBucket++;
+                if (trafficCurrentBucket > 15) {
+                    clearInterval(trafficTimer);
+                    trafficTimer = null;
+                } else {
+                    document.getElementById('traffic-scrubber').value = trafficCurrentBucket;
+                    renderTrafficFrame(trafficCurrentBucket);
+                }
+            }, 600); // 600ms per 15-min bucket
+        });
+        document.getElementById('traffic-btn-pause').addEventListener('click', function() {
+            if (trafficTimer) clearInterval(trafficTimer);
+            trafficTimer = null;
+        });
+        document.getElementById('traffic-btn-reset').addEventListener('click', function() {
+            if (trafficTimer) clearInterval(trafficTimer);
+            trafficTimer = null;
+            trafficCurrentBucket = 0;
+            document.getElementById('traffic-scrubber').value = 0;
+            if (trafficSimData) renderTrafficFrame(0);
+        });
+
+        function renderTrafficFrame(bucketIndex) {
+            document.getElementById('traffic-current-time-val').innerText = timeBuckets[bucketIndex] || "";
+            trafficMarkersGroup.clearLayers();
+            trafficLayerGroup.eachLayer(layer => {
+                if (layer.feature && layer.feature.properties && layer.feature.properties.history) {
+                    const ratio = layer.feature.properties.history[bucketIndex] || 0;
+                    
+                    let color = '#22c55e'; // Green
+                    let weight = 3;
+                    if (ratio < 0.05) { color = 'transparent'; weight = 0; }
+                    else if (ratio < 0.3) { color = '#22c55e'; } // Green
+                    else if (ratio < 0.6) { color = '#eab308'; weight = 4; } // Yellow
+                    else if (ratio < 0.9) { color = '#f97316'; weight = 5; } // Orange
+                    else { color = '#ef4444'; weight = 6; } // Red Gridlock
+                    
+                    layer.setStyle({
+                        color: color,
+                        weight: weight,
+                        opacity: 0.8
+                    });
+                    
+                    if (ratio > 0.05) {
+                        const content = `<b>${timeBuckets[bucketIndex]}</b><br>Road Type: ${layer.feature.properties.fclass}<br>V/C Ratio: ${(ratio*100).toFixed(0)}%`;
+                        if (!layer.getTooltip()) {
+                            layer.bindTooltip(content);
+                        } else {
+                            layer.setTooltipContent(content);
+                        }
+                    }
+
+                    if (ratio >= 0.9) {
+                        try {
+                            // Find center of polyline for the marker
+                            const center = layer.getBounds().getCenter();
+                            const jamIcon = L.divIcon({
+                                className: 'custom-div-icon',
+                                html: "<div style='font-size:16px; background:white; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 5px red;'>🛑</div>",
+                                iconSize: [20, 20],
+                                iconAnchor: [10, 10]
+                            });
+                            L.marker(center, {icon: jamIcon}).addTo(trafficMarkersGroup);
+                        } catch(err) {
+                            // Ignore if bounds fail for single point geojsons
+                        }
+                    }
+                }
+            });
+        }
+
+        map.on('click', async function(e) {
+            const lat = e.latlng.lat;
+            const lon = e.latlng.lng;
+
+            if (megaProjectActive) {
+                if (!document.getElementById('btn-mega-clear').style.display || document.getElementById('btn-mega-clear').style.display === 'none') {
+                    megaProjectCoords.push([lat, lon]);
+                    if (megaProjectLine) {
+                        megaProjectLine.setLatLngs(megaProjectCoords);
+                    } else {
+                        megaProjectLine = L.polyline(megaProjectCoords, {
+                            color: '#d946ef',
+                            weight: 6,
+                            dashArray: '10, 10'
+                        }).addTo(megaProjectLayerGroup);
+                    }
+                    L.circleMarker([lat, lon], {radius: 4, fillColor: '#d946ef', color: '#fff', fillOpacity: 1}).addTo(megaProjectLayerGroup);
+                }
+            } else if (dispatchActive) {
+                dispatchLayerGroup.clearLayers();
+                if (dispatchTimer) clearInterval(dispatchTimer);
+
+                const type = document.querySelector('input[name="dispatch-type"]:checked').value;
+                const emoji = type === 'fire_station' ? '🔥' : (type === 'hospital' ? '💥' : '🚨');
+                const vehEmoji = type === 'fire_station' ? '🚒' : (type === 'hospital' ? '🚑' : '🚓');
+                
+                const incIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style='font-size:20px; animation: pulse 1s infinite;'>${emoji}</div>`,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
+                });
+                L.marker([lat, lon], {icon: incIcon}).addTo(dispatchLayerGroup);
+                
+                document.getElementById('dispatch-stats').innerHTML = `Routing nearest responder... ⏳`;
+                
+                try {
+                    const res = await fetch('/api/simulate_dispatch', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, emergency_type: type })
+                    });
+                    const data = await res.json();
+                    if (data.code !== 'Ok') throw new Error(data.error);
+                    
+                    L.geoJSON(data.features, {
+                        style: { color: '#00e5ff', weight: 5, dashArray: '10, 10' }
+                    }).addTo(dispatchLayerGroup);
+                    
+                    document.getElementById('dispatch-stats').innerHTML = `
+                        <b>Dispatched from:</b> ${data.stats.station_name}<br>
+                        <b>Distance:</b> ${data.stats.distance_km} km<br>
+                        <b>ETA:</b> ${data.stats.eta_mins} mins<br>
+                        <div style="margin-top: 5px; font-size: 11px; opacity: 0.8;">
+                            <i>From: ${data.stats.station_coords[0]}, ${data.stats.station_coords[1]}</i><br>
+                            <i>To: ${data.stats.incident_coords[0]}, ${data.stats.incident_coords[1]}</i>
+                        </div>
+                    `;
+                    
+                    const coords = [];
+                    data.features.forEach(f => {
+                        if (f.geometry && f.geometry.type === 'LineString') {
+                            f.geometry.coordinates.forEach(c => coords.push([c[1], c[0]]));
+                        }
+                    });
+                    
+                    if (coords.length > 0) {
+                        const vehIcon = L.divIcon({
+                            className: 'custom-div-icon',
+                            html: `<div style='font-size:24px; filter: drop-shadow(0 0 5px #00e5ff);'>${vehEmoji}</div>`,
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12]
+                        });
+                        const vehMarker = L.marker(coords[0], {icon: vehIcon}).addTo(dispatchLayerGroup);
+                        let cIdx = 0;
+                        dispatchTimer = setInterval(() => {
+                            cIdx++;
+                            if (cIdx >= coords.length) {
+                                clearInterval(dispatchTimer);
+                                vehMarker.setLatLng([lat, lon]); // jump to exact incident coords at end
+                            } else {
+                                vehMarker.setLatLng(coords[cIdx]);
+                            }
+                        }, 50); 
+                    }
+                } catch(err) {
+                    document.getElementById('dispatch-stats').innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
+                }
+            } else if (disasterActive) {
+                // ... disaster logic ...
+                disasterLayerGroup.clearLayers();
+                if (disasterCircle) {
+                    map.removeLayer(disasterCircle);
+                }
+
+                const radiusKm = parseFloat(document.getElementById('disaster-radius').value);
+
+                // Draw Blast Radius
+                disasterCircle = L.circle([lat, lon], {
+                    radius: radiusKm * 1000,
+                    color: '#ff3366', // Modern neon red/pink
+                    weight: 2,
+                    dashArray: '10, 15', // Sci-fi tactical ring
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.03, // Barely visible fill to avoid obscuring map
+                    className: 'disaster-pulse'
+                }).addTo(map);
+
+                document.getElementById('disaster-stats').innerHTML = `<div style="text-align:center;">Calculating cascading failures...<br><span style="font-size:20px">⏳</span></div>`;
+
+                try {
+                    const res = await fetch('/api/simulate_disaster', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, radius_km: radiusKm })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.code !== 'Ok') throw new Error(data.error);
+
+                    const stats = data.stats;
+
+                    // Render Destroyed Roads
+                    L.geoJSON(data.features.roads, {
+                        style: { color: '#333', weight: 4, opacity: 0.8 },
+                        onEachFeature: function (feature, layer) {
+                            // Add a secondary dashed red line on top of the road
+                            L.polyline(layer.getLatLngs(), { color: '#ff4444', weight: 2, dashArray: '5, 10' }).addTo(disasterLayerGroup);
+                        }
+                    }).addTo(disasterLayerGroup);
+
+                    // Render Destroyed Power Grid
+                    L.geoJSON(data.features.power_grid, {
+                        style: { color: '#00e5ff', weight: 2, opacity: 0.9, dashArray: '8, 8', className: 'glowing-power-line' },
+                        pointToLayer: function(feature, latlng) {
+                            return L.circleMarker(latlng, { radius: 4, color: '#00e5ff', weight: 1, fillColor: '#00e5ff', fillOpacity: 0.8 });
+                        }
+                    }).addTo(disasterLayerGroup);
+
+                    // Render Dead Cell Zones
+                    L.geoJSON(data.features.celltowers, {
+                        pointToLayer: function(feature, latlng) {
+                            const range = Math.max(feature.properties.range || 500, 500);
+                            return L.circle(latlng, { 
+                                radius: range, 
+                                color: '#ff9900', // Tactical orange
+                                weight: 1.5, 
+                                fillColor: 'transparent', // Removed ugly solid fill
+                                opacity: 0.6,
+                                className: 'dead-zone-ping'
+                            });
+                        }
+                    }).addTo(disasterLayerGroup);
+
+                    const pois = stats.pois || {};
+                    const schoolCount = (pois['school'] || 0) + (pois['college'] || 0) + (pois['university'] || 0);
+                    const hospitalCount = (pois['hospital'] || 0) + (pois['clinic'] || 0);
+                    const shopCount = (pois['pharmacy'] || 0) + (pois['restaurant'] || 0) + (pois['marketplace'] || 0) + (pois['supermarket'] || 0) + (pois['convenience'] || 0) + (pois['clothes'] || 0) + (pois['furniture_shop'] || 0) + (pois['fast_food'] || 0);
+
+                    document.getElementById('disaster-stats').innerHTML = `
+                        <div style="font-size:16px; font-weight:bold; color:white; border-bottom:1px solid #ff3333; margin-bottom:5px; padding-bottom:5px;">🚨 DAMAGE REPORT</div>
+                        <b>⚡ Power Grid Down:</b> ${stats.power_lines} assets<br>
+                        <b>📶 Cell Towers Offline:</b> ${stats.cell_towers}<br>
+                        <b>🛣️ Blocked Roads:</b> ${stats.roads}<br>
+                        <div style="margin-top:5px; border-top:1px dashed #ff3333; padding-top:5px; color:#ffcc99;">
+                            <b>🏫 Education Facilities:</b> ${schoolCount}<br>
+                            <b>🏥 Hospitals/Clinics:</b> ${hospitalCount}<br>
+                            <b>🏪 Shops/Markets:</b> ${shopCount}
+                        </div>
+                        <div style="margin-top:8px; font-size:11px; color:#ff9999;">Includes cascading telecom failure from lost power lines (2km dependency radius).</div>
+                    `;
+
+                } catch(e) {
+                    document.getElementById('disaster-stats').innerHTML = `<span style="color:red">Error: ${e.message}</span>`;
+                }
+            } else if (evacuateActive) {
+                // ... evacuation logic ...
+                evacLayerGroup.clearLayers();
+                if (evacCircle) {
+                    map.removeLayer(evacCircle);
+                }
+
+                const radiusKm = parseFloat(document.getElementById('evacuate-radius').value);
+
+                // Draw Danger Zone
+                evacCircle = L.circle([lat, lon], {
+                    radius: radiusKm * 1000,
+                    color: '#ffaa00', // Warning yellow-orange
+                    weight: 2,
+                    dashArray: '10, 10',
+                    fillColor: '#ffaa00',
+                    fillOpacity: 0.1,
+                }).addTo(map);
+
+                document.getElementById('evacuate-stats').innerHTML = `<div style="text-align:center;">Calculating dynamic evacuation routes...<br><span style="font-size:20px">⏳</span></div>`;
+
+                try {
+                    const res = await fetch('/api/evacuate', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, radius_km: radiusKm })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.code !== 'Ok') throw new Error(data.error);
+
+                    const stats = data.stats;
+
+                    // Render Routes
+                    L.geoJSON(data.features.evacuation_routes, {
+                        style: function(feature) {
+                            const traffic = feature.properties.traffic;
+                            // Color code based on bottleneck severity
+                            let color = '#22c55e'; // Safe Green
+                            if (traffic > 2) color = '#facc15'; // Warning Yellow
+                            if (traffic > 5) color = '#f97316'; // Heavy Orange
+                            if (traffic > 10) color = '#ef4444'; // Extreme Red
+                            
+                            return { color: color, weight: traffic > 5 ? 5 : 3, opacity: 0.9, className: 'route-path' };
+                        }
+                    }).addTo(evacLayerGroup);
+
+                    // Render Safe Hospitals
+                    L.geoJSON(data.features.safe_hospitals, {
+                        pointToLayer: function(feature, latlng) {
+                            return L.circleMarker(latlng, { radius: 8, color: '#fff', weight: 2, fillColor: '#22c55e', fillOpacity: 1 })
+                                    .bindTooltip("Safe Zone (Hospital)", {permanent: false, direction: 'top'});
+                        }
+                    }).addTo(evacLayerGroup);
+
+                    document.getElementById('evacuate-stats').innerHTML = `
+                        <div style="font-size:16px; font-weight:bold; color:white; border-bottom:1px solid #22c55e; margin-bottom:5px; padding-bottom:5px;">🏃 EVACUATION REPORT</div>
+                        <b>👥 Civilians Routed:</b> ${stats.civilians_evacuated}<br>
+                        <b>🏥 Safe Zones Reached:</b> ${stats.hospitals_utilized}<br>
+                        <div style="margin-top:8px; font-size:11px; color:#bbf7d0;">Dynamic Dijkstra routing calculated in ${stats.calculation_time_sec}s.</div>
+                    `;
+
+                } catch(e) {
+                    document.getElementById('evacuate-stats').innerHTML = `<span style="color:red">Error: ${e.message}</span>`;
+                }
+            } else if (floodActive) {
+                // ... flood logic ...
+                floodSimLayerGroup.clearLayers();
+                
+                const radiusKm = parseFloat(document.getElementById('flood-radius').value);
+                const waterLevel = parseFloat(document.getElementById('flood-level').value);
+
+                document.getElementById('flood-stats').innerHTML = `<div style="text-align:center;">Interpolating topographic DEM and computing flood mask...<br><span style="font-size:20px">🌊</span></div>`;
+
+                try {
+                    const res = await fetch('/api/simulate_flood', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, radius_km: radiusKm, water_level: waterLevel })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.code !== 'Ok') throw new Error(data.error);
+
+                    const stats = data.stats;
+
+                    // Render Flood Mask
+                    L.geoJSON(data.features.flood_zones, {
+                        style: {
+                            color: '#00bfff',     // Deep neon blue outline
+                            weight: 2,
+                            opacity: 0.8,
+                            fillColor: '#0055ff', // Darker blue fill
+                            fillOpacity: 0.4      // Translucent to see underlying map
+                        }
+                    }).addTo(floodSimLayerGroup);
+
+                    document.getElementById('flood-stats').innerHTML = `
+                        <div style="font-size:16px; font-weight:bold; color:white; border-bottom:1px solid #00bfff; margin-bottom:5px; padding-bottom:5px;">🌊 FLOOD IMPACT REPORT</div>
+                        <b>🏠 Buildings Submerged:</b> ${stats.buildings.toLocaleString()}<br>
+                        <b>🛣️ Roads Washed Away:</b> ${stats.roads_km} km<br>
+                        <b>👨‍👩‍👧‍👦 Population Displaced:</b> ${stats.population.toLocaleString()}<br>
+                        <div style="margin-top:8px; font-size:11px; color:#bbf7d0;">Topographic DEM interpolation calculated in ${stats.calc_time}s.</div>
+                    `;
+
+                } catch(e) {
+                    document.getElementById('flood-stats').innerHTML = `<span style="color:red">Error: ${e.message}</span>`;
+                }
+            } else if (epidemicActive) {
+                epidemicLayerGroup.clearLayers();
+                if (epidemicCircle) {
+                    map.removeLayer(epidemicCircle);
+                }
+                
+                if (epidemicTimer) clearInterval(epidemicTimer);
+                epidemicTimer = null;
+                epidemicCurrentDay = 0;
+                document.getElementById('epidemic-scrubber').value = 0;
+                epidemicSimData = null;
+
+                const radiusKm = parseFloat(document.getElementById('epidemic-radius').value);
+                const days = parseInt(document.getElementById('epidemic-days').value);
+
+                epidemicCircle = L.circle([lat, lon], {
+                    radius: radiusKm * 1000,
+                    color: '#ff3333',
+                    weight: 2,
+                    dashArray: '10, 10',
+                    fillColor: 'transparent',
+                    opacity: 0.8
+                }).addTo(map);
+
+                document.getElementById('epidemic-stats').innerHTML = `<div style="text-align:center;">Modeling transmission vectors...<br><span style="font-size:20px">🦟</span></div>`;
+
+                try {
+                    const res = await fetch('/api/simulate_epidemic', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, radius_km: radiusKm, days: days })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.code === 'Error') throw new Error(data.error);
+
+                    // data is a FeatureCollection of hexagons
+                    L.geoJSON(data, {
+                        style: { fillColor: 'transparent', color: 'transparent', weight: 0 },
+                        onEachFeature: function (feature, layer) {
+                            epidemicLayerGroup.addLayer(layer);
+                        }
+                    });
+
+                    epidemicSimData = {
+                        totalDays: days,
+                        features: data.features
+                    };
+                    
+                    document.getElementById('epi-total-days').innerText = days - 1;
+                    document.getElementById('epidemic-scrubber').max = days - 1;
+
+                    document.getElementById('epidemic-stats').innerHTML = `
+                        <div style="font-size:16px; font-weight:bold; color:white; border-bottom:1px solid #ff3333; margin-bottom:5px; padding-bottom:5px;">🦟 OUTBREAK SIMULATION READY</div>
+                        <b>Total Zones:</b> ${data.features.length}<br>
+                        <b>Simulation:</b> ${days} Days<br>
+                        <div style="margin-top:8px; font-size:11px; color:#ffcccc;">Use the playback controls to visualize the spread.</div>
+                    `;
+
+                    renderEpidemicFrame(0);
+
+                } catch(e) {
+                    document.getElementById('epidemic-stats').innerHTML = `<span style="color:red">Error: ${e.message}</span>`;
+                }
+            } else if (trafficActive) {
+                trafficLayerGroup.clearLayers();
+                if (trafficCircle) map.removeLayer(trafficCircle);
+                
+                if (trafficTimer) clearInterval(trafficTimer);
+                trafficTimer = null;
+                trafficCurrentBucket = 0;
+                document.getElementById('traffic-scrubber').value = 0;
+                trafficSimData = null;
+
+                const radiusKm = parseFloat(document.getElementById('traffic-radius').value);
+                const commuters = parseInt(document.getElementById('traffic-commuters').value);
+
+                trafficCircle = L.circle([lat, lon], {
+                    radius: radiusKm * 1000,
+                    color: '#f59e0b',
+                    weight: 2,
+                    dashArray: '5, 5',
+                    fillColor: 'transparent',
+                    opacity: 0.8
+                }).addTo(map);
+
+                document.getElementById('traffic-stats').innerHTML = `<div style="text-align:center;">Calculating commuter assignments...<br><span style="font-size:20px">🚗</span></div>`;
+
+                try {
+                    const res = await fetch('/api/simulate_traffic', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ lat, lon, radius_km: radiusKm, commuters: commuters })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.code === 'Error') throw new Error(data.error);
+
+                    L.geoJSON(data, {
+                        style: { color: 'transparent', weight: 0 },
+                        onEachFeature: function (feature, layer) {
+                            trafficLayerGroup.addLayer(layer);
+                        }
+                    });
+
+                    trafficSimData = data.features;
+                    
+                    document.getElementById('traffic-stats').innerHTML = `
+                        <div style="font-size:16px; font-weight:bold; color:white; border-bottom:1px solid #f59e0b; margin-bottom:5px; padding-bottom:5px;">🚗 RUSH HOUR SIMULATION READY</div>
+                        <b>Total Commuters:</b> ${commuters.toLocaleString()}<br>
+                        <b>Road Segments:</b> ${data.features.length}<br>
+                        <div style="margin-top:8px; font-size:11px; color:#fde68a;">Press play to visualize traffic buildup.</div>
+                    `;
+
+                    renderTrafficFrame(0);
+
+                } catch(e) {
+                    document.getElementById('traffic-stats').innerHTML = `<span style="color:red">Error: ${e.message}</span>`;
+                }
+            }
+        });
+
+
+        // -----------------------------------------------------
+        // Routing Logic
+        // -----------------------------------------------------
+        function toggleRoutingUI() {
+            const panel = document.getElementById('routing-controls');
+            const icon = document.getElementById('routing-icon');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                icon.style.display = 'none';
+            } else {
+                panel.style.display = 'none';
+                icon.style.display = 'flex';
+            }
+        }
+
+        let routeStart = null;
+        let routeEnd = null;
+        let startMarker = null;
+        let endMarker = null;
+        let routeLine = null;
+        let routeMode = null;
+
+        document.getElementById('btn-start').addEventListener('click', () => {
+            routeMode = 'start';
+            document.getElementById('btn-start').style.border = '2px solid white';
+            document.getElementById('btn-end').style.border = 'none';
+        });
+
+        document.getElementById('btn-end').addEventListener('click', () => {
+            routeMode = 'end';
+            document.getElementById('btn-end').style.border = '2px solid white';
+            document.getElementById('btn-start').style.border = 'none';
+        });
+
+        map.on('click', function (e) {
+            if (routeMode === 'start') {
+                if (startMarker) map.removeLayer(startMarker);
+                startMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: '#28a745', color: '#fff', weight: 2, fillOpacity: 1 }).addTo(map);
+                routeStart = e.latlng;
+                routeMode = null;
+                document.getElementById('btn-start').style.border = 'none';
+            } else if (routeMode === 'end') {
+                if (endMarker) map.removeLayer(endMarker);
+                endMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: '#dc3545', color: '#fff', weight: 2, fillOpacity: 1 }).addTo(map);
+                routeEnd = e.latlng;
+                routeMode = null;
+                document.getElementById('btn-end').style.border = 'none';
+            }
+        });
+
+        document.getElementById('btn-route').addEventListener('click', async () => {
+            if (!routeStart || !routeEnd) {
+                alert("Please set both start and end points.");
+                return;
+            }
+            document.getElementById('loading').innerText = "Calculating Route...";
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const url = `/api/route?slat=${routeStart.lat}&slon=${routeStart.lng}&elat=${routeEnd.lat}&elon=${routeEnd.lng}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (data.error) {
+                    alert("Error finding route: " + data.error);
+                } else if (data.geometry) {
+                    if (routeLine) map.removeLayer(routeLine);
+                    routeLine = L.geoJSON(data, {
+                        style: {
+                            color: '#f59e0b',
+                            weight: 6,
+                            opacity: 0.9,
+                            dashArray: '10, 15',
+                            lineCap: 'round',
+                            className: 'glowing-power-line'
+                        }
+                    }).addTo(map);
+                    document.getElementById('btn-clear-route').style.display = 'block';
+                    map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+
+                    // Generate turn-by-turn instructions
+                    const steps = data.properties && data.properties.steps ? data.properties.steps : [];
+                    const instDiv = document.getElementById('routing-instructions');
+                    if (steps.length > 0) {
+                        let html = '<h4 style="margin:0 0 10px 0; border-bottom:1px solid #555; padding-bottom:5px;">🚗 Turn-by-Turn</h4><ul style="padding-left:15px; margin:0;">';
+                        let currentRoad = null;
+                        let currentDist = 0;
+                        steps.forEach(step => {
+                            if (step.name === currentRoad) {
+                                currentDist += step.distance;
+                            } else {
+                                if (currentRoad) {
+                                    html += `<li style="margin-bottom:6px;">Drive <b>${currentDist.toFixed(0)}m</b> on <span style="color:#00bfff;">${currentRoad}</span></li>`;
+                                }
+                                currentRoad = step.name;
+                                currentDist = step.distance;
+                            }
+                        });
+                        if (currentRoad) {
+                            html += `<li style="margin-bottom:6px;">Drive <b>${currentDist.toFixed(0)}m</b> on <span style="color:#00bfff;">${currentRoad}</span></li>`;
+                        }
+                        html += '<li style="margin-bottom:6px; color:#28a745;"><b>🏁 Arrive at destination</b></li></ul>';
+                        instDiv.innerHTML = html;
+                        instDiv.style.display = 'block';
+                    } else {
+                        instDiv.style.display = 'none';
+                    }
+                }
+            } catch (e) {
+                console.error("Routing error:", e);
+                alert("Routing failed. Check console.");
+            }
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').innerText = "Loading local data from Python API...";
+        });
+
+        // -----------------------------------------------------
+        // Geocoding Search
+        // -----------------------------------------------------
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        let searchMarker = null;
+        let searchDebounce = null;
+
+        const SOURCE_LABELS = {
+            address: 'Address',
+            poi: 'POI',
+            place: 'Place',
+            road: 'Road'
+        };
+
+        function renderResults(results) {
+            searchResults.innerHTML = '';
+            if (!results.length) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            results.forEach(r => {
+                const item = document.createElement('div');
+                item.className = 'search-result';
+                item.innerHTML = `${r.label} <span class="src-badge">${SOURCE_LABELS[r.source] || r.source}</span>`;
+                item.addEventListener('click', () => {
+                    try {
+                        const lat = Number(r.lat);
+                        const lon = Number(r.lon);
+                        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+                            console.error("Search result has invalid coordinates:", r);
+                            return;
+                        }
+                        searchResults.style.display = 'none';
+                        searchInput.value = r.label;
+                        if (searchMarker) map.removeLayer(searchMarker);
+                        searchMarker = L.marker([lat, lon]).addTo(map);
+                        searchMarker.bindPopup(`<b>${r.label}</b><br><span style="color:gray;">${SOURCE_LABELS[r.source] || r.source}</span>`).openPopup();
+                        map.flyTo([lat, lon], 16);
+                    } catch (err) {
+                        console.error("Error jumping to search result:", err, r);
+                    }
+                });
+                searchResults.appendChild(item);
+            });
+            searchResults.style.display = 'block';
+        }
+
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.trim();
+            clearTimeout(searchDebounce);
+            if (q.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            searchDebounce = setTimeout(async () => {
+                try {
+                    const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+                    const data = await res.json();
+                    renderResults(data.results || []);
+                } catch (e) {
+                    console.error("Geocode search failed:", e);
+                }
+            }, 300);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('search-box').contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // -----------------------------------------------------
+        // Reverse Geocoding (right-click map -> "what's here?")
+        // -----------------------------------------------------
+        map.on('contextmenu', async function (e) {
+            const { lat, lng } = e.latlng;
+            const popup = L.popup().setLatLng(e.latlng).setContent('Looking up address...').openOn(map);
+
+            try {
+                const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lng}`);
+                const data = await res.json();
+
+                if (data.error) {
+                    popup.setContent(`<span style="color:#ffaa00;">${data.error}</span>`);
+                    return;
+                }
+
+                const distText = data.distance_m < 1000
+                    ? `${Math.round(data.distance_m)} m away`
+                    : `${(data.distance_m / 1000).toFixed(1)} km away`;
+
+                popup.setContent(
+                    `<b>${data.label}</b><br>` +
+                    `<span style="color:gray;">${SOURCE_LABELS[data.source] || data.source} &middot; ${distText}</span><br>` +
+                    `<span style="color:#00bfff;">${lat.toFixed(5)}, ${lng.toFixed(5)}</span>`
+                );
+            } catch (err) {
+                console.error("Reverse geocode failed:", err);
+                popup.setContent('<span style="color:#ff4444;">Reverse geocode failed</span>');
+            }
+        });
+
+        // -----------------------------------------------------
+        // Triangulation Logic
+        // -----------------------------------------------------
+        let triangulateMode = false;
+        let triangulationLayer = L.layerGroup().addTo(map);
+
+        function toggleTriangulateMode() {
+            triangulateMode = !triangulateMode;
+            const icon = document.getElementById('triangulate-icon');
+            if (triangulateMode) {
+                icon.style.border = "2px solid #ef4444";
+                icon.style.background = "rgba(239, 68, 68, 0.5)";
+                document.getElementById('map').style.cursor = 'crosshair';
+            } else {
+                icon.style.border = "none";
+                icon.style.background = "rgba(30, 30, 30, 0.9)";
+                document.getElementById('map').style.cursor = '';
+            }
+        }
+
+        map.on('click', async function(e) {
+            if (!triangulateMode) return;
+            
+            triangulationLayer.clearLayers();
+            const { lat, lng } = e.latlng;
+            
+            document.getElementById('loading').innerText = "Acquiring Cell Tower Signals...";
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const res = await fetch(`/api/triangulate?lat=${lat}&lon=${lng}`);
+                const data = await res.json();
+                
+                if (data.towers) {
+                    const crosshair = L.divIcon({
+                        className: 'triangulate-crosshair',
+                        html: `<div style="color: #ef4444; font-size: 24px; text-shadow: 0 0 10px #ef4444; display:flex; align-items:center; justify-content:center; width:24px; height:24px;">⌖</div>`,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
+                    });
+                    const targetMarker = L.marker([data.target.lat, data.target.lon], {icon: crosshair}).addTo(triangulationLayer);
+                    
+                    let popupHtml = `<div style="background: rgba(0,0,0,0.8); color: #00ff00; padding: 10px; font-family: monospace; border: 1px solid #00ff00;">
+                        <h3 style="margin-top:0; color:#ef4444; border-bottom: 1px solid #ef4444; padding-bottom: 5px;">TARGET ACQUIRED</h3>`;
+
+                    data.towers.forEach((t, i) => {
+                        L.circleMarker([t.lat, t.lon], {radius: 6, color: '#00ff00', fillColor: '#00ff00', fillOpacity: 1})
+                            .bindPopup(`<b>Tower ${i+1}</b><br>Provider: ${t.provider}<br>Type: ${t.radio}<br>Cell ID: ${t.cell_id}`)
+                            .addTo(triangulationLayer);
+                            
+                        L.circle([t.lat, t.lon], {
+                            radius: t.radius_m,
+                            color: '#ef4444',
+                            weight: 2,
+                            fillColor: '#ef4444',
+                            fillOpacity: 0.1,
+                            className: 'radar-pulse'
+                        }).addTo(triangulationLayer);
+                        
+                        popupHtml += `Tower ${i+1} [${t.provider}]: ${t.distance_m.toFixed(1)}m<br>`;
+                    });
+                    
+                    popupHtml += `</div>`;
+                    targetMarker.bindPopup(popupHtml).openPopup();
+                    map.flyTo([data.target.lat, data.target.lon], 15);
+                }
+            } catch (err) {
+                console.error("Triangulation failed:", err);
+            }
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').innerText = "Loading local data from Python API...";
+            toggleTriangulateMode();
+        });
+
+        // -----------------------------------------------------
+        // Viewshed (Line-of-Sight) Logic
+        // -----------------------------------------------------
+        let viewshedMode = false;
+        let viewshedLayer = L.layerGroup().addTo(map);
+
+        function toggleViewshedMode() {
+            viewshedMode = !viewshedMode;
+            const icon = document.getElementById('viewshed-icon');
+            if (viewshedMode) {
+                icon.style.border = "2px solid #22c55e";
+                icon.style.background = "rgba(34, 197, 94, 0.5)";
+                document.getElementById('map').style.cursor = 'crosshair';
+                alert("Viewshed Mode Activated: Click anywhere to see what is visible from that point.");
+            } else {
+                icon.style.border = "none";
+                icon.style.background = "rgba(30, 30, 30, 0.9)";
+                document.getElementById('map').style.cursor = '';
+                viewshedLayer.clearLayers();
+            }
+        }
+
+        function getBearingAndDist(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const dist = R * c;
+            
+            const y = Math.sin(dLon) * Math.cos(lat2 * Math.PI/180);
+            const x = Math.cos(lat1 * Math.PI/180)*Math.sin(lat2 * Math.PI/180) - Math.sin(lat1 * Math.PI/180)*Math.cos(lat2 * Math.PI/180)*Math.cos(dLon);
+            let bearing = Math.atan2(y, x) * 180 / Math.PI;
+            return { dist, bearing: (bearing + 360) % 360 };
+        }
+        
+        function projectCoord(lat, lon, distance, bearing) {
+            const R = 6371e3;
+            const rad = distance / R;
+            const brng = bearing * Math.PI / 180;
+            const lat1 = lat * Math.PI / 180;
+            const lon1 = lon * Math.PI / 180;
+            
+            const lat2 = Math.asin(Math.sin(lat1)*Math.cos(rad) + Math.cos(lat1)*Math.sin(rad)*Math.cos(brng));
+            const lon2 = lon1 + Math.atan2(Math.sin(brng)*Math.sin(rad)*Math.cos(lat1), Math.cos(rad)-Math.sin(lat1)*Math.sin(lat2));
+            return [lat2 * 180 / Math.PI, lon2 * 180 / Math.PI];
+        }
+
+        map.on('click', async function(e) {
+            if (!viewshedMode) return;
+            
+            viewshedLayer.clearLayers();
+            const { lat, lng } = e.latlng;
+            
+            document.getElementById('loading').innerText = "Calculating Line of Sight...";
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                // Draw 500m visible area (green base)
+                L.circle([lat, lng], {
+                    radius: 500,
+                    color: '#22c55e',
+                    weight: 1,
+                    fillColor: '#22c55e',
+                    fillOpacity: 0.25
+                }).addTo(viewshedLayer);
+                
+                // Use circleMarker instead of default marker to avoid missing image 404s
+                L.circleMarker([lat, lng], {
+                    radius: 6,
+                    color: '#ffffff',
+                    weight: 2,
+                    fillColor: '#22c55e',
+                    fillOpacity: 1
+                }).addTo(viewshedLayer).bindPopup("Observer Point").openPopup();
+
+                const res = await fetch(`/api/buildings_radius?lat=${lat}&lon=${lng}&radius=500`);
+                const data = await res.json();
+                
+                if (data.features) {
+                    let obsHeight = 2.0; 
+                    // Check if clicked inside a building to set observer height
+                    data.features.forEach(f => {
+                        if (!f.geometry || !f.geometry.coordinates) return;
+                        let ring = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates[0][0] : f.geometry.coordinates[0];
+                        if (!ring) return;
+                        
+                        // point in polygon approximation via distance
+                        let b = getBearingAndDist(lat, lng, ring[0][1], ring[0][0]);
+                        if (b.dist < 20) {
+                            if (f.properties.height > obsHeight) obsHeight = f.properties.height + 2;
+                        }
+                    });
+
+                    data.features.forEach(f => {
+                        if (!f.geometry || !f.geometry.coordinates) return;
+                        const bHeight = f.properties.height || 5;
+                        
+                        if (bHeight > obsHeight) {
+                            let ring = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates[0][0] : f.geometry.coordinates[0];
+                            if (!ring) return;
+                            
+                            let shadowPoly = [];
+                            for (let i = 0; i < ring.length; i++) {
+                                shadowPoly.push([ring[i][1], ring[i][0]]);
+                            }
+                            for (let i = ring.length - 1; i >= 0; i--) {
+                                const b = getBearingAndDist(lat, lng, ring[i][1], ring[i][0]);
+                                // Cast shadow 800m away
+                                const proj = projectCoord(ring[i][1], ring[i][0], 800, b.bearing); 
+                                shadowPoly.push(proj);
+                            }
+                            
+                            L.polygon(shadowPoly, {
+                                color: '#000',
+                                weight: 0,
+                                fillColor: '#000',
+                                fillOpacity: 0.8
+                            }).addTo(viewshedLayer);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error("Viewshed failed:", err);
+            }
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').innerText = "Loading local data from Python API...";
+        });
+
+        // Collapse/expand the Map Layers panel
+        document.getElementById('controls-toggle').addEventListener('click', function () {
+            document.getElementById('controls').classList.toggle('collapsed');
+        });
+
+        // Initial setup
+        updateLayers();
+    </script>
+</body>
+
+</html>

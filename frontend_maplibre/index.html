@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangladesh 3D Geospatial Platform (MapLibre GL WebGL)</title>
+
+    <!-- MapLibre GL JS v4 (Hardware-Accelerated WebGL 60 FPS) -->
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+    <!-- Turf.js for advanced geometric calculations -->
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+    <style>
+        :root {
+            --bg-glass: rgba(15, 23, 42, 0.90);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --primary: #00e5ff;
+            --primary-glow: rgba(0, 229, 255, 0.35);
+            --accent: #d946ef;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #090d16;
+            color: var(--text-main);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .brand-badge {
+            pointer-events: auto;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .brand-badge h1 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00e5ff, #818cf8, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fps-pill {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .view-switcher {
+            pointer-events: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: absolute;
+            top: 70px;
+            left: 14px;
+            width: 360px;
+            z-index: 90;
+        }
+
+        .search-input-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-box input {
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 10px 14px 10px 38px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s;
+        }
+
+        .search-input-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 46px;
+            left: 0;
+            right: 0;
+            background: var(--bg-glass);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-item {
+            padding: 9px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .search-item:hover {
+            background: rgba(0, 229, 255, 0.15);
+        }
+
+        .search-item-title {
+            color: white;
+            font-weight: 600;
+        }
+
+        .search-item-sub {
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* Sidebar Panels */
+        .sidebar {
+            position: absolute;
+            top: 125px;
+            left: 14px;
+            width: 360px;
+            max-height: calc(100vh - 145px);
+            overflow-y: auto;
+            background: var(--bg-glass);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 14px;
+            z-index: 80;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .panel-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .section-header {
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--primary);
+            background: rgba(0, 229, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: rgba(0, 229, 255, 0.12);
+        }
+
+        .section-header .arrow {
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .section-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #e2e8f0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .layer-toggle input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        /* Simulation Controls */
+        .sim-select {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            padding: 9px 10px;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .sim-select:focus {
+            border-color: var(--primary);
+        }
+
+        .sim-card {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px dashed rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #00e5ff, #3b82f6);
+            color: #0f172a;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .stats-box {
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .stats-highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .btn-clear-all {
+            width: 100%;
+            padding: 6px 10px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .btn-clear-all:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #ef4444;
+        }
+
+        /* Floating Tool Quick Icons (Right side) */
+        .floating-tool-icons {
+            position: absolute;
+            top: 130px;
+            right: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 95;
+        }
+
+        .tool-icon-btn {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s;
+        }
+
+        .tool-icon-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        .tool-icon-btn.active {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+        }
+
+        /* 3D Viewport Controls (Bottom Right) */
+        .camera-controls {
+            position: absolute;
+            bottom: 24px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 90;
+        }
+
+        .cam-btn {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s;
+        }
+
+        .cam-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        /* MapLibre Popup Overrides */
+        .maplibregl-popup-content {
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass) !important;
+            border-radius: 10px !important;
+            color: white !important;
+            padding: 12px 14px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+            border-bottom-color: rgba(15, 23, 42, 0.95) !important;
+        }
+        .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+            border-top-color: rgba(15, 23, 42, 0.95) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <div class="brand-badge">
+            <span style="font-size: 20px;">🇧🇩</span>
+            <div>
+                <h1>Bangladesh 3D WebGL Platform</h1>
+                <div style="font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+                    <span>MapLibre GL v4 • 60 FPS GPU</span>
+                    <span class="fps-pill" id="fps-display">60 FPS</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-switcher">
+            <button class="nav-btn" onclick="toggle3DMode()" id="btn-3d-toggle">🏢 3D Tilt: ON</button>
+            <a href="/" class="nav-btn" title="Switch to 2D Leaflet Engine">🗺️ Switch to 2D Leaflet</a>
+        </div>
+    </div>
+
+    <!-- Geocoder Search Bar -->
+    <div class="search-container">
+        <div class="search-input-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="geocoder-input" placeholder="Search addresses, roads, POIs across Bangladesh..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+
+    <!-- Floating Right Quick Tool Icons -->
+    <div class="floating-tool-icons">
+        <button class="tool-icon-btn" id="icon-triangulate" onclick="quickSelectTool('triangulate')" title="Triangulate Suspect">🎯</button>
+        <button class="tool-icon-btn" id="icon-viewshed" onclick="quickSelectTool('viewshed')" title="Line-of-Sight (Viewshed)">🔭</button>
+    </div>
+
+    <!-- Floating Sidebar Controls -->
+    <div class="sidebar">
+
+        <!-- 1. Analytical Simulations Section -->
+        <div class="panel-section">
+            <div class="section-header" onclick="toggleAccordion(this)">
+                <span>⚡ Disaster & Crisis Simulator</span>
+                <span class="arrow">▾</span>
+            </div>
+            <div class="section-body">
+                <select class="sim-select" id="sim-tool-select" onchange="switchSimTool(this.value)">
+                    <option value="none">-- Select Simulation Tool --</option>
+                    <option value="epidemic">🦟 Dengue Epidemic Outbreak (SIR)</option>
+                    <option value="flood">🌊 Topographic Flood Inundation</option>
+                    <option value="disaster">🌪️ Cascading Disaster Failure</option>
+                    <option value="evacuate">🏃 Mass Evacuation Routing</option>
+                    <option value="traffic">🚗 Commuter Traffic Flow Simulation</option>
+                    <option value="dispatch">🚨 Emergency 999 Dispatch Navigation</option>
+                    <option value="megaproject">🏗️ Mega-Project Highway Simulator</option>
+                    <option value="transit">🚆 Live Train Tracker (Railway Network)</option>
+                    <option value="bus">🚌 Live Bus Tracker (London / SI Express)</option>
+                    <option value="tactical">🗺️ Tactical Point-to-Point Routing</option>
+                    <option value="triangulate">🎯 Cell Tower Triangulation</option>
+                    <option value="viewshed">🔭 Line-of-Sight Viewshed</option>
+                </select>
+
+                <!-- Tool Panels -->
+                <div id="sim-panel-container" style="display: none; flex-direction: column; gap: 8px;">
+
+                    <!-- Epidemic Panel -->
+                    <div class="sim-card" id="card-epidemic" style="display: none;">
+                        <span style="color: #ef4444; font-weight: bold;">🦟 Dengue SIR Epidemic Simulator</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click any district or neighborhood on the map to trigger an infection vector.</p>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <label style="font-size: 11px;">Zone Radius:</label>
+                            <input type="range" id="epi-radius" min="1" max="25" value="5" style="flex:1;" oninput="document.getElementById('epi-radius-val').innerText = this.value + ' km'">
+                            <span id="epi-radius-val" style="font-size: 11px; width: 35px;">5 km</span>
+                        </div>
+                        <div style="display: flex; gap: 4px; margin-top: 4px;">
+                            <button class="btn-action" style="flex:1; background:#22c55e;" onclick="playEpidemic()">▶ Play</button>
+                            <button class="btn-action" style="flex:1; background:#f59e0b;" onclick="pauseEpidemic()">⏸ Pause</button>
+                            <button class="btn-action" style="flex:1; background:#ef4444;" onclick="resetEpidemic()">⏹ Reset</button>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+                            <span>Day: <b id="epi-day-val" style="color:white;">0</b> / 30</span>
+                            <span id="epi-cases-val" style="color:#ef4444; font-weight:bold;">0 Active Cases</span>
+                        </div>
+                        <input type="range" id="epi-scrubber" min="0" max="30" value="0" style="width: 100%;" oninput="scrubEpidemic(this.value)">
+                    </div>
+
+                    <!-- Flood Panel -->
+                    <div class="sim-card" id="card-flood" style="display: none;">
+                        <span style="color: #00e5ff; font-weight: bold;">🌊 Topographic Flood Inundation</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click anywhere to generate a physical DEM flood mask based on SRTM elevation contours.</p>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <label style="font-size: 11px;">Water Rise:</label>
+                            <input type="range" id="flood-level" min="0.5" max="15.0" step="0.5" value="2.5" style="flex:1;" oninput="document.getElementById('flood-level-lbl').innerText = this.value + ' m'">
+                            <span id="flood-level-lbl" style="font-size: 11px; width: 40px;">2.5 m</span>
+                        </div>
+                        <div class="stats-box" id="flood-stats">Click on the map to trigger flood calculation.</div>
+                    </div>
+
+                    <!-- Disaster Panel -->
+                    <div class="sim-card" id="card-disaster" style="display: none;">
+                        <span style="color: #f97316; font-weight: bold;">🌪️ Disaster Resiliency Simulator</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Simulate an epicenter blast to calculate cascading grid failures and blackout zones.</p>
+                        <div class="stats-box" id="disaster-stats">Click anywhere to trigger blast epicenter.</div>
+                    </div>
+
+                    <!-- Evacuate Panel -->
+                    <div class="sim-card" id="card-evacuate" style="display: none;">
+                        <span style="color: #22c55e; font-weight: bold;">🏃 Mass Evacuation Routing</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Multi-source Dijkstra routing civilians to nearest operational hospitals.</p>
+                        <div class="stats-box" id="evacuate-stats">Click on danger zone to route evacuations.</div>
+                    </div>
+
+                    <!-- Traffic Panel -->
+                    <div class="sim-card" id="card-traffic" style="display: none;">
+                        <span style="color: #f59e0b; font-weight: bold;">🚗 Commuter Traffic Flow Simulation</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click map to set downtown destination hub and simulate commuter bottlenecks.</p>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <label style="font-size: 11px;">Commuters:</label>
+                            <input type="number" id="traffic-commuters" min="1000" max="200000" step="5000" value="50000" style="width: 80px; padding: 2px 4px; background: rgba(0,0,0,0.5); color:white; border: 1px solid #555; border-radius: 4px;">
+                        </div>
+                        <div style="display: flex; gap: 4px; margin-top: 4px;">
+                            <button class="btn-action" style="flex:1; background:#22c55e;" onclick="playTraffic()">▶ Play</button>
+                            <button class="btn-action" style="flex:1; background:#f59e0b;" onclick="pauseTraffic()">⏸ Pause</button>
+                            <button class="btn-action" style="flex:1; background:#ef4444;" onclick="resetTraffic()">⏹ Reset</button>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+                            <span>Time: <b id="traffic-time-val" style="color:white;">08:00 AM</b></span>
+                        </div>
+                        <input type="range" id="traffic-scrubber" min="0" max="15" value="0" style="width: 100%;" oninput="scrubTraffic(this.value)">
+                        <div class="stats-box" id="traffic-stats">Click destination hub on map.</div>
+                    </div>
+
+                    <!-- Dispatch Panel -->
+                    <div class="sim-card" id="card-dispatch" style="display: none;">
+                        <span style="color: #38bdf8; font-weight: bold;">🚨 Emergency 999 Dispatch</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Route nearest emergency vehicle (Medical, Fire, Police) to incident scene.</p>
+                        <select class="sim-select" id="dispatch-type" style="margin-top: 4px;">
+                            <option value="hospital">🚑 Medical (Ambulance)</option>
+                            <option value="fire_station">🚒 Fire Brigade</option>
+                            <option value="police">🚓 Police Rapid Action</option>
+                        </select>
+                        <div class="stats-box" id="dispatch-stats" style="margin-top: 6px;">Click incident location on map.</div>
+                    </div>
+
+                    <!-- Mega-Project Panel -->
+                    <div class="sim-card" id="card-megaproject" style="display: none;">
+                        <span style="color: #d946ef; font-weight: bold;">🏗️ Mega-Project Highway Simulator</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click points on the map to draw proposed expressway. Double click to finish.</p>
+                        <div style="display: flex; gap: 4px; margin-top: 4px;">
+                            <button class="btn-action" style="flex:1; background:#d946ef;" onclick="runMegaProjectSimulation()">Simulate Economic Impact</button>
+                            <button class="btn-action" style="flex:1; background:#64748b;" onclick="clearMegaProject()">Clear</button>
+                        </div>
+                        <div class="stats-box" id="mega-stats" style="margin-top: 6px;">Click on map to place highway nodes.</div>
+                    </div>
+
+                    <!-- Train Tracker Panel -->
+                    <div class="sim-card" id="card-transit" style="display: none;">
+                        <span style="color: #60a5fa; font-weight: bold;">🚆 Live Train Tracker</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Real-time Bangladesh Railway schedules and inter-city express train tracking.</p>
+                        <select class="sim-select" id="train-selector" onchange="updateTrainRouteSelection()">
+                            <option value="">Select a train...</option>
+                        </select>
+                        <select class="sim-select" id="train-direction" style="display:none;" onchange="updateTrainRouteSelection()">
+                        </select>
+                        <div class="stats-box" id="train-stats">Select a train to trace railway route.</div>
+                    </div>
+
+                    <!-- Bus Tracker Panel -->
+                    <div class="sim-card" id="card-bus" style="display: none;">
+                        <span style="color: #f97316; font-weight: bold;">🚌 Live Bus Tracker</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Inter-district luxury coach departures (London Express / SI Enterprise).</p>
+                        <select class="sim-select" id="bus-selector" onchange="updateBusRouteSelection()">
+                            <option value="">Select a bus route...</option>
+                        </select>
+                        <select class="sim-select" id="bus-direction" style="display:none;" onchange="updateBusRouteSelection()">
+                        </select>
+                        <div class="stats-box" id="bus-stats">Select route to trace bus trip.</div>
+                    </div>
+
+                    <!-- Tactical Routing Panel -->
+                    <div class="sim-card" id="card-tactical" style="display: none;">
+                        <span style="color: #22c55e; font-weight: bold;">🗺️ Tactical Shortest Path Routing</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Set start & end points to calculate optimal road navigation.</p>
+                        <div style="display: flex; gap: 4px; margin-top: 4px;">
+                            <button class="btn-action" id="btn-tactical-start" style="flex:1; background:#22c55e;" onclick="setTacticalMode('start')">Set Start (Green)</button>
+                            <button class="btn-action" id="btn-tactical-end" style="flex:1; background:#ef4444;" onclick="setTacticalMode('end')">Set End (Red)</button>
+                        </div>
+                        <div style="display: flex; gap: 4px; margin-top: 4px;">
+                            <button class="btn-action" style="flex:1;" onclick="findTacticalRoute()">Find Route</button>
+                            <button class="btn-action" style="flex:1; background:#64748b;" onclick="clearTacticalRoute()">Clear</button>
+                        </div>
+                        <div class="stats-box" id="tactical-stats" style="margin-top: 6px; max-height: 140px; overflow-y: auto;">Click 'Set Start' then click on map.</div>
+                    </div>
+
+                    <!-- Triangulate Panel -->
+                    <div class="sim-card" id="card-triangulate" style="display: none;">
+                        <span style="color: #a855f7; font-weight: bold;">🎯 Cell Tower Triangulation</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click anywhere to compute nearest 3 cell towers and estimate signal trilateration.</p>
+                        <div class="stats-box" id="triangulate-stats">Click map to locate target.</div>
+                    </div>
+
+                    <!-- Viewshed Panel -->
+                    <div class="sim-card" id="card-viewshed" style="display: none;">
+                        <span style="color: #10b981; font-weight: bold;">🔭 Line-of-Sight Viewshed</span>
+                        <p style="font-size: 11px; color: var(--text-muted);">Click observer point to compute building shadow occlusions within 500m.</p>
+                        <div class="stats-box" id="viewshed-stats">Click observer point on map.</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Hardware 3D Vector Layers Section -->
+        <div class="panel-section">
+            <div class="section-header" onclick="toggleAccordion(this)">
+                <span>🏙️ 3D Vector Layers (PostGIS)</span>
+                <span class="arrow">▾</span>
+            </div>
+            <div class="section-body">
+                <button class="btn-clear-all" onclick="clearAllVectorLayers()">⊘ Toggle Off All Layers</button>
+                <label class="layer-toggle"><input type="checkbox" id="chk-buildings-3d" checked onchange="toggleLayer('3d-buildings', this.checked)"> 🏢 3D Extruded Buildings (66.8M Shards)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-roads" checked onchange="toggleLayerGroup('roads', this.checked)"> 🛣️ Road Network (Arterial & Primary)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-ai-roads" onchange="toggleLayer('ai-roads-line', this.checked)"> 🔮 Meta AI Satellite Roads</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-hydrology" checked onchange="toggleLayerGroup('hydrology', this.checked)"> 🌊 Hydrology & Rivers</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-waterbodies" checked onchange="toggleLayer('waterbodies-fill', this.checked)"> 💧 Ponds, Haors & Lakes (411k Shard)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-railways" checked onchange="toggleLayer('railways-line', this.checked)"> 🛤️ Bangladesh Railway Network</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-power" checked onchange="toggleLayer('power-lines', this.checked)"> ⚡ Power Grid Infrastructure</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-gas" onchange="toggleGasPipelines(this.checked)"> 🔥 Gas Transmission Pipelines</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-gas-power" onchange="toggleGasPowerPlants(this.checked)"> 🏭 Gas Power Plants</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-celltowers" onchange="toggleLayer('celltowers-circle', this.checked)"> 📡 Cell Towers (230,680 Antennas)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-population" onchange="toggleLayer('population-fill', this.checked)"> 👥 Kontur Population Hexagons</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-contours" onchange="toggleLayer('contours-line', this.checked)"> ⛰️ SRTM Elevation Contours (551k)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-hillshade" onchange="toggleRasterLayer('hillshade-layer', this.checked)"> 🏔️ Elevation Vulnerability Hillshade</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-floodrisk" onchange="toggleRasterLayer('floodrisk-layer', this.checked)"> 🌊 JRC Surface Water Flood Risk</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-pois" onchange="toggleLayer('pois-circle', this.checked)"> 📍 POIs & Commercial Places</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-overture" onchange="toggleLayer('overture-circle', this.checked)"> 🏬 Overture Places (482k Shard)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-transport" onchange="toggleLayer('transport-circle', this.checked)"> 🚏 Public Transport Terminals</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-airports" onchange="toggleLayer('airports-circle', this.checked)"> ✈️ Airports & Aerodromes</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-helipads" onchange="toggleLayer('helipads-circle', this.checked)"> 🚁 Helipads</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-addresses" onchange="toggleLayer('addresses-circle', this.checked)"> 🏠 Street Addresses</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-neighborhoods" onchange="toggleLayer('neighborhoods-line', this.checked)"> 🏘️ Neighborhoods (WOF)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-landuse" onchange="toggleLayer('landuse-fill', this.checked)"> 🌳 Land Use (Parks, Forests)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-districts" checked onchange="toggleLayer('districts-line', this.checked)"> 🗺️ 64 Administrative Districts</label>
+            </div>
+        </div>
+
+        <!-- 3. Real-Time Tracking Feeds -->
+        <div class="panel-section">
+            <div class="section-header" onclick="toggleAccordion(this)">
+                <span>🛰️ Live Telemetry & Feeds</span>
+                <span class="arrow">▾</span>
+            </div>
+            <div class="section-body">
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-flights" onchange="toggleLiveFlights(this.checked)"> ✈️ Live Airspace Flights (OpenSky)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-ships" onchange="toggleLiveShips(this.checked)"> 🚢 AIS Commercial Vessels (Bay of Bengal)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-quakes" onchange="toggleLiveQuakes(this.checked)"> 🌐 Live Earthquakes (USGS)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-satellites" onchange="toggleLiveSatellites(this.checked)"> 🛰️ Satellites (ISS, Starlink, NOAA)</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-ffwc" onchange="toggleLiveFFWC(this.checked)"> 🌊 FFWC Flood Warning Gauges</label>
+                <label class="layer-toggle"><input type="checkbox" id="chk-live-disasters" onchange="toggleLiveDisasters(this.checked)"> 🌀 GDACS Disaster Alerts</label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Camera Control Buttons (Bottom Right) -->
+    <div class="camera-controls">
+        <button class="cam-btn" onclick="resetNorth()" title="Reset North">🧭</button>
+        <button class="cam-btn" onclick="tiltUp()" title="Tilt Up">📐</button>
+        <button class="cam-btn" onclick="map.zoomIn()" title="Zoom In">➕</button>
+        <button class="cam-btn" onclick="map.zoomOut()" title="Zoom Out">➖</button>
+    </div>
+
+    <script>
+        // -------------------------------------------------------------
+        // Accordion Toggle Logic (Fix for closing / opening)
+        // -------------------------------------------------------------
+        function toggleAccordion(header) {
+            const body = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+            if (body.style.display === 'none') {
+                body.style.display = 'flex';
+                if (arrow) arrow.innerText = '▾';
+            } else {
+                body.style.display = 'none';
+                if (arrow) arrow.innerText = '▸';
+            }
+        }
+
+        // -------------------------------------------------------------
+        // MapLibre GL JS Hardware-Accelerated 3D Map Setup
+        // -------------------------------------------------------------
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'basemap_source': {
+                        type: 'raster',
+                        tiles: ['/api/tiles/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        maxzoom: 18
+                    },
+                    'hillshade_source': {
+                        type: 'raster',
+                        tiles: ['/api/hillshade/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        maxzoom: 18
+                    },
+                    'floodrisk_source': {
+                        type: 'raster',
+                        tiles: ['/api/floodtiles/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        maxzoom: 18
+                    }
+                },
+                layers: [
+                    {
+                        id: 'basemap-tiles',
+                        type: 'raster',
+                        source: 'basemap_source',
+                        paint: { 'raster-fade-duration': 100 }
+                    },
+                    {
+                        id: 'hillshade-layer',
+                        type: 'raster',
+                        source: 'hillshade_source',
+                        layout: { visibility: 'none' },
+                        paint: { 'raster-opacity': 0.65 }
+                    },
+                    {
+                        id: 'floodrisk-layer',
+                        type: 'raster',
+                        source: 'floodrisk_source',
+                        layout: { visibility: 'none' },
+                        paint: { 'raster-opacity': 0.6 }
+                    }
+                ]
+            },
+            center: [90.4125, 23.8103], // Dhaka Center
+            zoom: 13.8,
+            pitch: 50, // 3D Tilt
+            bearing: -15,
+            antialias: true
+        });
+
+        // Add MapLibre navigation controls
+        map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+
+        // FPS Counter
+        let frameCount = 0;
+        let lastTime = performance.now();
+        function updateFPS() {
+            frameCount++;
+            const now = performance.now();
+            if (now - lastTime >= 1000) {
+                const fps = Math.round((frameCount * 1000) / (now - lastTime));
+                const fpsEl = document.getElementById('fps-display');
+                if (fpsEl) fpsEl.innerText = `${fps} FPS`;
+                frameCount = 0;
+                lastTime = now;
+            }
+            requestAnimationFrame(updateFPS);
+        }
+        requestAnimationFrame(updateFPS);
+
+        // -------------------------------------------------------------
+        // Load Vector Sources & GPU Layers on Map Ready
+        // -------------------------------------------------------------
+        map.on('load', () => {
+
+            // Vector Sources
+            map.addSource('roads_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/roads/{z}/{x}/{y}.pbf'],
+                minzoom: 6,
+                maxzoom: 18
+            });
+
+            map.addSource('ai_roads_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/ai_roads/{z}/{x}/{y}.pbf'],
+                minzoom: 13,
+                maxzoom: 18
+            });
+
+            map.addSource('buildings_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/buildings/{z}/{x}/{y}.pbf'],
+                minzoom: 13,
+                maxzoom: 18
+            });
+
+            map.addSource('hydrology_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/hydrology/{z}/{x}/{y}.pbf'],
+                minzoom: 6,
+                maxzoom: 18
+            });
+
+            map.addSource('waterbodies_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/waterbodies/{z}/{x}/{y}.pbf'],
+                minzoom: 12,
+                maxzoom: 18
+            });
+
+            map.addSource('railways_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/railways/{z}/{x}/{y}.pbf'],
+                minzoom: 6,
+                maxzoom: 18
+            });
+
+            map.addSource('power_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/power_grid/{z}/{x}/{y}.pbf'],
+                minzoom: 6,
+                maxzoom: 18
+            });
+
+            map.addSource('celltowers_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2'],
+                minzoom: 12,
+                maxzoom: 18
+            });
+
+            map.addSource('population_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/population/{z}/{x}/{y}.pbf'],
+                minzoom: 11,
+                maxzoom: 18
+            });
+
+            map.addSource('contours_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/contours/{z}/{x}/{y}.pbf'],
+                minzoom: 11,
+                maxzoom: 18
+            });
+
+            map.addSource('pois_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/pois/{z}/{x}/{y}.pbf'],
+                minzoom: 13,
+                maxzoom: 18
+            });
+
+            map.addSource('overture_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/overture/{z}/{x}/{y}.pbf'],
+                minzoom: 13,
+                maxzoom: 18
+            });
+
+            map.addSource('transport_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/transport/{z}/{x}/{y}.pbf'],
+                minzoom: 12,
+                maxzoom: 18
+            });
+
+            map.addSource('airports_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/airports/{z}/{x}/{y}.pbf'],
+                minzoom: 8,
+                maxzoom: 18
+            });
+
+            map.addSource('helipads_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/helipads/{z}/{x}/{y}.pbf'],
+                minzoom: 10,
+                maxzoom: 18
+            });
+
+            map.addSource('addresses_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/addresses/{z}/{x}/{y}.pbf'],
+                minzoom: 14,
+                maxzoom: 18
+            });
+
+            map.addSource('neighborhoods_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/neighborhoods/{z}/{x}/{y}.pbf'],
+                minzoom: 6,
+                maxzoom: 18
+            });
+
+            map.addSource('landuse_src', {
+                type: 'vector',
+                tiles: ['/api/mvt/landuse/{z}/{x}/{y}.pbf'],
+                minzoom: 13,
+                maxzoom: 18
+            });
+
+            // Hardware Layers (WebGL Shaders)
+
+            // Hydrology
+            map.addLayer({
+                id: 'hydrology-fill',
+                type: 'fill',
+                source: 'hydrology_src',
+                'source-layer': 'hydrology',
+                paint: {
+                    'fill-color': '#0284c7',
+                    'fill-opacity': 0.6
+                }
+            });
+
+            map.addLayer({
+                id: 'hydrology-line',
+                type: 'line',
+                source: 'hydrology_src',
+                'source-layer': 'hydrology',
+                paint: {
+                    'line-color': '#38bdf8',
+                    'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1, 14, 3],
+                    'line-opacity': 0.8
+                }
+            });
+
+            // Waterbodies (Ponds, Haors, Lakes - 411k Shard)
+            map.addLayer({
+                id: 'waterbodies-fill',
+                type: 'fill',
+                source: 'waterbodies_src',
+                'source-layer': 'waterbodies',
+                paint: {
+                    'fill-color': '#0369a1',
+                    'fill-opacity': 0.65
+                }
+            });
+
+            // Population Density Choropleth
+            map.addLayer({
+                id: 'population-fill',
+                type: 'fill',
+                source: 'population_src',
+                'source-layer': 'population',
+                layout: { visibility: 'none' },
+                paint: {
+                    'fill-color': [
+                        'step', ['get', 'population'],
+                        '#fef08a', 20,
+                        '#f59e0b', 100,
+                        '#ea580c', 500,
+                        '#dc2626', 2000,
+                        '#7f1d1d'
+                    ],
+                    'fill-opacity': 0.6
+                }
+            });
+
+            // Elevation Contours
+            map.addLayer({
+                id: 'contours-line',
+                type: 'line',
+                source: 'contours_src',
+                'source-layer': 'contours',
+                layout: { visibility: 'none' },
+                paint: {
+                    'line-color': '#d97706',
+                    'line-width': 1.2,
+                    'line-opacity': 0.7
+                }
+            });
+
+            // Railways
+            map.addLayer({
+                id: 'railways-line',
+                type: 'line',
+                source: 'railways_src',
+                'source-layer': 'railways',
+                paint: {
+                    'line-color': '#ef4444',
+                    'line-width': 2.5,
+                    'line-dasharray': [4, 2]
+                }
+            });
+
+            // Power Grid
+            map.addLayer({
+                id: 'power-lines',
+                type: 'line',
+                source: 'power_src',
+                'source-layer': 'power_grid',
+                paint: {
+                    'line-color': '#facc15',
+                    'line-width': 2,
+                    'line-opacity': 0.85
+                }
+            });
+
+            // Roads (Class-based rendering)
+            map.addLayer({
+                id: 'roads-casing',
+                type: 'line',
+                source: 'roads_src',
+                'source-layer': 'roads',
+                paint: {
+                    'line-color': '#0f172a',
+                    'line-width': ['interpolate', ['linear'], ['zoom'], 8, 2, 14, 5],
+                    'line-opacity': 0.4
+                }
+            });
+
+            map.addLayer({
+                id: 'roads-inner',
+                type: 'line',
+                source: 'roads_src',
+                'source-layer': 'roads',
+                paint: {
+                    'line-color': [
+                        'match', ['get', 'fclass'],
+                        'motorway', '#ffaa00',
+                        'trunk', '#ffaa00',
+                        'primary', '#00e5ff',
+                        'secondary', '#00ff88',
+                        '#64748b'
+                    ],
+                    'line-width': [
+                        'match', ['get', 'fclass'],
+                        'motorway', 3.5,
+                        'trunk', 3.2,
+                        'primary', 2.5,
+                        'secondary', 1.8,
+                        1.0
+                    ],
+                    'line-opacity': 0.85
+                }
+            });
+
+            // Meta AI Roads
+            map.addLayer({
+                id: 'ai-roads-line',
+                type: 'line',
+                source: 'ai_roads_src',
+                'source-layer': 'ai_roads',
+                layout: { visibility: 'none' },
+                paint: {
+                    'line-color': '#ff00ff',
+                    'line-width': 2,
+                    'line-opacity': 0.85,
+                    'line-dasharray': [3, 2]
+                }
+            });
+
+            // 3D Extruded Buildings (Hardware Fill-Extrusion on GPU)
+            map.addLayer({
+                id: '3d-buildings',
+                type: 'fill-extrusion',
+                source: 'buildings_src',
+                'source-layer': 'buildings',
+                paint: {
+                    'fill-extrusion-color': [
+                        'interpolate', ['linear'], ['coalesce', ['get', 'height'], 8],
+                        0, '#1e293b',
+                        15, '#0ea5e9',
+                        35, '#6366f1',
+                        75, '#a855f7',
+                        120, '#ec4899'
+                    ],
+                    'fill-extrusion-height': ['coalesce', ['get', 'height'], 8],
+                    'fill-extrusion-base': 0,
+                    'fill-extrusion-opacity': 0.85
+                }
+            });
+
+            // Cell Towers
+            map.addLayer({
+                id: 'celltowers-circle',
+                type: 'circle',
+                source: 'celltowers_src',
+                'source-layer': 'celltowers',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': ['interpolate', ['linear'], ['zoom'], 12, 3, 16, 7],
+                    'circle-color': [
+                        'match', ['get', 'radio'],
+                        'LTE', '#a855f7',
+                        'UMTS', '#ec4899',
+                        'GSM', '#f97316',
+                        '#ef4444'
+                    ],
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            // POIs
+            map.addLayer({
+                id: 'pois-circle',
+                type: 'circle',
+                source: 'pois_src',
+                'source-layer': 'pois',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 5,
+                    'circle-color': '#3b82f6',
+                    'circle-stroke-width': 1.5,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            // Overture Places
+            map.addLayer({
+                id: 'overture-circle',
+                type: 'circle',
+                source: 'overture_src',
+                'source-layer': 'overture',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#ffaa00',
+                    'circle-stroke-width': 1.5,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            // Land Use
+            map.addLayer({
+                id: 'landuse-fill',
+                type: 'fill',
+                source: 'landuse_src',
+                'source-layer': 'landuse',
+                layout: { visibility: 'none' },
+                paint: {
+                    'fill-color': '#22c55e',
+                    'fill-opacity': 0.35
+                }
+            });
+
+            // Neighborhoods
+            map.addLayer({
+                id: 'neighborhoods-line',
+                type: 'line',
+                source: 'neighborhoods_src',
+                'source-layer': 'neighborhoods',
+                layout: { visibility: 'none' },
+                paint: {
+                    'line-color': '#a855f7',
+                    'line-width': 1.5,
+                    'line-opacity': 0.7
+                }
+            });
+
+            // Addresses
+            map.addLayer({
+                id: 'addresses-circle',
+                type: 'circle',
+                source: 'addresses_src',
+                'source-layer': 'addresses',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 4,
+                    'circle-color': '#FFD700',
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#000000'
+                }
+            });
+
+            // Public Transport
+            map.addLayer({
+                id: 'transport-circle',
+                type: 'circle',
+                source: 'transport_src',
+                'source-layer': 'transport',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 5,
+                    'circle-color': '#ffd700',
+                    'circle-stroke-width': 1.5,
+                    'circle-stroke-color': '#000000'
+                }
+            });
+
+            // Airports
+            map.addLayer({
+                id: 'airports-circle',
+                type: 'circle',
+                source: 'airports_src',
+                'source-layer': 'airports',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 8,
+                    'circle-color': '#00ffff',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            // Helipads
+            map.addLayer({
+                id: 'helipads-circle',
+                type: 'circle',
+                source: 'helipads_src',
+                'source-layer': 'helipads',
+                layout: { visibility: 'none' },
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#ff00ff',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#ffffff'
+                }
+            });
+
+            // Load Districts GeoJSON
+            fetch('/api/districts')
+                .then(r => r.json())
+                .then(data => {
+                    map.addSource('districts_src', { type: 'geojson', data: data });
+                    map.addLayer({
+                        id: 'districts-line',
+                        type: 'line',
+                        source: 'districts_src',
+                        paint: {
+                            'line-color': '#94a3b8',
+                            'line-width': 1.5,
+                            'line-opacity': 0.6,
+                            'line-dasharray': [3, 2]
+                        }
+                    });
+                })
+                .catch(err => console.log('Districts load error:', err));
+
+            // Load Gas Infrastructure (Pipelines and Power Plants)
+            loadGasInfra();
+
+            // Load Train & Bus schedules for Transit Simulators
+            loadTransitData();
+
+            // Setup Hover & Click Popups
+            setupInteractivity();
+        });
+
+        // -------------------------------------------------------------
+        // Gas Pipelines & Power Plants
+        // -------------------------------------------------------------
+        function loadGasInfra() {
+            fetch('/api/gas_pipelines')
+                .then(r => r.json())
+                .then(fc => {
+                    map.addSource('gas_pipelines_src', { type: 'geojson', data: fc });
+                    map.addLayer({
+                        id: 'gas-pipelines-line',
+                        type: 'line',
+                        source: 'gas_pipelines_src',
+                        layout: { visibility: 'none' },
+                        paint: { 'line-color': '#ff8800', 'line-width': 3, 'line-opacity': 0.9 }
+                    });
+                });
+
+            fetch('/api/gas_power_plants')
+                .then(r => r.json())
+                .then(fc => {
+                    map.addSource('gas_power_src', { type: 'geojson', data: fc });
+                    map.addLayer({
+                        id: 'gas-power-sym',
+                        type: 'circle',
+                        source: 'gas_power_src',
+                        layout: { visibility: 'none' },
+                        paint: { 'circle-radius': 7, 'circle-color': '#ff00ff', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }
+                    });
+                });
+        }
+
+        let disastersTimer = null;
+        let disastersMarkers = [];
+
+        function toggleLiveDisasters(visible) {
+            if (disastersTimer) { clearInterval(disastersTimer); disastersTimer = null; }
+            disastersMarkers.forEach(m => m.remove());
+            disastersMarkers = [];
+            if (!visible) return;
+
+            fetchDisasters();
+            disastersTimer = setInterval(fetchDisasters, 60000);
+        }
+
+        function fetchDisasters() {
+            fetch('/api/disasters')
+                .then(r => r.json())
+                .then(data => {
+                    disastersMarkers.forEach(m => m.remove());
+                    disastersMarkers = [];
+                    const items = data.disasters || [];
+                    items.forEach(d => {
+                        const el = document.createElement('div');
+                        el.style.fontSize = '22px';
+                        el.style.cursor = 'pointer';
+                        el.innerText = '⚠️';
+                        const marker = new maplibregl.Marker({ element: el })
+                            .setLngLat([d.longitude || d.lon, d.latitude || d.lat])
+                            .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`<b>${d.eventname || 'Disaster Alert'}</b><br>Type: ${d.eventtype || 'Crisis'}<br>Severity: ${d.alertlevel || 'Warning'}`))
+                            .addTo(map);
+                        disastersMarkers.push(marker);
+                    });
+                })
+                .catch(e => console.log('Disaster feed err:', e));
+        }
+
+        function toggleGasPipelines(visible) { toggleLayer('gas-pipelines-line', visible); }
+        function toggleGasPowerPlants(visible) { toggleLayer('gas-power-sym', visible); }
+
+        // -------------------------------------------------------------
+        // Popup & Interactive Handlers
+        // -------------------------------------------------------------
+        const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: true, maxWidth: '320px' });
+
+        function setupInteractivity() {
+            // Cell Towers Popup
+            map.on('click', 'celltowers-circle', (e) => {
+                const props = e.features[0].properties;
+                const coords = e.lngLat;
+                popup.setLngLat(coords).setHTML(`
+                    <b style="color:#a855f7;">📡 Cell Tower (${props.radio || 'Cellular'})</b><br>
+                    <b>Operator:</b> MCC:${props.mcc} MNC:${props.mnc}<br>
+                    <b>Location:</b> ${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}<br>
+                    <b>Cell ID:</b> ${props.cid} • LAC: ${props.lac}<br>
+                    <b>Signal Range:</b> ${props.range || 1000} m
+                `).addTo(map);
+            });
+
+            // 3D Buildings Popup
+            map.on('click', '3d-buildings', (e) => {
+                const props = e.features[0].properties;
+                const name = props.name || 'Building';
+                const height = props.height || '8.0';
+                popup.setLngLat(e.lngLat).setHTML(`
+                    <b style="color:#38bdf8;">🏢 ${name}</b><br>
+                    <b>Extruded Height:</b> ${height} m<br>
+                    <b>Source:</b> OpenStreetMap / Overture Shard
+                `).addTo(map);
+            });
+
+            // POIs Popup
+            map.on('click', 'pois-circle', (e) => {
+                const props = e.features[0].properties;
+                popup.setLngLat(e.lngLat).setHTML(`
+                    <b style="color:#3b82f6;">📍 ${props.name || 'Unnamed Place'}</b><br>
+                    <b>Category:</b> ${props.fclass || 'POI'}
+                `).addTo(map);
+            });
+
+            // Pointer cursors
+            ['celltowers-circle', '3d-buildings', 'pois-circle', 'overture-circle'].forEach(layer => {
+                map.on('mouseenter', layer, () => map.getCanvas().style.cursor = 'pointer');
+                map.on('mouseleave', layer, () => map.getCanvas().style.cursor = '');
+            });
+        }
+
+        // -------------------------------------------------------------
+        // Layer Toggling Logic
+        // -------------------------------------------------------------
+        function toggleLayer(layerId, visible) {
+            if (map.getLayer(layerId)) {
+                map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none');
+            }
+        }
+
+        function toggleRasterLayer(layerId, visible) {
+            toggleLayer(layerId, visible);
+        }
+
+        function toggleLayerGroup(groupName, visible) {
+            if (groupName === 'roads') {
+                toggleLayer('roads-casing', visible);
+                toggleLayer('roads-inner', visible);
+            } else if (groupName === 'hydrology') {
+                toggleLayer('hydrology-fill', visible);
+                toggleLayer('hydrology-line', visible);
+            }
+        }
+
+        function clearAllVectorLayers() {
+            const checkboxes = document.querySelectorAll('.sidebar input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    cb.checked = false;
+                    cb.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        function toggle3DMode() {
+            const btn = document.getElementById('btn-3d-toggle');
+            const currentPitch = map.getPitch();
+            if (currentPitch > 10) {
+                map.easeTo({ pitch: 0, bearing: 0, duration: 800 });
+                btn.innerText = '🏢 3D Tilt: OFF';
+            } else {
+                map.easeTo({ pitch: 55, bearing: -20, duration: 800 });
+                btn.innerText = '🏢 3D Tilt: ON';
+            }
+        }
+
+        function resetNorth() {
+            map.easeTo({ bearing: 0, pitch: 0, duration: 600 });
+        }
+
+        function tiltUp() {
+            const current = map.getPitch();
+            const next = current >= 60 ? 0 : current + 20;
+            map.easeTo({ pitch: next, duration: 500 });
+        }
+
+        // -------------------------------------------------------------
+        // Geocoder Search Logic
+        // -------------------------------------------------------------
+        const geocoderInput = document.getElementById('geocoder-input');
+        const searchResults = document.getElementById('search-results');
+        let geocodeTimer = null;
+
+        geocoderInput.addEventListener('input', (e) => {
+            const q = e.target.value.trim();
+            clearTimeout(geocodeTimer);
+            if (q.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            geocodeTimer = setTimeout(() => {
+                fetch(`/api/geocode?q=${encodeURIComponent(q)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        const results = data.results || [];
+                        if (results.length === 0) {
+                            searchResults.innerHTML = '<div class="search-item"><span class="search-item-title">No matching locations found</span></div>';
+                            searchResults.style.display = 'block';
+                            return;
+                        }
+                        searchResults.innerHTML = results.map(item => `
+                            <div class="search-item" onclick="flyToLocation(${item.lon}, ${item.lat}, '${escape(item.label)}')">
+                                <span class="search-item-title">${item.label}</span>
+                                <span class="search-item-sub">Type: ${item.source.toUpperCase()} • Lon: ${item.lon.toFixed(4)}, Lat: ${item.lat.toFixed(4)}</span>
+                            </div>
+                        `).join('');
+                        searchResults.style.display = 'block';
+                    })
+                    .catch(err => console.error('Geocode error:', err));
+            }, 250);
+        });
+
+        function flyToLocation(lon, lat, label) {
+            searchResults.style.display = 'none';
+            geocoderInput.value = unescape(label);
+            map.flyTo({
+                center: [lon, lat],
+                zoom: 15.5,
+                pitch: 55,
+                bearing: -15,
+                duration: 1800
+            });
+            new maplibregl.Marker({ color: '#00e5ff' })
+                .setLngLat([lon, lat])
+                .addTo(map);
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!document.querySelector('.search-container').contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // -------------------------------------------------------------
+        // Analytical Simulation Tools Engine
+        // -------------------------------------------------------------
+        let activeSimTool = 'none';
+
+        function quickSelectTool(tool) {
+            const select = document.getElementById('sim-tool-select');
+            select.value = tool;
+            switchSimTool(tool);
+            // Toggle active state on icon
+            document.querySelectorAll('.tool-icon-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`icon-${tool}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function switchSimTool(tool) {
+            activeSimTool = tool;
+            const container = document.getElementById('sim-panel-container');
+            const cards = [
+                'card-epidemic', 'card-flood', 'card-disaster', 'card-evacuate', 
+                'card-traffic', 'card-dispatch', 'card-megaproject', 'card-transit', 
+                'card-bus', 'card-tactical', 'card-triangulate', 'card-viewshed'
+            ];
+            
+            cards.forEach(c => {
+                const el = document.getElementById(c);
+                if (el) el.style.display = 'none';
+            });
+
+            if (tool === 'none') {
+                container.style.display = 'none';
+                clearSimulationLayers();
+                return;
+            }
+
+            container.style.display = 'flex';
+            const activeCard = document.getElementById(`card-${tool}`);
+            if (activeCard) activeCard.style.display = 'flex';
+
+            clearSimulationLayers();
+        }
+
+        function clearSimulationLayers() {
+            ['sim_result_layer', 'sim_routes_layer', 'sim_polys_layer', 'sim_traffic_layer', 'mega_line_layer'].forEach(l => {
+                if (map.getLayer(l)) map.removeLayer(l);
+            });
+            ['sim_result_src', 'sim_routes_src', 'sim_polys_src', 'sim_traffic_src', 'mega_line_src'].forEach(s => {
+                if (map.getSource(s)) map.removeSource(s);
+            });
+            document.querySelectorAll('.sim-marker').forEach(m => m.remove());
+        }
+
+        // Global Map Click Handler for Simulation Tools
+        map.on('click', (e) => {
+            if (activeSimTool === 'none') return;
+            const lat = e.lngLat.lat;
+            const lon = e.lngLat.lng;
+
+            if (activeSimTool === 'epidemic') {
+                runEpidemicSimulation(lat, lon);
+            } else if (activeSimTool === 'flood') {
+                runFloodSimulation(lat, lon);
+            } else if (activeSimTool === 'disaster') {
+                runDisasterSimulation(lat, lon);
+            } else if (activeSimTool === 'evacuate') {
+                runEvacuationSimulation(lat, lon);
+            } else if (activeSimTool === 'traffic') {
+                runTrafficSimulation(lat, lon);
+            } else if (activeSimTool === 'dispatch') {
+                runDispatch(lat, lon);
+            } else if (activeSimTool === 'megaproject') {
+                handleMegaProjectClick(lat, lon);
+            } else if (activeSimTool === 'tactical') {
+                handleTacticalClick(lat, lon);
+            } else if (activeSimTool === 'triangulate') {
+                runTriangulation(lat, lon);
+            } else if (activeSimTool === 'viewshed') {
+                runViewshed(lat, lon);
+            }
+        });
+
+        // 1. Epidemic Outbreak Simulation
+        let epidemicData = null;
+        let epidemicTimer = null;
+        let currentEpiDay = 0;
+
+        function runEpidemicSimulation(lat, lon) {
+            const radius = parseFloat(document.getElementById('epi-radius').value);
+            document.getElementById('epi-cases-val').innerText = 'Simulating Outbreak...';
+
+            fetch('/api/simulate_epidemic', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, radius_km: radius, days: 30 })
+            })
+            .then(r => r.json())
+            .then(fc => {
+                if (!fc.features || fc.features.length === 0) {
+                    alert('No population hexes found in selected zone.');
+                    return;
+                }
+                epidemicData = fc;
+                currentEpiDay = 0;
+                document.getElementById('epi-scrubber').value = 0;
+                renderEpidemicDay(0);
+                playEpidemic();
+            })
+            .catch(err => console.error('Epidemic error:', err));
+        }
+
+        function renderEpidemicDay(day) {
+            if (!epidemicData) return;
+            currentEpiDay = day;
+            document.getElementById('epi-day-val').innerText = day;
+
+            let totalCases = 0;
+            const dayGeoJSON = {
+                type: 'FeatureCollection',
+                features: epidemicData.features.map(f => {
+                    const cases = f.properties.history[day] || 0;
+                    totalCases += cases;
+                    return {
+                        type: 'Feature',
+                        geometry: f.geometry,
+                        properties: { active_cases: cases, population: f.properties.population }
+                    };
+                })
+            };
+
+            document.getElementById('epi-cases-val').innerText = `${totalCases.toLocaleString()} Active Cases`;
+
+            if (map.getSource('sim_polys_src')) {
+                map.getSource('sim_polys_src').setData(dayGeoJSON);
+            } else {
+                map.addSource('sim_polys_src', { type: 'geojson', data: dayGeoJSON });
+                map.addLayer({
+                    id: 'sim_polys_layer',
+                    type: 'fill',
+                    source: 'sim_polys_src',
+                    paint: {
+                        'fill-color': [
+                            'interpolate', ['linear'], ['get', 'active_cases'],
+                            0, 'rgba(0,0,0,0)',
+                            1, '#fef08a',
+                            20, '#f97316',
+                            80, '#ef4444',
+                            200, '#7f1d1d'
+                        ],
+                        'fill-opacity': 0.75
+                    }
+                });
+            }
+        }
+
+        function playEpidemic() {
+            if (epidemicTimer) clearInterval(epidemicTimer);
+            epidemicTimer = setInterval(() => {
+                if (currentEpiDay < 29) {
+                    currentEpiDay++;
+                    document.getElementById('epi-scrubber').value = currentEpiDay;
+                    renderEpidemicDay(currentEpiDay);
+                } else {
+                    pauseEpidemic();
+                }
+            }, 350);
+        }
+
+        function pauseEpidemic() {
+            if (epidemicTimer) clearInterval(epidemicTimer);
+            epidemicTimer = null;
+        }
+
+        function resetEpidemic() {
+            pauseEpidemic();
+            currentEpiDay = 0;
+            document.getElementById('epi-scrubber').value = 0;
+            renderEpidemicDay(0);
+        }
+
+        function scrubEpidemic(val) {
+            pauseEpidemic();
+            renderEpidemicDay(parseInt(val));
+        }
+
+        // 2. Flood Simulation
+        function runFloodSimulation(lat, lon) {
+            const level = parseFloat(document.getElementById('flood-level').value);
+            const statsBox = document.getElementById('flood-stats');
+            statsBox.innerHTML = 'Calculating DEM inundation across spatial building shards...';
+
+            fetch('/api/simulate_flood', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, radius_km: 2.5, water_level: level })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') {
+                    statsBox.innerHTML = `<span style="color:#ef4444;">Error: ${res.error || 'Failed'}</span>`;
+                    return;
+                }
+                const st = res.stats;
+                statsBox.innerHTML = `
+                    <b style="color:#00e5ff;">Flood Impact Analysis:</b><br>
+                    • Damaged Buildings: <span class="stats-highlight">${st.buildings}</span><br>
+                    • Submerged Roads: <span class="stats-highlight">${st.roads_km} km</span><br>
+                    • Displaced Residents: <span class="stats-highlight">${(st.population || 0).toLocaleString()}</span><br>
+                    • Compute Latency: <span class="stats-highlight">${st.calc_time}s</span>
+                `;
+
+                clearSimulationLayers();
+                map.addSource('sim_polys_src', { type: 'geojson', data: res.features.flood_zones });
+                map.addLayer({
+                    id: 'sim_polys_layer',
+                    type: 'fill',
+                    source: 'sim_polys_src',
+                    paint: {
+                        'fill-color': '#00bfff',
+                        'fill-opacity': 0.65
+                    }
+                });
+            })
+            .catch(err => { statsBox.innerHTML = 'Error computing flood simulation.'; });
+        }
+
+        // 3. Disaster Simulation
+        function runDisasterSimulation(lat, lon) {
+            const statsBox = document.getElementById('disaster-stats');
+            statsBox.innerHTML = 'Simulating grid cascading collapse...';
+
+            fetch('/api/simulate_disaster', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, radius_km: 5.0 })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') return;
+                const st = res.stats;
+                statsBox.innerHTML = `
+                    <b style="color:#f97316;">Epicenter Impact:</b><br>
+                    • Destroyed Power Lines: <span class="stats-highlight">${st.power_lines}</span><br>
+                    • Blocked Roads: <span class="stats-highlight">${st.roads}</span><br>
+                    • Dead Cell Towers: <span class="stats-highlight">${st.cell_towers}</span>
+                `;
+
+                clearSimulationLayers();
+                map.addSource('sim_routes_src', { type: 'geojson', data: res.features.roads });
+                map.addLayer({
+                    id: 'sim_routes_layer',
+                    type: 'line',
+                    source: 'sim_routes_src',
+                    paint: { 'line-color': '#ef4444', 'line-width': 4 }
+                });
+            });
+        }
+
+        // 4. Evacuation Simulation
+        function runEvacuationSimulation(lat, lon) {
+            const statsBox = document.getElementById('evacuate-stats');
+            statsBox.innerHTML = 'Computing multi-source Dijkstra routes...';
+
+            fetch('/api/evacuate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, radius_km: 3.0 })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') return;
+                statsBox.innerHTML = `
+                    <b style="color:#22c55e;">Evacuation Plan:</b><br>
+                    • Evacuees Routed: <span class="stats-highlight">${res.stats.civilians_evacuated}</span><br>
+                    • Safe Hospitals: <span class="stats-highlight">${res.stats.hospitals_utilized}</span><br>
+                    • Compute Time: <span class="stats-highlight">${res.stats.calculation_time_sec}s</span>
+                `;
+
+                clearSimulationLayers();
+                map.addSource('sim_routes_src', { type: 'geojson', data: res.features.evacuation_routes });
+                map.addLayer({
+                    id: 'sim_routes_layer',
+                    type: 'line',
+                    source: 'sim_routes_src',
+                    paint: { 'line-color': '#22c55e', 'line-width': 3 }
+                });
+            });
+        }
+
+        // 5. Traffic Flow Simulation
+        let trafficData = null;
+        let trafficTimer = null;
+        let currentTrafficBucket = 0;
+        const TIME_BUCKET_LABELS = [
+            '06:00 AM', '06:30 AM', '07:00 AM', '07:30 AM',
+            '08:00 AM', '08:30 AM', '09:00 AM', '09:30 AM',
+            '10:00 AM', '10:30 AM', '05:00 PM', '05:30 PM',
+            '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM'
+        ];
+
+        function runTrafficSimulation(lat, lon) {
+            const commuters = parseInt(document.getElementById('traffic-commuters').value);
+            const statsBox = document.getElementById('traffic-stats');
+            statsBox.innerHTML = 'Computing commuter bottleneck flow...';
+
+            fetch('/api/simulate_traffic', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, radius_km: 6.0, commuters: commuters })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') return;
+                trafficData = res;
+                statsBox.innerHTML = `
+                    <b style="color:#f59e0b;">Simulation Initialized:</b><br>
+                    • Commuters: <span class="stats-highlight">${commuters.toLocaleString()}</span><br>
+                    • Road Segments: <span class="stats-highlight">${res.features.length}</span>
+                `;
+                currentTrafficBucket = 0;
+                document.getElementById('traffic-scrubber').value = 0;
+                renderTrafficBucket(0);
+                playTraffic();
+            });
+        }
+
+        function renderTrafficBucket(bucket) {
+            if (!trafficData) return;
+            currentTrafficBucket = bucket;
+            document.getElementById('traffic-time-val').innerText = TIME_BUCKET_LABELS[bucket] || '08:00 AM';
+
+            const bucketGeoJSON = {
+                type: 'FeatureCollection',
+                features: trafficData.features.map(f => {
+                    const ratio = f.properties.history[bucket] || 0.1;
+                    return {
+                        type: 'Feature',
+                        geometry: f.geometry,
+                        properties: { congestion: ratio }
+                    };
+                })
+            };
+
+            if (map.getSource('sim_traffic_src')) {
+                map.getSource('sim_traffic_src').setData(bucketGeoJSON);
+            } else {
+                map.addSource('sim_traffic_src', { type: 'geojson', data: bucketGeoJSON });
+                map.addLayer({
+                    id: 'sim_traffic_layer',
+                    type: 'line',
+                    source: 'sim_traffic_src',
+                    paint: {
+                        'line-color': [
+                            'interpolate', ['linear'], ['get', 'congestion'],
+                            0.2, '#22c55e',
+                            0.6, '#facc15',
+                            1.0, '#f97316',
+                            1.4, '#ef4444'
+                        ],
+                        'line-width': [
+                            'interpolate', ['linear'], ['get', 'congestion'],
+                            0.2, 2,
+                            1.0, 4,
+                            1.4, 6
+                        ],
+                        'line-opacity': 0.85
+                    }
+                });
+            }
+        }
+
+        function playTraffic() {
+            if (trafficTimer) clearInterval(trafficTimer);
+            trafficTimer = setInterval(() => {
+                if (currentTrafficBucket < 15) {
+                    currentTrafficBucket++;
+                    document.getElementById('traffic-scrubber').value = currentTrafficBucket;
+                    renderTrafficBucket(currentTrafficBucket);
+                } else {
+                    pauseTraffic();
+                }
+            }, 500);
+        }
+
+        function pauseTraffic() {
+            if (trafficTimer) clearInterval(trafficTimer);
+            trafficTimer = null;
+        }
+
+        function resetTraffic() {
+            pauseTraffic();
+            currentTrafficBucket = 0;
+            document.getElementById('traffic-scrubber').value = 0;
+            renderTrafficBucket(0);
+        }
+
+        function scrubTraffic(val) {
+            pauseTraffic();
+            renderTrafficBucket(parseInt(val));
+        }
+
+        // 6. Emergency 999 Dispatch
+        function runDispatch(lat, lon) {
+            const type = document.getElementById('dispatch-type').value;
+            const statsBox = document.getElementById('dispatch-stats');
+            statsBox.innerHTML = 'Routing emergency responders...';
+
+            fetch('/api/simulate_dispatch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: lat, lon: lon, emergency_type: type })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') return;
+                const st = res.stats;
+                statsBox.innerHTML = `
+                    <b style="color:#38bdf8;">Dispatch Dispatched:</b><br>
+                    • Responding: <span class="stats-highlight">${st.station_name}</span><br>
+                    • Distance: <span class="stats-highlight">${st.distance_km} km</span><br>
+                    • ETA: <span class="stats-highlight">${st.eta_mins} mins</span>
+                `;
+
+                clearSimulationLayers();
+                map.addSource('sim_routes_src', { type: 'geojson', data: res });
+                map.addLayer({
+                    id: 'sim_routes_layer',
+                    type: 'line',
+                    source: 'sim_routes_src',
+                    paint: { 'line-color': '#00e5ff', 'line-width': 4 }
+                });
+            });
+        }
+
+        // 7. Mega-Project Highway Simulator
+        let megaCoords = [];
+        function handleMegaProjectClick(lat, lon) {
+            megaCoords.push([lat, lon]);
+            const statsBox = document.getElementById('mega-stats');
+            statsBox.innerHTML = `Highway nodes added: <b>${megaCoords.length}</b>. Click 'Simulate Economic Impact' when finished.`;
+
+            // Draw line
+            if (megaCoords.length >= 2) {
+                const lineGeoJSON = {
+                    type: 'Feature',
+                    geometry: { type: 'LineString', coordinates: megaCoords.map(c => [c[1], c[0]]) }
+                };
+                if (map.getSource('mega_line_src')) {
+                    map.getSource('mega_line_src').setData(lineGeoJSON);
+                } else {
+                    map.addSource('mega_line_src', { type: 'geojson', data: lineGeoJSON });
+                    map.addLayer({
+                        id: 'mega_line_layer',
+                        type: 'line',
+                        source: 'mega_line_src',
+                        paint: { 'line-color': '#d946ef', 'line-width': 5, 'line-dasharray': [2, 1] }
+                    });
+                }
+            }
+        }
+
+        function runMegaProjectSimulation() {
+            if (megaCoords.length < 2) {
+                alert('Please click at least 2 points on the map to draw your highway route.');
+                return;
+            }
+            const statsBox = document.getElementById('mega-stats');
+            statsBox.innerHTML = 'Injecting new highway & running Dijkstra economic matrix...';
+
+            fetch('/api/simulate_megaproject', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coordinates: megaCoords })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.code !== 'Ok') return;
+                const st = res.stats;
+                statsBox.innerHTML = `
+                    <b style="color:#d946ef;">Economic Feasibility Study:</b><br>
+                    • Baseline Travel Time: <span class="stats-highlight">${st.baseline_time} mins</span><br>
+                    • Post-Project Time: <span class="stats-highlight">${st.new_time} mins</span><br>
+                    • Delay Reduction: <span class="stats-highlight">${st.reduction_pct}%</span><br>
+                    • Annual Economy Saved: <span class="stats-highlight">$${st.annual_savings_mil} Million</span>
+                `;
+            });
+        }
+
+        function clearMegaProject() {
+            megaCoords = [];
+            document.getElementById('mega-stats').innerHTML = 'Click on map to place highway nodes.';
+            clearSimulationLayers();
+        }
+
+        // 8. Tactical Point-to-Point Routing
+        let tacticalMode = 'none';
+        let tacticalStart = null;
+        let tacticalEnd = null;
+
+        function setTacticalMode(mode) {
+            tacticalMode = mode;
+            document.getElementById('tactical-stats').innerHTML = `Click map to set <b>${mode.toUpperCase()}</b> point.`;
+        }
+
+        function handleTacticalClick(lat, lon) {
+            if (tacticalMode === 'start') {
+                tacticalStart = [lat, lon];
+                tacticalMode = 'none';
+                document.getElementById('tactical-stats').innerHTML = `Start set at ${lat.toFixed(4)}, ${lon.toFixed(4)}. Now click 'Set End'.`;
+                new maplibregl.Marker({ color: '#22c55e' }).setLngLat([lon, lat]).addTo(map);
+            } else if (tacticalMode === 'end') {
+                tacticalEnd = [lat, lon];
+                tacticalMode = 'none';
+                document.getElementById('tactical-stats').innerHTML = `End set at ${lat.toFixed(4)}, ${lon.toFixed(4)}. Now click 'Find Route'.`;
+                new maplibregl.Marker({ color: '#ef4444' }).setLngLat([lon, lat]).addTo(map);
+            }
+        }
+
+        function findTacticalRoute() {
+            if (!tacticalStart || !tacticalEnd) {
+                alert('Please set both Start (Green) and End (Red) coordinates first.');
+                return;
+            }
+            const statsBox = document.getElementById('tactical-stats');
+            statsBox.innerHTML = 'Calculating shortest path via pgRouting...';
+
+            fetch(`/api/route?slat=${tacticalStart[0]}&slon=${tacticalStart[1]}&elat=${tacticalEnd[0]}&elon=${tacticalEnd[1]}`)
+                .then(r => r.json())
+                .then(res => {
+                    if (res.error) {
+                        statsBox.innerHTML = `<span style="color:#ef4444;">${res.error}</span>`;
+                        return;
+                    }
+                    statsBox.innerHTML = `
+                        <b style="color:#22c55e;">Route Computed:</b><br>
+                        • Path Coordinates: <span class="stats-highlight">${res.geometry.coordinates.length} points</span>
+                    `;
+
+                    clearSimulationLayers();
+                    map.addSource('sim_routes_src', { type: 'geojson', data: res });
+                    map.addLayer({
+                        id: 'sim_routes_layer',
+                        type: 'line',
+                        source: 'sim_routes_src',
+                        paint: { 'line-color': '#00e5ff', 'line-width': 4 }
+                    });
+                });
+        }
+
+        function clearTacticalRoute() {
+            tacticalStart = null;
+            tacticalEnd = null;
+            tacticalMode = 'none';
+            document.getElementById('tactical-stats').innerHTML = 'Click Set Start to begin.';
+            clearSimulationLayers();
+        }
+
+        // 9. Triangulation
+        function runTriangulation(lat, lon) {
+            const statsBox = document.getElementById('triangulate-stats');
+            statsBox.innerHTML = 'Locating 3 nearest towers...';
+
+            fetch(`/api/triangulate?lat=${lat}&lon=${lon}`)
+                .then(r => r.json())
+                .then(data => {
+                    const towers = data.towers || [];
+                    statsBox.innerHTML = `
+                        <b style="color:#a855f7;">Trilateration Target:</b><br>
+                        ${towers.map(t => `• ${t.provider} (${t.radio}): ${Math.round(t.distance_m)}m`).join('<br>')}
+                    `;
+
+                    clearSimulationLayers();
+
+                    const el = document.createElement('div');
+                    el.className = 'sim-marker';
+                    el.style.fontSize = '24px';
+                    el.innerText = '🎯';
+                    new maplibregl.Marker({ element: el }).setLngLat([lon, lat]).addTo(map);
+
+                    const circles = towers.map(t => turf.circle([t.lon, t.lat], t.radius_m, { units: 'meters' }));
+                    map.addSource('sim_polys_src', { type: 'geojson', data: turf.featureCollection(circles) });
+                    map.addLayer({
+                        id: 'sim_polys_layer',
+                        type: 'line',
+                        source: 'sim_polys_src',
+                        paint: { 'line-color': '#a855f7', 'line-width': 2, 'line-dasharray': [3, 2] }
+                    });
+                });
+        }
+
+        // 10. Viewshed (Line-of-Sight)
+        function runViewshed(lat, lon) {
+            const statsBox = document.getElementById('viewshed-stats');
+            statsBox.innerHTML = 'Calculating building occlusions within 500m...';
+
+            fetch(`/api/buildings_radius?lat=${lat}&lon=${lon}&radius=500`)
+                .then(r => r.json())
+                .then(data => {
+                    statsBox.innerHTML = `
+                        <b style="color:#10b981;">Viewshed Computed:</b><br>
+                        • Buildings analyzed: <span class="stats-highlight">${data.features ? data.features.length : 0}</span>
+                    `;
+
+                    clearSimulationLayers();
+
+                    const circlePoly = turf.circle([lon, lat], 500, { units: 'meters' });
+                    map.addSource('sim_polys_src', { type: 'geojson', data: circlePoly });
+                    map.addLayer({
+                        id: 'sim_polys_layer',
+                        type: 'fill',
+                        source: 'sim_polys_src',
+                        paint: { 'fill-color': '#10b981', 'fill-opacity': 0.25 }
+                    });
+
+                    const el = document.createElement('div');
+                    el.className = 'sim-marker';
+                    el.style.fontSize = '22px';
+                    el.innerText = '👁️';
+                    new maplibregl.Marker({ element: el }).setLngLat([lon, lat]).addTo(map);
+                });
+        }
+
+        // 11. Train & Bus Schedules Setup
+        let trainSchedules = {};
+        let stationCoords = {};
+        let busSchedules = {};
+        let busCoords = {};
+
+        function loadTransitData() {
+            // Trains
+            fetch('/api/train_schedules')
+                .then(r => r.json())
+                .then(data => {
+                    trainSchedules = data;
+                    const sel = document.getElementById('train-selector');
+                    Object.keys(data).sort().forEach(slug => {
+                        const opt = document.createElement('option');
+                        opt.value = slug;
+                        opt.textContent = slug.replace(/_/g, ' ').toUpperCase();
+                        sel.appendChild(opt);
+                    });
+                });
+
+            fetch('/api/station_coords')
+                .then(r => r.json())
+                .then(data => { stationCoords = data; });
+
+            // Buses
+            Promise.all([
+                fetch('/api/bus_schedules?operator=si').then(r => r.json()),
+                fetch('/api/bus_schedules?operator=london').then(r => r.json()),
+                fetch('/api/bus_station_coords').then(r => r.json())
+            ]).then(([si, london, bcoords]) => {
+                busSchedules = { ...si, ...london };
+                busCoords = bcoords;
+                const sel = document.getElementById('bus-selector');
+                Object.keys(busSchedules).sort().forEach(group => {
+                    const opt = document.createElement('option');
+                    opt.value = group;
+                    opt.textContent = group;
+                    sel.appendChild(opt);
+                });
+            });
+        }
+
+        function updateTrainRouteSelection() {
+            const sel = document.getElementById('train-selector').value;
+            const dirSel = document.getElementById('train-direction');
+            if (!sel || !trainSchedules[sel]) {
+                dirSel.style.display = 'none';
+                return;
+            }
+            const dirs = trainSchedules[sel];
+            dirSel.innerHTML = '';
+            dirs.forEach((dir, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `Direction ${idx + 1}: ${dir[1][0]} ➔ ${dir[dir.length - 1][0]}`;
+                dirSel.appendChild(opt);
+            });
+            dirSel.style.display = 'block';
+
+            const schedule = dirs[dirSel.value ? parseInt(dirSel.value) : 0];
+            const stations = [];
+            for (let i = 1; i < schedule.length; i++) {
+                const name = schedule[i][0].trim();
+                if (stationCoords[name]) {
+                    stations.push(stationCoords[name]);
+                }
+            }
+            if (stations.length >= 2) {
+                fetch('/api/route_train_db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ stations: stations.map(s => [s[0], s[1]]) })
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.routes) {
+                        clearSimulationLayers();
+                        map.addSource('sim_routes_src', { type: 'geojson', data: res.routes[0] });
+                        map.addLayer({
+                            id: 'sim_routes_layer',
+                            type: 'line',
+                            source: 'sim_routes_src',
+                            paint: { 'line-color': '#3b82f6', 'line-width': 4 }
+                        });
+                        document.getElementById('train-stats').innerHTML = `Route loaded: <b>${stations.length} stations</b> along track.`;
+                    }
+                });
+            }
+        }
+
+        function updateBusRouteSelection() {
+            const group = document.getElementById('bus-selector').value;
+            const dirSel = document.getElementById('bus-direction');
+            if (!group || !busSchedules[group]) {
+                dirSel.style.display = 'none';
+                return;
+            }
+            const busList = busSchedules[group];
+            dirSel.innerHTML = '';
+            busList.forEach((b, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${b.coach_no} (${b.departure_time})`;
+                dirSel.appendChild(opt);
+            });
+            dirSel.style.display = 'block';
+
+            const bus = busList[0];
+            const sName = bus.starting_counter;
+            const eName = bus.end_counter;
+            if (busCoords[sName] && busCoords[eName]) {
+                const sc = busCoords[sName];
+                const ec = busCoords[eName];
+                fetch(`/api/route?slat=${sc[0]}&slon=${sc[1]}&elat=${ec[0]}&elon=${ec[1]}`)
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.geometry) {
+                            clearSimulationLayers();
+                            map.addSource('sim_routes_src', { type: 'geojson', data: res });
+                            map.addLayer({
+                                id: 'sim_routes_layer',
+                                type: 'line',
+                                source: 'sim_routes_src',
+                                paint: { 'line-color': '#f97316', 'line-width': 4 }
+                            });
+                            document.getElementById('bus-stats').innerHTML = `Bus Route: <b>${sName} ➔ ${eName}</b>`;
+                        }
+                    });
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Live Real-Time Telemetry Feeds
+        // -------------------------------------------------------------
+        let liveFlightTimer = null;
+        function toggleLiveFlights(enabled) {
+            if (!enabled) {
+                if (map.getLayer('live-flights-sym')) map.removeLayer('live-flights-sym');
+                if (map.getSource('live_flights_src')) map.removeSource('live_flights_src');
+                if (liveFlightTimer) clearInterval(liveFlightTimer);
+                return;
+            }
+            updateLiveFlights();
+            liveFlightTimer = setInterval(updateLiveFlights, 20000);
+        }
+
+        function updateLiveFlights() {
+            fetch('/api/flights')
+                .then(r => r.json())
+                .then(data => {
+                    const fc = {
+                        type: 'FeatureCollection',
+                        features: (data.flights || []).map(f => ({
+                            type: 'Feature',
+                            geometry: { type: 'Point', coordinates: [f.lon, f.lat] },
+                            properties: { callsign: f.callsign || f.icao24, alt: f.altitude_m, speed: f.velocity_ms }
+                        }))
+                    };
+                    if (map.getSource('live_flights_src')) {
+                        map.getSource('live_flights_src').setData(fc);
+                    } else {
+                        map.addSource('live_flights_src', { type: 'geojson', data: fc });
+                        map.addLayer({
+                            id: 'live-flights-sym',
+                            type: 'circle',
+                            source: 'live_flights_src',
+                            paint: {
+                                'circle-radius': 6,
+                                'circle-color': '#00e5ff',
+                                'circle-stroke-width': 2,
+                                'circle-stroke-color': '#ffffff'
+                            }
+                        });
+                    }
+                });
+        }
+
+        // Live AIS Ships
+        let liveShipTimer = null;
+        function toggleLiveShips(enabled) {
+            if (!enabled) {
+                if (map.getLayer('live-ships-sym')) map.removeLayer('live-ships-sym');
+                if (map.getSource('live_ships_src')) map.removeSource('live_ships_src');
+                if (liveShipTimer) clearInterval(liveShipTimer);
+                return;
+            }
+            updateLiveShips();
+            liveShipTimer = setInterval(updateLiveShips, 30000);
+        }
+
+        function updateLiveShips() {
+            fetch('/api/vessels')
+                .then(r => r.json())
+                .then(fc => {
+                    if (map.getSource('live_ships_src')) {
+                        map.getSource('live_ships_src').setData(fc);
+                    } else {
+                        map.addSource('live_ships_src', { type: 'geojson', data: fc });
+                        map.addLayer({
+                            id: 'live-ships-sym',
+                            type: 'circle',
+                            source: 'live_ships_src',
+                            paint: {
+                                'circle-radius': 7,
+                                'circle-color': '#f59e0b',
+                                'circle-stroke-width': 2,
+                                'circle-stroke-color': '#ffffff'
+                            }
+                        });
+                    }
+                });
+        }
+
+        // Live Earthquakes
+        function toggleLiveQuakes(enabled) {
+            if (!enabled) {
+                if (map.getLayer('live-quakes-sym')) map.removeLayer('live-quakes-sym');
+                if (map.getSource('live_quakes_src')) map.removeSource('live_quakes_src');
+                return;
+            }
+            fetch('/api/earthquakes')
+                .then(r => r.json())
+                .then(fc => {
+                    map.addSource('live_quakes_src', { type: 'geojson', data: fc });
+                    map.addLayer({
+                        id: 'live-quakes-sym',
+                        type: 'circle',
+                        source: 'live_quakes_src',
+                        paint: {
+                            'circle-radius': ['*', ['get', 'mag'], 3],
+                            'circle-color': '#ef4444',
+                            'circle-opacity': 0.7,
+                            'circle-stroke-width': 1.5,
+                            'circle-stroke-color': '#ffffff'
+                        }
+                    });
+                });
+        }
+
+        // Live Satellites
+        function toggleLiveSatellites(enabled) {
+            if (!enabled) {
+                if (map.getLayer('live-sats-sym')) map.removeLayer('live-sats-sym');
+                if (map.getSource('live_sats_src')) map.removeSource('live_sats_src');
+                return;
+            }
+            fetch('/api/satellites')
+                .then(r => r.json())
+                .then(data => {
+                    const fc = {
+                        type: 'FeatureCollection',
+                        features: (data.satellites || []).map(s => ({
+                            type: 'Feature',
+                            geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
+                            properties: { name: s.name, alt: s.altitude_km }
+                        }))
+                    };
+                    map.addSource('live_sats_src', { type: 'geojson', data: fc });
+                    map.addLayer({
+                        id: 'live-sats-sym',
+                        type: 'circle',
+                        source: 'live_sats_src',
+                        paint: { 'circle-radius': 5, 'circle-color': '#10b981', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }
+                    });
+                });
+        }
+
+        // Live FFWC River Gauges
+        function toggleLiveFFWC(enabled) {
+            if (!enabled) {
+                if (map.getLayer('live-ffwc-sym')) map.removeLayer('live-ffwc-sym');
+                if (map.getSource('live_ffwc_src')) map.removeSource('live_ffwc_src');
+                return;
+            }
+            fetch('/api/ffwc/stations')
+                .then(r => r.json())
+                .then(stations => {
+                    const fc = {
+                        type: 'FeatureCollection',
+                        features: stations.filter(s => s.latitude && s.longitude).map(s => ({
+                            type: 'Feature',
+                            geometry: { type: 'Point', coordinates: [parseFloat(s.longitude), parseFloat(s.latitude)] },
+                            properties: { name: s.station_name, river: s.river_name }
+                        }))
+                    };
+                    map.addSource('live_ffwc_src', { type: 'geojson', data: fc });
+                    map.addLayer({
+                        id: 'live-ffwc-sym',
+                        type: 'circle',
+                        source: 'live_ffwc_src',
+                        paint: { 'circle-radius': 6, 'circle-color': '#06b6d4', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }
+                    });
+                });
+        }
+
+    </script>
+</body>
+</html>

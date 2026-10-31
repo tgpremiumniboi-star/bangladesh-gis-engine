@@ -1,0 +1,943 @@
+[
+  {
+    "date": "2026-07-25",
+    "alerts": [
+      {
+        "id": 115673,
+        "district": "Bagerhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115689,
+        "district": "Bandarban",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115671,
+        "district": "Barishal",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115684,
+        "district": "Bhola",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115643,
+        "district": "Bogra",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 107763,
+        "district": "Brahmmonbaria",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115683,
+        "district": "Chandpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115659,
+        "district": "Chapai Nawabganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115686,
+        "district": "Chattogram",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115666,
+        "district": "Chuadanga",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115680,
+        "district": "Comilla",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115690,
+        "district": "Cox's Bazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115656,
+        "district": "Dhaka",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115650,
+        "district": "Dinajpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115668,
+        "district": "Faridpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115685,
+        "district": "Feni",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115641,
+        "district": "Gaibandha",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115654,
+        "district": "Gazipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115670,
+        "district": "Gopalganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115677,
+        "district": "Habiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115644,
+        "district": "Jamalpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115667,
+        "district": "Jessore",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115672,
+        "district": "Khulna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115681,
+        "district": "Kishorganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115638,
+        "district": "Kurigram",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115661,
+        "district": "Kushtia",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115688,
+        "district": "Lakshmipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115640,
+        "district": "Lalmonirhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115669,
+        "district": "Madaripur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115664,
+        "district": "Magura",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115648,
+        "district": "Manikganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115676,
+        "district": "Maulvibazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115657,
+        "district": "Munshiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115653,
+        "district": "Mymensingh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115651,
+        "district": "Naogaon",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115655,
+        "district": "Narayanganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115682,
+        "district": "Narsingdi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115652,
+        "district": "Natore",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115678,
+        "district": "Netrokona",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115639,
+        "district": "Nilphamari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115687,
+        "district": "Noakhali",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115647,
+        "district": "Pabna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115649,
+        "district": "Panchagarh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115662,
+        "district": "Rajbari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115660,
+        "district": "Rajshahi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115642,
+        "district": "Rangpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115665,
+        "district": "Satkhira",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115663,
+        "district": "Shariatpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115679,
+        "district": "Sherpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115645,
+        "district": "Sirajganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115675,
+        "district": "Sunamganj",
+        "alert_type": "Flood"
+      },
+      {
+        "id": 115674,
+        "district": "Sylhet",
+        "alert_type": "Flood"
+      },
+      {
+        "id": 115646,
+        "district": "Tangail",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 115658,
+        "district": "Thakurgaon",
+        "alert_type": "Normal"
+      }
+    ]
+  },
+  {
+    "date": "2026-07-26",
+    "alerts": [
+      {
+        "id": 113679,
+        "district": "Bagerhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113695,
+        "district": "Bandarban",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113758,
+        "district": "Barguna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113677,
+        "district": "Barishal",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113690,
+        "district": "Bhola",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113649,
+        "district": "Bogra",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 110978,
+        "district": "Brahmmonbaria",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113689,
+        "district": "Chandpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113665,
+        "district": "Chapai Nawabganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113692,
+        "district": "Chattogram",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113672,
+        "district": "Chuadanga",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113686,
+        "district": "Comilla",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113696,
+        "district": "Cox's Bazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113662,
+        "district": "Dhaka",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113656,
+        "district": "Dinajpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113674,
+        "district": "Faridpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113691,
+        "district": "Feni",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113647,
+        "district": "Gaibandha",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113660,
+        "district": "Gazipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113676,
+        "district": "Gopalganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113683,
+        "district": "Habiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113650,
+        "district": "Jamalpur",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113673,
+        "district": "Jessore",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113756,
+        "district": "Jhalokati",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113753,
+        "district": "Jhenaidah",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113697,
+        "district": "Joypurhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113698,
+        "district": "Khagrachhari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113678,
+        "district": "Khulna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113687,
+        "district": "Kishorganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113644,
+        "district": "Kurigram",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113667,
+        "district": "Kushtia",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113694,
+        "district": "Lakshmipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113646,
+        "district": "Lalmonirhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113675,
+        "district": "Madaripur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113670,
+        "district": "Magura",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113654,
+        "district": "Manikganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113682,
+        "district": "Maulvibazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113752,
+        "district": "Meherpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113663,
+        "district": "Munshiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113659,
+        "district": "Mymensingh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113657,
+        "district": "Naogaon",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113754,
+        "district": "Narail",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113661,
+        "district": "Narayanganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113688,
+        "district": "Narsingdi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113658,
+        "district": "Natore",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113684,
+        "district": "Netrokona",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113645,
+        "district": "Nilphamari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113693,
+        "district": "Noakhali",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113653,
+        "district": "Pabna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113655,
+        "district": "Panchagarh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113757,
+        "district": "Patuakhali",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113755,
+        "district": "Pirojpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113668,
+        "district": "Rajbari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113666,
+        "district": "Rajshahi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113759,
+        "district": "Rangamati",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113648,
+        "district": "Rangpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113671,
+        "district": "Satkhira",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113669,
+        "district": "Shariatpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113685,
+        "district": "Sherpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113651,
+        "district": "Sirajganj",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113681,
+        "district": "Sunamganj",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113680,
+        "district": "Sylhet",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113652,
+        "district": "Tangail",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113664,
+        "district": "Thakurgaon",
+        "alert_type": "Normal"
+      }
+    ]
+  },
+  {
+    "date": "2026-07-27",
+    "alerts": [
+      {
+        "id": 113734,
+        "district": "Bagerhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113750,
+        "district": "Bandarban",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113767,
+        "district": "Barguna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113732,
+        "district": "Barishal",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113745,
+        "district": "Bhola",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113704,
+        "district": "Bogra",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113769,
+        "district": "Brahmmonbaria",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113744,
+        "district": "Chandpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113720,
+        "district": "Chapai Nawabganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113747,
+        "district": "Chattogram",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113727,
+        "district": "Chuadanga",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113741,
+        "district": "Comilla",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113751,
+        "district": "Cox's Bazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113717,
+        "district": "Dhaka",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113711,
+        "district": "Dinajpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113729,
+        "district": "Faridpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113746,
+        "district": "Feni",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113702,
+        "district": "Gaibandha",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113715,
+        "district": "Gazipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113731,
+        "district": "Gopalganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113738,
+        "district": "Habiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113705,
+        "district": "Jamalpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113728,
+        "district": "Jessore",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113766,
+        "district": "Jhalokati",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113763,
+        "district": "Jhenaidah",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113762,
+        "district": "Joypurhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113771,
+        "district": "Khagrachhari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113733,
+        "district": "Khulna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113742,
+        "district": "Kishorganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113699,
+        "district": "Kurigram",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113722,
+        "district": "Kushtia",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113749,
+        "district": "Lakshmipur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113701,
+        "district": "Lalmonirhat",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113730,
+        "district": "Madaripur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113725,
+        "district": "Magura",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113709,
+        "district": "Manikganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113737,
+        "district": "Maulvibazar",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113761,
+        "district": "Meherpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113718,
+        "district": "Munshiganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113714,
+        "district": "Mymensingh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113712,
+        "district": "Naogaon",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113764,
+        "district": "Narail",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113716,
+        "district": "Narayanganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113743,
+        "district": "Narsingdi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113713,
+        "district": "Natore",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113739,
+        "district": "Netrokona",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113700,
+        "district": "Nilphamari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113748,
+        "district": "Noakhali",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113708,
+        "district": "Pabna",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113710,
+        "district": "Panchagarh",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113768,
+        "district": "Patuakhali",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113765,
+        "district": "Pirojpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113723,
+        "district": "Rajbari",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113721,
+        "district": "Rajshahi",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113772,
+        "district": "Rangamati",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113703,
+        "district": "Rangpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113726,
+        "district": "Satkhira",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113724,
+        "district": "Shariatpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113740,
+        "district": "Sherpur",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113706,
+        "district": "Sirajganj",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113736,
+        "district": "Sunamganj",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113735,
+        "district": "Sylhet",
+        "alert_type": "Warning"
+      },
+      {
+        "id": 113707,
+        "district": "Tangail",
+        "alert_type": "Normal"
+      },
+      {
+        "id": 113719,
+        "district": "Thakurgaon",
+        "alert_type": "Normal"
+      }
+    ]
+  },
+  {
+    "date": "2026-07-28",
+    "alerts": []
+  },
+  {
+    "date": "2026-07-29",
+    "alerts": []
+  },
+  {
+    "date": "2026-07-30",
+    "alerts": []
+  },
+  {
+    "date": "2026-07-31",
+    "alerts": []
+  }
+]

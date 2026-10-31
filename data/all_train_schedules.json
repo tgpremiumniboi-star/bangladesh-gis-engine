@@ -1,0 +1,9598 @@
+{
+  "aghnibina-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "11:53 am",
+        "11:58 am"
+      ],
+      [
+        "Gafargaon",
+        "01:45 pm",
+        "01:47 pm"
+      ],
+      [
+        "Mymensingh",
+        "02:35 pm",
+        "02:38 pm"
+      ],
+      [
+        "Narundi",
+        "03:16 pm",
+        "03:18 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "03:38 pm",
+        "03:42 pm"
+      ],
+      [
+        "Kendua_Bazar",
+        "04:00 pm",
+        "04:02 pm"
+      ],
+      [
+        "Sarishabari",
+        "04:33 pm",
+        "04:35 pm"
+      ],
+      [
+        "Tarakandi",
+        "05:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Tarakandi",
+        "-",
+        "05:30 pm"
+      ],
+      [
+        "Sarishabari",
+        "05:45 pm",
+        "05:47 pm"
+      ],
+      [
+        "Kendua_Bazar",
+        "06:17 pm",
+        "06:19 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "06:38 pm",
+        "06:41 pm"
+      ],
+      [
+        "Narundi",
+        "07:03 pm",
+        "07:05 pm"
+      ],
+      [
+        "Mymensingh",
+        "07:45 pm",
+        "07:48 pm"
+      ],
+      [
+        "Gafargaon",
+        "08:34 pm",
+        "08:37 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "10:22 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "10:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "banalata-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "01:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "01:53 pm",
+        "01:58 pm"
+      ],
+      [
+        "Rajshahi",
+        "05:45 pm",
+        "06:05 pm"
+      ],
+      [
+        "Chapainawabganj",
+        "07:15 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chapainawabganj",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Rajshahi",
+        "06:50 am",
+        "07:00 am"
+      ],
+      [
+        "Dhaka",
+        "11:35 am",
+        "-"
+      ]
+    ]
+  ],
+  "banglabandha-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "09:00 pm"
+      ],
+      [
+        "Abdulpur",
+        "09:40 pm",
+        "10:00 pm"
+      ],
+      [
+        "Natore",
+        "10:17 pm",
+        "10:20 pm"
+      ],
+      [
+        "Madhnagar",
+        "10:46 pm",
+        "10:48 pm"
+      ],
+      [
+        "Ahsanganj",
+        "10:57 pm",
+        "10:59 pm"
+      ],
+      [
+        "Santahar",
+        "11:21 pm",
+        "11:25 pm"
+      ],
+      [
+        "Akkelpur",
+        "11:45 pm",
+        "11:47 pm"
+      ],
+      [
+        "Joypurhat",
+        "12:02 am",
+        "12:04 am"
+      ],
+      [
+        "Panchbibi",
+        "12:15 am",
+        "12:17 am"
+      ],
+      [
+        "Birampur",
+        "12:37 am",
+        "12:40 am"
+      ],
+      [
+        "Fulbari",
+        "12:58 am",
+        "01:01 am"
+      ],
+      [
+        "Parbatipur",
+        "01:30 am",
+        "01:50 am"
+      ],
+      [
+        "Chirirbandar",
+        "02:05 am",
+        "02:07 am"
+      ],
+      [
+        "Dinajpur",
+        "02:25 am",
+        "02:30 am"
+      ],
+      [
+        "Setabganj",
+        "03:01 am",
+        "03:03 am"
+      ],
+      [
+        "Pirganj",
+        "03:17 am",
+        "03:19 am"
+      ],
+      [
+        "Shibganj",
+        "03:34 am",
+        "03:36 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "03:43 am",
+        "03:47 am"
+      ],
+      [
+        "Ruhia",
+        "04:02 am",
+        "04:04 am"
+      ],
+      [
+        "Kismat",
+        "04:15 am",
+        "04:17 am"
+      ],
+      [
+        "Panchagarh",
+        "04:40 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "09:00 am"
+      ],
+      [
+        "Kismat",
+        "09:18 am",
+        "09:20 am"
+      ],
+      [
+        "Ruhia",
+        "09:29 am",
+        "09:31 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "09:47 am",
+        "09:50 am"
+      ],
+      [
+        "Shibganj",
+        "09:57 am",
+        "09:59 am"
+      ],
+      [
+        "Pirganj",
+        "10:15 am",
+        "10:17 am"
+      ],
+      [
+        "Setabganj",
+        "10:34 am",
+        "10:36 am"
+      ],
+      [
+        "Dinajpur",
+        "11:07 am",
+        "11:15 am"
+      ],
+      [
+        "Chirirbandar",
+        "11:34 am",
+        "11:36 am"
+      ],
+      [
+        "Parbatipur",
+        "12:00 pm",
+        "12:20 pm"
+      ],
+      [
+        "Fulbari",
+        "12:38 pm",
+        "12:41 pm"
+      ],
+      [
+        "Birampur",
+        "12:52 pm",
+        "12:55 pm"
+      ],
+      [
+        "Panchbibi",
+        "01:30 pm",
+        "01:32 pm"
+      ],
+      [
+        "Joypurhat",
+        "01:43 pm",
+        "01:46 pm"
+      ],
+      [
+        "Akkelpur",
+        "02:12 pm",
+        "02:14 pm"
+      ],
+      [
+        "Santahar",
+        "02:40 pm",
+        "02:45 pm"
+      ],
+      [
+        "Ahsanganj",
+        "03:07 pm",
+        "03:09 pm"
+      ],
+      [
+        "Madhnagar",
+        "03:18 pm",
+        "03:20 pm"
+      ],
+      [
+        "Natore",
+        "03:35 pm",
+        "03:37 pm"
+      ],
+      [
+        "Abdulpur",
+        "03:55 pm",
+        "04:15 pm"
+      ],
+      [
+        "Rajshahi",
+        "05:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "barendra-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "03:00 pm"
+      ],
+      [
+        "Abdulpur",
+        "03:40 pm",
+        "04:00 pm"
+      ],
+      [
+        "Natore",
+        "04:17 pm",
+        "04:20 pm"
+      ],
+      [
+        "Ahsanganj",
+        "04:41 pm",
+        "04:44 pm"
+      ],
+      [
+        "Santahar",
+        "05:20 pm",
+        "05:30 pm"
+      ],
+      [
+        "Akkelpur",
+        "05:50 pm",
+        "05:52 pm"
+      ],
+      [
+        "Joypurhat",
+        "06:07 pm",
+        "06:10 pm"
+      ],
+      [
+        "Panchbibi",
+        "06:28 pm",
+        "06:30 pm"
+      ],
+      [
+        "Birampur",
+        "06:50 pm",
+        "06:53 pm"
+      ],
+      [
+        "Fulbari",
+        "07:04 pm",
+        "07:07 pm"
+      ],
+      [
+        "Parbatipur",
+        "07:25 pm",
+        "07:45 pm"
+      ],
+      [
+        "Saidpur",
+        "08:11 pm",
+        "08:14 pm"
+      ],
+      [
+        "Nilphamari",
+        "08:33 pm",
+        "08:36 pm"
+      ],
+      [
+        "Domar",
+        "08:58 pm",
+        "09:01 pm"
+      ],
+      [
+        "Chilahati",
+        "09:30 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "05:00 am"
+      ],
+      [
+        "Domar",
+        "05:18 am",
+        "05:21 am"
+      ],
+      [
+        "Nilphamari",
+        "05:36 am",
+        "05:39 am"
+      ],
+      [
+        "Saidpur",
+        "06:04 am",
+        "06:08 am"
+      ],
+      [
+        "Parbatipur",
+        "06:25 am",
+        "06:45 am"
+      ],
+      [
+        "Fulbari",
+        "07:03 am",
+        "07:06 am"
+      ],
+      [
+        "Birampur",
+        "07:17 am",
+        "07:20 am"
+      ],
+      [
+        "Hili",
+        "07:33 am",
+        "-"
+      ],
+      [
+        "Panchbibi",
+        "07:45 am",
+        "07:47 am"
+      ],
+      [
+        "Joypurhat",
+        "07:58 am",
+        "08:01 am"
+      ],
+      [
+        "Akkelpur",
+        "08:15 am",
+        "08:17 am"
+      ],
+      [
+        "Santahar",
+        "08:40 am",
+        "08:45 am"
+      ],
+      [
+        "Ahsanganj",
+        "09:07 am",
+        "09:10 am"
+      ],
+      [
+        "Natore",
+        "09:32 am",
+        "09:35 am"
+      ],
+      [
+        "Abdulpur",
+        "09:55 am",
+        "10:15 am"
+      ],
+      [
+        "Rajshahi",
+        "11:10 am",
+        "-"
+      ]
+    ]
+  ],
+  "benapole-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Benapole",
+        "-",
+        "12:25 pm"
+      ],
+      [
+        "Jhikargacha",
+        "12:55 pm",
+        "12:57 pm"
+      ],
+      [
+        "Jashore",
+        "01:20 pm",
+        "01:40 pm"
+      ],
+      [
+        "Mubarakganj",
+        "02:19 pm",
+        "02:21 pm"
+      ],
+      [
+        "Kotchandpur",
+        "02:33 pm",
+        "02:35 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "02:59 pm",
+        "03:02 pm"
+      ],
+      [
+        "Chuadanga",
+        "03:26 pm",
+        "03:29 pm"
+      ],
+      [
+        "Poradaha",
+        "03:57 pm",
+        "04:00 pm"
+      ],
+      [
+        "Kushtia_Court",
+        "04:12 pm",
+        "04:15 pm"
+      ],
+      [
+        "Khoksha",
+        "04:49 pm",
+        "04:51 pm"
+      ],
+      [
+        "Rajbari",
+        "05:30 pm",
+        "05:50 pm"
+      ],
+      [
+        "Faridpur",
+        "06:22 pm",
+        "06:25 pm"
+      ],
+      [
+        "Bhanga",
+        "06:56 pm",
+        "06:58 pm"
+      ],
+      [
+        "Dhaka",
+        "08:30 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:30 pm"
+      ],
+      [
+        "Bhanga",
+        "12:40 am",
+        "12:42 am"
+      ],
+      [
+        "Faridpur",
+        "01:13 am",
+        "01:16 am"
+      ],
+      [
+        "Rajbari",
+        "01:50 am",
+        "02:00 am"
+      ],
+      [
+        "Khoksha",
+        "02:36 am",
+        "02:38 am"
+      ],
+      [
+        "Kushtia_Court",
+        "03:01 am",
+        "03:04 am"
+      ],
+      [
+        "Poradaha",
+        "03:20 am",
+        "03:23 am"
+      ],
+      [
+        "Chuadanga",
+        "03:52 am",
+        "03:55 am"
+      ],
+      [
+        "Darshana_Halt",
+        "04:16 am",
+        "04:19 am"
+      ],
+      [
+        "Kotchandpur",
+        "04:44 am",
+        "04:46 am"
+      ],
+      [
+        "Mubarakganj",
+        "04:58 am",
+        "05:00 am"
+      ],
+      [
+        "Jashore",
+        "05:35 am",
+        "06:00 am"
+      ],
+      [
+        "Jhikargacha",
+        "06:19 am",
+        "06:21 am"
+      ],
+      [
+        "Benapole",
+        "07:00 am",
+        "-"
+      ]
+    ]
+  ],
+  "bhrammaputra-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "06:38 pm",
+        "06:43 pm"
+      ],
+      [
+        "Joydebpur",
+        "07:14 pm",
+        "07:18 pm"
+      ],
+      [
+        "Gafargaon",
+        "08:35 pm",
+        "08:37 pm"
+      ],
+      [
+        "Mymensingh",
+        "09:23 pm",
+        "09:28 pm"
+      ],
+      [
+        "Piyarpur",
+        "09:58 pm",
+        "10:00 pm"
+      ],
+      [
+        "Nandina",
+        "10:22 pm",
+        "10:24 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "10:39 pm",
+        "10:42 pm"
+      ],
+      [
+        "Melandah_Bazar",
+        "10:58 pm",
+        "11:00 pm"
+      ],
+      [
+        "Islampur_Bazar",
+        "11:16 pm",
+        "11:18 pm"
+      ],
+      [
+        "Dewanganj_Bazar",
+        "11:50 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dewanganj_Bazar",
+        "-",
+        "06:40 am"
+      ],
+      [
+        "Islampur_Bazar",
+        "06:54 am",
+        "06:59 am"
+      ],
+      [
+        "Melandah_Bazar",
+        "07:15 am",
+        "07:20 am"
+      ],
+      [
+        "Jamalpur_Town",
+        "07:36 am",
+        "07:41 am"
+      ],
+      [
+        "Nandina",
+        "07:54 am",
+        "07:56 am"
+      ],
+      [
+        "Piyarpur",
+        "08:16 am",
+        "08:18 am"
+      ],
+      [
+        "Mymensingh",
+        "08:50 am",
+        "08:55 am"
+      ],
+      [
+        "Gafargaon",
+        "09:45 am",
+        "09:47 am"
+      ],
+      [
+        "Biman_Bandar",
+        "11:40 am",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "12:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "bijoy-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "09:15 am"
+      ],
+      [
+        "Bhatiary",
+        "09:31 am",
+        "09:33 am"
+      ],
+      [
+        "Feni",
+        "10:39 am",
+        "10:41 am"
+      ],
+      [
+        "Laksam",
+        "11:18 am",
+        "11:20 am"
+      ],
+      [
+        "Cumilla",
+        "11:42 am",
+        "11:44 am"
+      ],
+      [
+        "Akhaura",
+        "12:35 pm",
+        "12:40 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "01:15 pm",
+        "01:20 pm"
+      ],
+      [
+        "Sararchar",
+        "01:52 pm",
+        "01:54 pm"
+      ],
+      [
+        "Kishorganj",
+        "02:28 pm",
+        "02:33 pm"
+      ],
+      [
+        "Atharabari",
+        "03:05 pm",
+        "-"
+      ],
+      [
+        "Gouripur_Myn",
+        "03:35 pm",
+        "03:55 pm"
+      ],
+      [
+        "Mymensingh",
+        "04:23 pm",
+        "04:28 pm"
+      ],
+      [
+        "Piyarpur",
+        "05:06 pm",
+        "05:08 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "06:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Jamalpur_Town",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Piyarpur",
+        "08:30 pm",
+        "08:32 pm"
+      ],
+      [
+        "Mymensingh",
+        "09:05 pm",
+        "09:35 pm"
+      ],
+      [
+        "Gouripur_Myn",
+        "10:00 pm",
+        "10:20 pm"
+      ],
+      [
+        "Atharabari",
+        "10:47 pm",
+        "-"
+      ],
+      [
+        "Kishorganj",
+        "11:21 pm",
+        "11:26 pm"
+      ],
+      [
+        "Sararchar",
+        "11:59 pm",
+        "12:01 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "12:30 am",
+        "12:35 am"
+      ],
+      [
+        "Akhaura",
+        "01:20 am",
+        "01:25 am"
+      ],
+      [
+        "Cumilla",
+        "02:08 am",
+        "02:10 am"
+      ],
+      [
+        "Laksam",
+        "02:32 am",
+        "02:35 am"
+      ],
+      [
+        "Feni",
+        "03:15 am",
+        "03:17 am"
+      ],
+      [
+        "Bhatiary",
+        "04:25 am",
+        "04:27 am"
+      ],
+      [
+        "Chattogram",
+        "05:00 am",
+        "-"
+      ]
+    ]
+  ],
+  "burimari-commuter": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Lalmonirhat",
+        "-",
+        "08:10 am"
+      ],
+      [
+        "Aditmari",
+        "08:28 am",
+        "08:30 am"
+      ],
+      [
+        "Kankina",
+        "08:47 am",
+        "08:49 am"
+      ],
+      [
+        "Tushbhandar",
+        "08:55 am",
+        "08:57 am"
+      ],
+      [
+        "Bhotmari",
+        "09:07 am",
+        "09:09 am"
+      ],
+      [
+        "Hatibandha",
+        "09:24 am",
+        "09:28 am"
+      ],
+      [
+        "Barkhata",
+        "09:39 am",
+        "09:41 am"
+      ],
+      [
+        "Baura",
+        "09:49 am",
+        "09:51 am"
+      ],
+      [
+        "Patgram",
+        "10:08 am",
+        "10:10 am"
+      ],
+      [
+        "Burimari",
+        "10:25 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Burimari",
+        "-",
+        "10:45 am"
+      ],
+      [
+        "Patgram",
+        "10:57 am",
+        "10:59 am"
+      ],
+      [
+        "Baura",
+        "11:14 am",
+        "11:16 am"
+      ],
+      [
+        "Barkhata",
+        "11:24 am",
+        "11:26 am"
+      ],
+      [
+        "Hatibandha",
+        "11:37 am",
+        "11:40 am"
+      ],
+      [
+        "Bhotmari",
+        "11:57 am",
+        "11:59 am"
+      ],
+      [
+        "Tushbhandar",
+        "12:09 pm",
+        "12:11 pm"
+      ],
+      [
+        "Kankina",
+        "12:17 pm",
+        "12:19 pm"
+      ],
+      [
+        "Aditmari",
+        "12:36 pm",
+        "12:38 pm"
+      ],
+      [
+        "Lalmonirhat",
+        "12:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "burimari-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "08:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "08:53 am",
+        "08:58 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "12:30 pm",
+        "12:32 pm"
+      ],
+      [
+        "Natore",
+        "01:02 pm",
+        "01:05 pm"
+      ],
+      [
+        "Santahar",
+        "02:15 pm",
+        "02:20 pm"
+      ],
+      [
+        "Bogura",
+        "03:00 pm",
+        "03:05 pm"
+      ],
+      [
+        "Mahimaganj",
+        "03:46 pm",
+        "-"
+      ],
+      [
+        "Bonar_Para",
+        "03:58 pm",
+        "04:03 pm"
+      ],
+      [
+        "Gaibandha",
+        "04:28 pm",
+        "04:33 pm"
+      ],
+      [
+        "Kaunia",
+        "05:43 pm",
+        "05:46 pm"
+      ],
+      [
+        "Lalmonirhat",
+        "06:10 pm",
+        "07:00 pm"
+      ],
+      [
+        "Tushbhandar",
+        "07:45 pm",
+        "07:47 pm"
+      ],
+      [
+        "Hatibandha",
+        "08:21 pm",
+        "08:37 pm"
+      ],
+      [
+        "Barkhata",
+        "08:48 pm",
+        "08:51 pm"
+      ],
+      [
+        "Patgram",
+        "09:23 pm",
+        "09:28 pm"
+      ],
+      [
+        "Burimari",
+        "09:45 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Lalmonirhat",
+        "-",
+        "11:20 pm"
+      ],
+      [
+        "Burimari",
+        "-",
+        "07:30 pm"
+      ],
+      [
+        "Patgram",
+        "07:45 pm",
+        "07:50 pm"
+      ],
+      [
+        "Barkhata",
+        "08:17 pm",
+        "08:20 pm"
+      ],
+      [
+        "Hatibandha",
+        "08:32 pm",
+        "08:35 pm"
+      ],
+      [
+        "Tushbhandar",
+        "09:03 pm",
+        "09:05 pm"
+      ],
+      [
+        "Kaunia",
+        "11:43 pm",
+        "11:46 pm"
+      ],
+      [
+        "Gaibandha",
+        "12:52 am",
+        "12:55 am"
+      ],
+      [
+        "Bonar_Para",
+        "01:17 am",
+        "01:20 am"
+      ],
+      [
+        "Mahimaganj",
+        "01:30 am",
+        "-"
+      ],
+      [
+        "Bogura",
+        "02:13 am",
+        "02:16 am"
+      ],
+      [
+        "Santahar",
+        "03:00 am",
+        "03:05 am"
+      ],
+      [
+        "Natore",
+        "04:01 am",
+        "04:04 am"
+      ],
+      [
+        "Dhaka",
+        "08:50 am",
+        "-"
+      ]
+    ]
+  ],
+  "chapainawabganj-shuttle": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "10:35 am"
+      ],
+      [
+        "Kakonhat",
+        "11:03 am",
+        "11:05 am"
+      ],
+      [
+        "Lolitnagar",
+        "11:13 am",
+        "11:15 am"
+      ],
+      [
+        "Amnura_Bypass",
+        "11:24 am",
+        "11:26 am"
+      ],
+      [
+        "Chapainawabganj",
+        "11:50 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chapainawabganj",
+        "-",
+        "02:15 pm"
+      ],
+      [
+        "Amnura_Bypass",
+        "02:32 pm",
+        "02:35 pm"
+      ],
+      [
+        "Lolitnagar",
+        "02:45 pm",
+        "02:47 pm"
+      ],
+      [
+        "Kakonhat",
+        "02:55 pm",
+        "02:57 pm"
+      ],
+      [
+        "Rajshahi",
+        "03:40 pm",
+        "-"
+      ]
+    ]
+  ],
+  "chattala-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Kumira",
+        "06:26 am",
+        "06:28 am"
+      ],
+      [
+        "Feni",
+        "07:28 am",
+        "07:31 am"
+      ],
+      [
+        "Hasanpur",
+        "07:52 am",
+        "07:54 am"
+      ],
+      [
+        "Nangolkot",
+        "08:02 am",
+        "08:04 am"
+      ],
+      [
+        "Laksam",
+        "08:17 am",
+        "08:20 am"
+      ],
+      [
+        "Cumilla",
+        "08:41 am",
+        "08:44 am"
+      ],
+      [
+        "Shashidal",
+        "09:05 am",
+        "09:07 am"
+      ],
+      [
+        "Quasba",
+        "09:39 am",
+        "09:41 am"
+      ],
+      [
+        "Akhaura",
+        "10:05 am",
+        "10:08 am"
+      ],
+      [
+        "Brahmanbaria",
+        "10:26 am",
+        "10:29 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "10:50 am",
+        "10:53 am"
+      ],
+      [
+        "Methikanda",
+        "11:08 am",
+        "11:10 am"
+      ],
+      [
+        "Narsingdi",
+        "11:27 am",
+        "11:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "12:10 pm",
+        "12:13 pm"
+      ],
+      [
+        "Dhaka",
+        "12:40 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "02:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "02:38 pm",
+        "02:43 pm"
+      ],
+      [
+        "Narsingdi",
+        "03:20 pm",
+        "03:23 pm"
+      ],
+      [
+        "Methikanda",
+        "03:41 pm",
+        "03:43 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "03:57 pm",
+        "04:00 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "04:19 pm",
+        "04:23 pm"
+      ],
+      [
+        "Akhaura",
+        "04:42 pm",
+        "04:45 pm"
+      ],
+      [
+        "Quasba",
+        "05:01 pm",
+        "05:03 pm"
+      ],
+      [
+        "Shashidal",
+        "05:16 pm",
+        "05:18 pm"
+      ],
+      [
+        "Cumilla",
+        "05:40 pm",
+        "05:42 pm"
+      ],
+      [
+        "Laksam",
+        "06:04 pm",
+        "06:07 pm"
+      ],
+      [
+        "Nangolkot",
+        "06:21 pm",
+        "06:23 pm"
+      ],
+      [
+        "Hasanpur",
+        "06:30 pm",
+        "06:32 pm"
+      ],
+      [
+        "Feni",
+        "06:53 pm",
+        "06:55 pm"
+      ],
+      [
+        "Kumira",
+        "07:56 pm",
+        "07:58 pm"
+      ],
+      [
+        "Chattogram",
+        "08:30 pm",
+        "-"
+      ]
+    ]
+  ],
+  "chilahati-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "05:00 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "05:23 pm",
+        "05:28 pm"
+      ],
+      [
+        "Joydebpur",
+        "05:51 pm",
+        "05:54 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "08:55 pm",
+        "08:57 pm"
+      ],
+      [
+        "Natore",
+        "09:27 pm",
+        "09:30 pm"
+      ],
+      [
+        "Santahar",
+        "10:30 pm",
+        "10:35 pm"
+      ],
+      [
+        "Joypurhat",
+        "11:19 pm",
+        "11:22 pm"
+      ],
+      [
+        "Birampur",
+        "11:51 pm",
+        "11:53 pm"
+      ],
+      [
+        "Fulbari",
+        "12:04 am",
+        "12:06 am"
+      ],
+      [
+        "Parbatipur",
+        "12:40 am",
+        "01:00 am"
+      ],
+      [
+        "Saidpur",
+        "01:17 am",
+        "01:22 am"
+      ],
+      [
+        "Nilphamari",
+        "01:41 am",
+        "01:44 am"
+      ],
+      [
+        "Domar",
+        "02:00 am",
+        "02:03 am"
+      ],
+      [
+        "Chilahati",
+        "02:45 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Domar",
+        "06:18 am",
+        "06:21 am"
+      ],
+      [
+        "Nilphamari",
+        "06:37 am",
+        "06:40 am"
+      ],
+      [
+        "Saidpur",
+        "06:59 am",
+        "07:04 am"
+      ],
+      [
+        "Parbatipur",
+        "07:20 am",
+        "07:30 am"
+      ],
+      [
+        "Fulbari",
+        "07:48 am",
+        "07:50 am"
+      ],
+      [
+        "Birampur",
+        "08:01 am",
+        "08:03 am"
+      ],
+      [
+        "Joypurhat",
+        "08:32 am",
+        "08:35 am"
+      ],
+      [
+        "Santahar",
+        "09:15 am",
+        "09:20 am"
+      ],
+      [
+        "Natore",
+        "10:01 am",
+        "10:04 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "10:34 am",
+        "10:36 am"
+      ],
+      [
+        "Joydebpur",
+        "01:52 pm",
+        "01:55 pm"
+      ],
+      [
+        "Dhaka",
+        "02:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "chitra-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "09:00 am"
+      ],
+      [
+        "Noapara",
+        "09:33 am",
+        "09:36 am"
+      ],
+      [
+        "Jashore",
+        "10:04 am",
+        "10:08 am"
+      ],
+      [
+        "Mubarakganj",
+        "10:49 am",
+        "10:51 am"
+      ],
+      [
+        "Kotchandpur",
+        "11:02 am",
+        "11:04 am"
+      ],
+      [
+        "Darshana_Halt",
+        "11:28 am",
+        "11:31 am"
+      ],
+      [
+        "Chuadanga",
+        "11:50 am",
+        "11:53 am"
+      ],
+      [
+        "Alamdanga",
+        "12:09 pm",
+        "12:11 pm"
+      ],
+      [
+        "Poradaha",
+        "12:27 pm",
+        "12:30 pm"
+      ],
+      [
+        "Mirpur",
+        "12:40 pm",
+        "12:42 pm"
+      ],
+      [
+        "Bheramara",
+        "12:52 pm",
+        "12:55 pm"
+      ],
+      [
+        "Ishwardi",
+        "01:15 pm",
+        "01:25 pm"
+      ],
+      [
+        "Chatmohar",
+        "01:48 pm",
+        "01:51 pm"
+      ],
+      [
+        "Boral_Bridge",
+        "02:06 pm",
+        "02:09 pm"
+      ],
+      [
+        "Ullapara",
+        "02:27 pm",
+        "02:30 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "02:45 pm",
+        "02:48 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "03:29 pm",
+        "03:32 pm"
+      ],
+      [
+        "Tangail",
+        "03:52 pm",
+        "03:54 pm"
+      ],
+      [
+        "Joydebpur",
+        "05:04 pm",
+        "05:07 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "05:33 pm",
+        "05:36 pm"
+      ],
+      [
+        "Dhaka",
+        "06:05 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "07:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "07:53 pm",
+        "07:58 pm"
+      ],
+      [
+        "Joydebpur",
+        "08:21 pm",
+        "08:23 pm"
+      ],
+      [
+        "Tangail",
+        "09:26 pm",
+        "09:28 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "09:48 pm",
+        "09:50 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "10:06 pm",
+        "10:09 pm"
+      ],
+      [
+        "Ullapara",
+        "10:26 pm",
+        "10:29 pm"
+      ],
+      [
+        "Boral_Bridge",
+        "10:47 pm",
+        "10:50 pm"
+      ],
+      [
+        "Chatmohar",
+        "11:04 pm",
+        "11:07 pm"
+      ],
+      [
+        "Ishwardi",
+        "11:45 pm",
+        "11:55 pm"
+      ],
+      [
+        "Bheramara",
+        "12:25 am",
+        "12:28 am"
+      ],
+      [
+        "Poradaha",
+        "12:46 am",
+        "12:49 am"
+      ],
+      [
+        "Alamdanga",
+        "01:05 am",
+        "01:07 am"
+      ],
+      [
+        "Chuadanga",
+        "01:24 am",
+        "01:27 am"
+      ],
+      [
+        "Kotchandpur",
+        "02:16 am",
+        "02:18 am"
+      ],
+      [
+        "Mubarakganj",
+        "02:30 am",
+        "02:32 am"
+      ],
+      [
+        "Jashore",
+        "03:07 am",
+        "03:12 am"
+      ],
+      [
+        "Noapara",
+        "03:40 am",
+        "03:43 am"
+      ],
+      [
+        "Khulna",
+        "04:40 am",
+        "-"
+      ]
+    ]
+  ],
+  "coxs-bazar-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Cox's Bazar",
+        "-",
+        "12:30 pm"
+      ],
+      [
+        "Chattogram",
+        "03:40 pm",
+        "04:00 pm"
+      ],
+      [
+        "Dhaka",
+        "09:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:00 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "11:23 pm",
+        "11:28 pm"
+      ],
+      [
+        "Chattogram",
+        "03:40 am",
+        "04:20 am"
+      ],
+      [
+        "Cox's Bazar",
+        "07:20 am",
+        "-"
+      ]
+    ]
+  ],
+  "dhalarchar-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhalarchar",
+        "-",
+        "06:30 am"
+      ],
+      [
+        "Badherhat",
+        "06:41 am",
+        "-"
+      ],
+      [
+        "Kashinathpur",
+        "06:57 am",
+        "-"
+      ],
+      [
+        "Sathia_Rajapur",
+        "07:13 am",
+        "-"
+      ],
+      [
+        "Tantibandha",
+        "07:26 am",
+        "-"
+      ],
+      [
+        "Dublia",
+        "07:36 am",
+        "-"
+      ],
+      [
+        "Raghabpur",
+        "07:47 am",
+        "-"
+      ],
+      [
+        "Pabna",
+        "08:01 am",
+        "08:04 am"
+      ],
+      [
+        "Tebunia",
+        "08:16 am",
+        "-"
+      ],
+      [
+        "Dashuria",
+        "08:30 am",
+        "-"
+      ],
+      [
+        "Majhgram",
+        "08:43 am",
+        "-"
+      ],
+      [
+        "Ishwardi Bypass",
+        "09:00 am",
+        "09:03 am"
+      ],
+      [
+        "Azim Nagar",
+        "09:12 am",
+        "09:15 am"
+      ],
+      [
+        "Abdulpur",
+        "09:24 am",
+        "09:27 am"
+      ],
+      [
+        "Arani",
+        "09:38 am",
+        "-"
+      ],
+      [
+        "Sardah_Road",
+        "09:56 am",
+        "09:58 am"
+      ],
+      [
+        "Rajshahi",
+        "10:25 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "05:20 pm"
+      ],
+      [
+        "Sardah_Road",
+        "05:37 pm",
+        "05:39 pm"
+      ],
+      [
+        "Arani",
+        "05:55 pm",
+        "-"
+      ],
+      [
+        "Abdulpur",
+        "06:09 pm",
+        "06:11 pm"
+      ],
+      [
+        "Azim Nagar",
+        "06:19 pm",
+        "06:21 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "06:30 pm",
+        "06:32 pm"
+      ],
+      [
+        "Majhgram",
+        "06:38 pm",
+        "-"
+      ],
+      [
+        "Dashuria",
+        "06:52 pm",
+        "-"
+      ],
+      [
+        "Tebunia",
+        "07:08 pm",
+        "-"
+      ],
+      [
+        "Pabna",
+        "07:23 pm",
+        "07:25 pm"
+      ],
+      [
+        "Raghabpur",
+        "07:35 pm",
+        "-"
+      ],
+      [
+        "Dublia",
+        "07:49 pm",
+        "-"
+      ],
+      [
+        "Tantibandha",
+        "07:58 pm",
+        "-"
+      ],
+      [
+        "Sathia_Rajapur",
+        "08:12 pm",
+        "-"
+      ],
+      [
+        "Kashinathpur",
+        "08:30 pm",
+        "-"
+      ],
+      [
+        "Badherhat",
+        "08:48 pm",
+        "-"
+      ],
+      [
+        "Dhalarchar",
+        "09:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "dhumketu-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Biman_Bandar",
+        "06:23 am",
+        "06:28 am"
+      ],
+      [
+        "Joydebpur",
+        "06:51 am",
+        "06:53 am"
+      ],
+      [
+        "Tangail",
+        "07:47 am",
+        "07:49 am"
+      ],
+      [
+        "Ibrahimabad",
+        "08:09 am",
+        "08:11 am"
+      ],
+      [
+        "SH M Monsur Ali",
+        "08:27 am",
+        "08:30 am"
+      ],
+      [
+        "Jamtail",
+        "08:38 am",
+        "08:44 am"
+      ],
+      [
+        "Ullapara",
+        "08:56 am",
+        "08:59 am"
+      ],
+      [
+        "Boral_Bridge",
+        "09:28 am",
+        "09:31 am"
+      ],
+      [
+        "Chatmohar",
+        "09:44 am",
+        "09:47 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "10:12 am",
+        "10:15 am"
+      ],
+      [
+        "Abdulpur",
+        "10:33 am",
+        "10:36 am"
+      ],
+      [
+        "Arani",
+        "10:47 am",
+        "10:49 am"
+      ],
+      [
+        "Rajshahi",
+        "11:40 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "11:20 pm"
+      ],
+      [
+        "Arani",
+        "11:51 pm",
+        "-"
+      ],
+      [
+        "Abdulpur",
+        "12:05 am",
+        "12:07 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "12:22 am",
+        "12:25 am"
+      ],
+      [
+        "Chatmohar",
+        "12:45 am",
+        "12:48 am"
+      ],
+      [
+        "Boral_Bridge",
+        "01:05 am",
+        "01:08 am"
+      ],
+      [
+        "SH M Monsur Ali",
+        "01:57 am",
+        "01:59 am"
+      ],
+      [
+        "Ibrahimabad",
+        "02:16 am",
+        "02:18 am"
+      ],
+      [
+        "Joydebpur",
+        "03:32 am",
+        "03:35 am"
+      ],
+      [
+        "Dhaka",
+        "04:40 am",
+        "-"
+      ]
+    ]
+  ],
+  "dolonchapa-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Santahar",
+        "-",
+        "11:00 am"
+      ],
+      [
+        "Talora",
+        "11:28 am",
+        "-"
+      ],
+      [
+        "Bogura",
+        "11:53 am",
+        "12:01 pm"
+      ],
+      [
+        "Sonatola",
+        "12:50 pm",
+        "-"
+      ],
+      [
+        "Mahimaganj",
+        "01:02 pm",
+        "-"
+      ],
+      [
+        "Bonar_Para",
+        "01:13 pm",
+        "01:18 pm"
+      ],
+      [
+        "Badiakhali",
+        "01:28 pm",
+        "01:30 pm"
+      ],
+      [
+        "Gaibandha",
+        "01:45 pm",
+        "01:50 pm"
+      ],
+      [
+        "Bamondanga",
+        "02:21 pm",
+        "02:24 pm"
+      ],
+      [
+        "Pirgacha",
+        "02:42 pm",
+        "02:45 pm"
+      ],
+      [
+        "Kaunia",
+        "03:05 pm",
+        "03:25 pm"
+      ],
+      [
+        "Rangpur",
+        "03:48 pm",
+        "03:58 pm"
+      ],
+      [
+        "Badarganj",
+        "04:26 pm",
+        "04:29 pm"
+      ],
+      [
+        "Kholahati",
+        "04:40 pm",
+        "-"
+      ],
+      [
+        "Parbatipur",
+        "04:55 pm",
+        "05:20 pm"
+      ],
+      [
+        "Chirirbandar",
+        "05:40 pm",
+        "05:43 pm"
+      ],
+      [
+        "Dinajpur",
+        "06:05 pm",
+        "06:13 pm"
+      ],
+      [
+        "Setabganj",
+        "06:48 pm",
+        "06:50 pm"
+      ],
+      [
+        "Pirganj",
+        "07:06 pm",
+        "07:08 pm"
+      ],
+      [
+        "Bhomradah",
+        "07:18 pm",
+        "07:20 pm"
+      ],
+      [
+        "Thakurgaon_Road",
+        "07:38 pm",
+        "07:41 pm"
+      ],
+      [
+        "Ruhia",
+        "08:00 pm",
+        "08:02 pm"
+      ],
+      [
+        "Kismat",
+        "08:12 pm",
+        "-"
+      ],
+      [
+        "Panchagarh",
+        "08:40 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Kismat",
+        "06:21 am",
+        "-"
+      ],
+      [
+        "Ruhia",
+        "06:33 am",
+        "06:35 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "06:51 am",
+        "06:54 am"
+      ],
+      [
+        "Bhomradah",
+        "07:13 am",
+        "07:15 am"
+      ],
+      [
+        "Pirganj",
+        "07:25 am",
+        "07:27 am"
+      ],
+      [
+        "Setabganj",
+        "07:43 am",
+        "07:46 am"
+      ],
+      [
+        "Dinajpur",
+        "08:21 am",
+        "08:31 am"
+      ],
+      [
+        "Chirirbandar",
+        "08:50 am",
+        "08:52 am"
+      ],
+      [
+        "Parbatipur",
+        "09:15 am",
+        "09:40 am"
+      ],
+      [
+        "Kholahati",
+        "09:52 am",
+        "-"
+      ],
+      [
+        "Badarganj",
+        "10:05 am",
+        "10:08 am"
+      ],
+      [
+        "Rangpur",
+        "10:35 am",
+        "10:40 am"
+      ],
+      [
+        "Kaunia",
+        "11:05 am",
+        "11:25 am"
+      ],
+      [
+        "Pirgacha",
+        "11:42 am",
+        "11:45 am"
+      ],
+      [
+        "Bamondanga",
+        "12:04 pm",
+        "12:07 pm"
+      ],
+      [
+        "Gaibandha",
+        "12:52 pm",
+        "12:57 pm"
+      ],
+      [
+        "Badiakhali",
+        "01:13 pm",
+        "01:33 pm"
+      ],
+      [
+        "Bonar_Para",
+        "01:43 pm",
+        "01:48 pm"
+      ],
+      [
+        "Mahimaganj",
+        "01:57 pm",
+        "-"
+      ],
+      [
+        "Sonatola",
+        "02:10 pm",
+        "02:12 pm"
+      ],
+      [
+        "Bogura",
+        "02:49 pm",
+        "03:05 pm"
+      ],
+      [
+        "Talora",
+        "03:43 pm",
+        "-"
+      ],
+      [
+        "Santahar",
+        "04:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "drutojan-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "08:45 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "09:08 pm",
+        "09:13 pm"
+      ],
+      [
+        "Joydebpur",
+        "09:36 pm",
+        "09:38 pm"
+      ],
+      [
+        "Tangail",
+        "10:32 pm",
+        "10:34 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "10:54 pm",
+        "10:56 pm"
+      ],
+      [
+        "Jamtail",
+        "11:17 pm",
+        "11:19 pm"
+      ],
+      [
+        "Chatmohar",
+        "11:56 pm",
+        "11:58 pm"
+      ],
+      [
+        "Natore",
+        "12:49 am",
+        "12:52 am"
+      ],
+      [
+        "Ahsanganj",
+        "01:13 am",
+        "01:16 am"
+      ],
+      [
+        "Santahar",
+        "01:45 am",
+        "02:00 am"
+      ],
+      [
+        "Akkelpur",
+        "02:20 am",
+        "02:22 am"
+      ],
+      [
+        "Joypurhat",
+        "02:37 am",
+        "02:39 am"
+      ],
+      [
+        "Panchbibi",
+        "02:50 am",
+        "02:52 am"
+      ],
+      [
+        "Birampur",
+        "03:12 am",
+        "03:14 am"
+      ],
+      [
+        "Fulbari",
+        "03:25 am",
+        "03:27 am"
+      ],
+      [
+        "Parbatipur",
+        "03:50 am",
+        "04:10 am"
+      ],
+      [
+        "Chirirbandar",
+        "04:25 am",
+        "04:27 am"
+      ],
+      [
+        "Dinajpur",
+        "04:45 am",
+        "04:50 am"
+      ],
+      [
+        "Setabganj",
+        "05:20 am",
+        "05:22 am"
+      ],
+      [
+        "Pirganj",
+        "05:36 am",
+        "05:39 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "06:02 am",
+        "06:05 am"
+      ],
+      [
+        "Ruhia",
+        "06:22 am",
+        "06:38 am"
+      ],
+      [
+        "Kismat",
+        "06:47 am",
+        "06:49 am"
+      ],
+      [
+        "Panchagarh",
+        "07:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "07:20 am"
+      ],
+      [
+        "Kismat",
+        "07:36 am",
+        "07:38 am"
+      ],
+      [
+        "Ruhia",
+        "07:46 am",
+        "07:48 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "08:02 am",
+        "08:05 am"
+      ],
+      [
+        "Pirganj",
+        "08:46 am",
+        "08:48 am"
+      ],
+      [
+        "Setabganj",
+        "09:02 am",
+        "09:04 am"
+      ],
+      [
+        "Dinajpur",
+        "09:36 am",
+        "09:46 am"
+      ],
+      [
+        "Chirirbandar",
+        "10:05 am",
+        "10:07 am"
+      ],
+      [
+        "Parbatipur",
+        "10:25 am",
+        "10:45 am"
+      ],
+      [
+        "Fulbari",
+        "11:03 am",
+        "11:06 am"
+      ],
+      [
+        "Birampur",
+        "11:17 am",
+        "11:20 am"
+      ],
+      [
+        "Panchbibi",
+        "11:40 am",
+        "11:42 am"
+      ],
+      [
+        "Joypurhat",
+        "11:53 am",
+        "11:56 am"
+      ],
+      [
+        "Akkelpur",
+        "12:09 pm",
+        "12:11 pm"
+      ],
+      [
+        "Santahar",
+        "12:35 pm",
+        "12:40 pm"
+      ],
+      [
+        "Ahsanganj",
+        "01:14 pm",
+        "01:16 pm"
+      ],
+      [
+        "Natore",
+        "01:38 pm",
+        "01:41 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "02:26 pm",
+        "02:28 pm"
+      ],
+      [
+        "Chatmohar",
+        "02:48 pm",
+        "02:51 pm"
+      ],
+      [
+        "Jamtail",
+        "03:28 pm",
+        "03:30 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "03:56 pm",
+        "03:58 pm"
+      ],
+      [
+        "Tangail",
+        "04:18 pm",
+        "04:28 pm"
+      ],
+      [
+        "Joydebpur",
+        "05:48 pm",
+        "05:53 pm"
+      ],
+      [
+        "Dhaka",
+        "06:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "egarosindhur-godhuli": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:45 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "07:08 pm",
+        "07:13 pm"
+      ],
+      [
+        "Narsingdi",
+        "07:53 pm",
+        "07:55 pm"
+      ],
+      [
+        "Methikanda",
+        "08:12 pm",
+        "08:14 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "08:30 pm",
+        "08:50 pm"
+      ],
+      [
+        "Kuliarchar",
+        "09:09 pm",
+        "09:11 pm"
+      ],
+      [
+        "Bajitpur",
+        "09:20 pm",
+        "09:22 pm"
+      ],
+      [
+        "Sararchar",
+        "09:30 pm",
+        "09:32 pm"
+      ],
+      [
+        "Manikkhali",
+        "09:48 pm",
+        "09:50 pm"
+      ],
+      [
+        "Gachihata",
+        "10:00 pm",
+        "10:02 pm"
+      ],
+      [
+        "Kishorganj",
+        "10:40 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Kishorganj",
+        "-",
+        "12:50 pm"
+      ],
+      [
+        "Gachihata",
+        "01:06 pm",
+        "01:08 pm"
+      ],
+      [
+        "Manikkhali",
+        "01:31 pm",
+        "01:33 pm"
+      ],
+      [
+        "Sararchar",
+        "01:52 pm",
+        "01:54 pm"
+      ],
+      [
+        "Bajitpur",
+        "02:03 pm",
+        "02:05 pm"
+      ],
+      [
+        "Kuliarchar",
+        "02:13 pm",
+        "02:15 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "02:40 pm",
+        "03:00 pm"
+      ],
+      [
+        "Narsingdi",
+        "03:29 pm",
+        "03:31 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "04:12 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "04:45 pm",
+        "-"
+      ]
+    ]
+  ],
+  "egarosindhur-provati": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "07:15 am"
+      ],
+      [
+        "Biman_Bandar",
+        "07:38 am",
+        "07:43 am"
+      ],
+      [
+        "Narsingdi",
+        "08:22 am",
+        "08:24 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "08:53 am",
+        "09:13 am"
+      ],
+      [
+        "Kuliarchar",
+        "09:32 am",
+        "09:34 am"
+      ],
+      [
+        "Bajitpur",
+        "09:42 am",
+        "09:44 am"
+      ],
+      [
+        "Sararchar",
+        "09:52 am",
+        "09:54 am"
+      ],
+      [
+        "Manikkhali",
+        "10:10 am",
+        "10:12 am"
+      ],
+      [
+        "Gachihata",
+        "10:22 am",
+        "10:24 am"
+      ],
+      [
+        "Kishorganj",
+        "11:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Kishorganj",
+        "-",
+        "06:30 am"
+      ],
+      [
+        "Gachihata",
+        "06:45 am",
+        "06:47 am"
+      ],
+      [
+        "Manikkhali",
+        "06:57 am",
+        "06:59 am"
+      ],
+      [
+        "Sararchar",
+        "07:15 am",
+        "07:17 am"
+      ],
+      [
+        "Bajitpur",
+        "07:25 am",
+        "07:27 am"
+      ],
+      [
+        "Kuliarchar",
+        "07:35 am",
+        "07:37 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "08:00 am",
+        "08:20 am"
+      ],
+      [
+        "Methikanda",
+        "08:38 am",
+        "08:40 am"
+      ],
+      [
+        "Narsingdi",
+        "09:02 am",
+        "09:04 am"
+      ],
+      [
+        "Biman_Bandar",
+        "09:53 am",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "10:35 am",
+        "-"
+      ]
+    ]
+  ],
+  "ekota-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:15 am"
+      ],
+      [
+        "Biman_Bandar",
+        "10:38 am",
+        "10:43 am"
+      ],
+      [
+        "Joydebpur",
+        "11:06 am",
+        "11:09 am"
+      ],
+      [
+        "Tangail",
+        "12:03 pm",
+        "12:05 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "12:25 pm",
+        "12:27 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "12:43 pm",
+        "12:45 pm"
+      ],
+      [
+        "Ullapara",
+        "01:01 pm",
+        "01:04 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "02:09 pm",
+        "02:11 pm"
+      ],
+      [
+        "Natore",
+        "02:53 pm",
+        "02:57 pm"
+      ],
+      [
+        "Santahar",
+        "04:00 pm",
+        "04:05 pm"
+      ],
+      [
+        "Akkelpur",
+        "04:25 pm",
+        "04:27 pm"
+      ],
+      [
+        "Joypurhat",
+        "04:50 pm",
+        "04:53 pm"
+      ],
+      [
+        "Panchbibi",
+        "05:12 pm",
+        "05:14 pm"
+      ],
+      [
+        "Birampur",
+        "05:34 pm",
+        "05:37 pm"
+      ],
+      [
+        "Fulbari",
+        "05:48 pm",
+        "05:51 pm"
+      ],
+      [
+        "Parbatipur",
+        "06:15 pm",
+        "06:25 pm"
+      ],
+      [
+        "Chirirbandar",
+        "06:40 pm",
+        "06:42 pm"
+      ],
+      [
+        "Dinajpur",
+        "07:00 pm",
+        "07:05 pm"
+      ],
+      [
+        "Setabganj",
+        "07:35 pm",
+        "07:37 pm"
+      ],
+      [
+        "Pirganj",
+        "07:51 pm",
+        "07:53 pm"
+      ],
+      [
+        "Thakurgaon_Road",
+        "08:15 pm",
+        "08:18 pm"
+      ],
+      [
+        "Ruhia",
+        "08:33 pm",
+        "08:35 pm"
+      ],
+      [
+        "Kismat",
+        "08:42 pm",
+        "08:44 pm"
+      ],
+      [
+        "Panchagarh",
+        "09:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "09:10 pm"
+      ],
+      [
+        "Kismat",
+        "09:25 pm",
+        "09:27 pm"
+      ],
+      [
+        "Ruhia",
+        "09:34 pm",
+        "09:36 pm"
+      ],
+      [
+        "Thakurgaon_Road",
+        "09:51 pm",
+        "09:54 pm"
+      ],
+      [
+        "Pirganj",
+        "10:16 pm",
+        "10:18 pm"
+      ],
+      [
+        "Setabganj",
+        "10:32 pm",
+        "10:34 pm"
+      ],
+      [
+        "Dinajpur",
+        "11:05 pm",
+        "11:13 pm"
+      ],
+      [
+        "Chirirbandar",
+        "11:30 pm",
+        "11:32 pm"
+      ],
+      [
+        "Parbatipur",
+        "11:50 pm",
+        "11:55 pm"
+      ],
+      [
+        "Fulbari",
+        "12:28 am",
+        "12:31 am"
+      ],
+      [
+        "Birampur",
+        "12:42 am",
+        "12:45 am"
+      ],
+      [
+        "Panchbibi",
+        "01:05 am",
+        "01:07 am"
+      ],
+      [
+        "Joypurhat",
+        "01:18 am",
+        "01:21 am"
+      ],
+      [
+        "Akkelpur",
+        "01:35 am",
+        "01:37 am"
+      ],
+      [
+        "Santahar",
+        "01:55 am",
+        "02:00 am"
+      ],
+      [
+        "Natore",
+        "02:41 am",
+        "02:44 am"
+      ],
+      [
+        "Ullapara",
+        "04:12 am",
+        "04:15 am"
+      ],
+      [
+        "Ibrahimabad",
+        "04:50 am",
+        "04:52 am"
+      ],
+      [
+        "Tangail",
+        "05:12 am",
+        "05:14 am"
+      ],
+      [
+        "Joydebpur",
+        "06:18 am",
+        "06:21 am"
+      ],
+      [
+        "Dhaka",
+        "07:20 am",
+        "-"
+      ]
+    ]
+  ],
+  "hawr-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "10:38 pm",
+        "10:43 pm"
+      ],
+      [
+        "Joydebpur",
+        "11:08 pm",
+        "11:10 pm"
+      ],
+      [
+        "Gafargaon",
+        "12:27 am",
+        "12:29 am"
+      ],
+      [
+        "Mymensingh",
+        "01:15 am",
+        "01:35 am"
+      ],
+      [
+        "Gouripur_Myn",
+        "02:00 am",
+        "02:05 am"
+      ],
+      [
+        "Shyamgonj",
+        "02:18 am",
+        "02:21 am"
+      ],
+      [
+        "Netrakona",
+        "02:40 am",
+        "02:43 am"
+      ],
+      [
+        "Thakrokona",
+        "02:57 am",
+        "-"
+      ],
+      [
+        "Barhatta",
+        "03:10 am",
+        "03:13 am"
+      ],
+      [
+        "Mohanganj",
+        "04:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Mohanganj",
+        "-",
+        "08:00 am"
+      ],
+      [
+        "Barhatta",
+        "08:14 am",
+        "08:16 am"
+      ],
+      [
+        "Thakrokona",
+        "08:26 am",
+        "-"
+      ],
+      [
+        "Netrakona",
+        "08:47 am",
+        "08:52 am"
+      ],
+      [
+        "Shyamgonj",
+        "09:15 am",
+        "09:18 am"
+      ],
+      [
+        "Gouripur_Myn",
+        "09:31 am",
+        "09:34 am"
+      ],
+      [
+        "Mymensingh",
+        "10:14 am",
+        "10:34 am"
+      ],
+      [
+        "Gafargaon",
+        "11:19 am",
+        "11:22 am"
+      ],
+      [
+        "Joydebpur",
+        "12:53 pm",
+        "12:55 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "01:22 pm",
+        "01:25 pm"
+      ],
+      [
+        "Dhaka",
+        "01:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "jahanabad-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Noapara",
+        "06:33 am",
+        "06:36 am"
+      ],
+      [
+        "Singia",
+        "06:51 am",
+        "06:53 am"
+      ],
+      [
+        "Narail",
+        "07:13 am",
+        "07:16 am"
+      ],
+      [
+        "Lohagora",
+        "07:29 am",
+        "07:31 am"
+      ],
+      [
+        "Kashiani",
+        "07:41 am",
+        "07:44 am"
+      ],
+      [
+        "Bhanga_Junction",
+        "08:13 am",
+        "08:16 am"
+      ],
+      [
+        "Dhaka",
+        "09:45 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Bhanga_Junction",
+        "09:03 pm",
+        "09:06 pm"
+      ],
+      [
+        "Kashiani",
+        "09:34 pm",
+        "09:37 pm"
+      ],
+      [
+        "Lohagora",
+        "09:48 pm",
+        "09:50 pm"
+      ],
+      [
+        "Narail",
+        "10:03 pm",
+        "10:06 pm"
+      ],
+      [
+        "Singia",
+        "10:34 pm",
+        "10:40 pm"
+      ],
+      [
+        "Noapara",
+        "10:54 pm",
+        "10:56 pm"
+      ],
+      [
+        "Khulna",
+        "11:45 pm",
+        "-"
+      ]
+    ]
+  ],
+  "jamalpur-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:00 am"
+      ],
+      [
+        "Biman_Bandar",
+        "10:22 am",
+        "10:27 am"
+      ],
+      [
+        "Joydebpur",
+        "10:53 am",
+        "10:56 am"
+      ],
+      [
+        "Gafargaon",
+        "12:14 pm",
+        "12:17 pm"
+      ],
+      [
+        "Mymensingh",
+        "01:05 pm",
+        "01:10 pm"
+      ],
+      [
+        "Bidyaganj",
+        "01:32 pm",
+        "-"
+      ],
+      [
+        "Narundi",
+        "01:25 pm",
+        "-"
+      ],
+      [
+        "Nandina",
+        "02:08 pm",
+        "02:12 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "02:25 pm",
+        "02:28 pm"
+      ],
+      [
+        "Jaforshahi",
+        "02:59 pm",
+        "-"
+      ],
+      [
+        "Sarishabari",
+        "03:21 pm",
+        "03:24 pm"
+      ],
+      [
+        "Tarakandi",
+        "03:42 pm",
+        "03:45 pm"
+      ],
+      [
+        "Jagannathgonj_Bazar",
+        "03:56 pm",
+        "-"
+      ],
+      [
+        "Hemnagar",
+        "04:16 pm",
+        "-"
+      ],
+      [
+        "Bhuapur",
+        "04:45 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Bhuapur",
+        "-",
+        "05:15 pm"
+      ],
+      [
+        "Hemnagar",
+        "05:32 pm",
+        "-"
+      ],
+      [
+        "Jagannathgonj_Bazar",
+        "05:51 pm",
+        "-"
+      ],
+      [
+        "Tarakandi",
+        "06:06 pm",
+        "06:11 pm"
+      ],
+      [
+        "Sarishabari",
+        "06:27 pm",
+        "06:30 pm"
+      ],
+      [
+        "Jaforshahi",
+        "06:50 pm",
+        "-"
+      ],
+      [
+        "Jamalpur_Town",
+        "07:22 pm",
+        "07:25 pm"
+      ],
+      [
+        "Nandina",
+        "07:38 pm",
+        "07:40 pm"
+      ],
+      [
+        "Narundi",
+        "07:38 pm",
+        "-"
+      ],
+      [
+        "Bidyaganj",
+        "08:11 pm",
+        "-"
+      ],
+      [
+        "Mymensingh",
+        "08:35 pm",
+        "08:40 pm"
+      ],
+      [
+        "Gafargaon",
+        "09:37 pm",
+        "09:39 pm"
+      ],
+      [
+        "Joydebpur",
+        "10:56 pm",
+        "10:58 pm"
+      ],
+      [
+        "Dhaka",
+        "11:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "jamuna-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "04:45 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "05:08 pm",
+        "05:13 pm"
+      ],
+      [
+        "Joydebpur",
+        "05:38 pm",
+        "05:41 pm"
+      ],
+      [
+        "Sreepur",
+        "06:17 pm",
+        "-"
+      ],
+      [
+        "Kaoraid",
+        "06:56 pm",
+        "-"
+      ],
+      [
+        "Gafargaon",
+        "07:22 pm",
+        "07:25 pm"
+      ],
+      [
+        "Mymensingh",
+        "08:32 pm",
+        "08:37 pm"
+      ],
+      [
+        "Bidyaganj",
+        "09:13 pm",
+        "-"
+      ],
+      [
+        "Piyarpur",
+        "09:28 pm",
+        "09:30 pm"
+      ],
+      [
+        "Narundi",
+        "09:41 pm",
+        "09:43 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "10:05 pm",
+        "10:09 pm"
+      ],
+      [
+        "Sarishabari",
+        "10:58 pm",
+        "11:01 pm"
+      ],
+      [
+        "Tarakandi",
+        "11:30 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Tarakandi",
+        "-",
+        "02:00 am"
+      ],
+      [
+        "Sarishabari",
+        "02:15 am",
+        "02:18 am"
+      ],
+      [
+        "Jamalpur_Town",
+        "03:06 am",
+        "03:11 am"
+      ],
+      [
+        "Narundi",
+        "03:33 am",
+        "03:35 am"
+      ],
+      [
+        "Piyarpur",
+        "03:46 am",
+        "03:48 am"
+      ],
+      [
+        "Bidyaganj",
+        "04:01 am",
+        "-"
+      ],
+      [
+        "Mymensingh",
+        "04:25 am",
+        "04:30 am"
+      ],
+      [
+        "Gafargaon",
+        "05:16 am",
+        "05:18 am"
+      ],
+      [
+        "Kaoraid",
+        "05:42 am",
+        "-"
+      ],
+      [
+        "Sreepur",
+        "06:15 am",
+        "-"
+      ],
+      [
+        "Joydebpur",
+        "06:55 am",
+        "06:57 am"
+      ],
+      [
+        "Biman_Bandar",
+        "07:23 am",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "08:00 am",
+        "-"
+      ]
+    ]
+  ],
+  "jayentika-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:15 am"
+      ],
+      [
+        "Biman_Bandar",
+        "11:38 am",
+        "11:43 am"
+      ],
+      [
+        "Ashuganj",
+        "12:55 pm",
+        "12:57 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "01:11 pm",
+        "01:15 pm"
+      ],
+      [
+        "Azampur",
+        "01:37 pm",
+        "01:39 pm"
+      ],
+      [
+        "Mukundapur",
+        "01:52 pm",
+        "01:54 pm"
+      ],
+      [
+        "Harashpur",
+        "02:04 pm",
+        "02:06 pm"
+      ],
+      [
+        "Montola",
+        "02:30 pm",
+        "02:33 pm"
+      ],
+      [
+        "Nayapara",
+        "02:47 pm",
+        "02:49 pm"
+      ],
+      [
+        "Shahaji_Bazar",
+        "03:00 pm",
+        "03:02 pm"
+      ],
+      [
+        "Shaistaganj",
+        "03:21 pm",
+        "03:24 pm"
+      ],
+      [
+        "Sreemangal",
+        "04:01 pm",
+        "04:04 pm"
+      ],
+      [
+        "Bhanugach",
+        "04:23 pm",
+        "04:25 pm"
+      ],
+      [
+        "Kulaura",
+        "05:05 pm",
+        "05:09 pm"
+      ],
+      [
+        "Maijgaon",
+        "05:33 pm",
+        "05:35 pm"
+      ],
+      [
+        "Sylhet",
+        "07:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "12:00 pm"
+      ],
+      [
+        "Maijgaon",
+        "12:48 pm",
+        "12:50 pm"
+      ],
+      [
+        "Kulaura",
+        "01:17 pm",
+        "01:20 pm"
+      ],
+      [
+        "Bhanugach",
+        "02:19 pm",
+        "02:21 pm"
+      ],
+      [
+        "Sreemangal",
+        "02:40 pm",
+        "02:45 pm"
+      ],
+      [
+        "Shaistaganj",
+        "03:22 pm",
+        "03:25 pm"
+      ],
+      [
+        "Shahaji_Bazar",
+        "03:37 pm",
+        "03:39 pm"
+      ],
+      [
+        "Nayapara",
+        "03:50 pm",
+        "03:52 pm"
+      ],
+      [
+        "Montola",
+        "04:07 pm",
+        "04:09 pm"
+      ],
+      [
+        "Harashpur",
+        "04:18 pm",
+        "04:20 pm"
+      ],
+      [
+        "Mukundapur",
+        "04:30 pm",
+        "04:32 pm"
+      ],
+      [
+        "Azampur",
+        "04:46 pm",
+        "04:48 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "05:09 pm",
+        "05:13 pm"
+      ],
+      [
+        "Ashuganj",
+        "05:28 pm",
+        "05:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "06:40 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "07:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "kalni-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "02:55 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "03:17 pm",
+        "03:22 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "04:46 pm",
+        "04:49 pm"
+      ],
+      [
+        "Azampur",
+        "05:12 pm",
+        "05:14 pm"
+      ],
+      [
+        "Harashpur",
+        "05:34 pm",
+        "05:36 pm"
+      ],
+      [
+        "Shaistaganj",
+        "06:12 pm",
+        "06:15 pm"
+      ],
+      [
+        "Sreemangal",
+        "06:52 pm",
+        "06:55 pm"
+      ],
+      [
+        "Shamshernagar",
+        "07:22 pm",
+        "07:26 pm"
+      ],
+      [
+        "Kulaura",
+        "07:49 pm",
+        "07:51 pm"
+      ],
+      [
+        "Maijgaon",
+        "08:20 pm",
+        "08:23 pm"
+      ],
+      [
+        "Sylhet",
+        "09:30 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "06:15 am"
+      ],
+      [
+        "Maijgaon",
+        "06:55 am",
+        "06:57 am"
+      ],
+      [
+        "Kulaura",
+        "07:23 am",
+        "07:26 am"
+      ],
+      [
+        "Shamshernagar",
+        "07:50 am",
+        "07:52 am"
+      ],
+      [
+        "Sreemangal",
+        "08:17 am",
+        "08:20 am"
+      ],
+      [
+        "Shaistaganj",
+        "08:57 am",
+        "08:20 am"
+      ],
+      [
+        "Harashpur",
+        "09:52 am",
+        "09:54 am"
+      ],
+      [
+        "Azampur",
+        "10:20 am",
+        "10:22 am"
+      ],
+      [
+        "Brahmanbaria",
+        "10:48 am",
+        "10:51 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "11:10 am",
+        "11:13 am"
+      ],
+      [
+        "Narsingdi",
+        "11:43 am",
+        "11:45 am"
+      ],
+      [
+        "Biman_Bandar",
+        "12:24 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "12:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "kanchon-intercity-commuter": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Parbatipur",
+        "-",
+        "07:40 am"
+      ],
+      [
+        "Manmathapur",
+        "07:50 am",
+        "-"
+      ],
+      [
+        "Chirirbandar",
+        "08:02 am",
+        "08:05 am"
+      ],
+      [
+        "Kawgaon",
+        "08:14 am",
+        "-"
+      ],
+      [
+        "Dinajpur",
+        "08:26 am",
+        "08:36 am"
+      ],
+      [
+        "Kanchan_Junction",
+        "08:42 am",
+        "-"
+      ],
+      [
+        "Mongalpur",
+        "09:00 am",
+        "-"
+      ],
+      [
+        "Setabganj",
+        "09:35 am",
+        "09:37 am"
+      ],
+      [
+        "Sultanpur",
+        "09:46 am",
+        "-"
+      ],
+      [
+        "Pirganj",
+        "10:00 am",
+        "10:20 am"
+      ],
+      [
+        "Bhomradah",
+        "10:30 am",
+        "-"
+      ],
+      [
+        "Shibganj",
+        "10:41 am",
+        "-"
+      ],
+      [
+        "Thakurgaon_Road",
+        "10:51 am",
+        "10:56 am"
+      ],
+      [
+        "Akhanagar",
+        "11:05 am",
+        "-"
+      ],
+      [
+        "Ruhia",
+        "11:17 am",
+        "11:19 am"
+      ],
+      [
+        "Kismat",
+        "11:28 am",
+        "-"
+      ],
+      [
+        "Nayaniburuj",
+        "11:39 am",
+        "-"
+      ],
+      [
+        "Panchagarh",
+        "12:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "03:30 pm"
+      ],
+      [
+        "Nayaniburuj",
+        "03:39 pm",
+        "-"
+      ],
+      [
+        "Kismat",
+        "03:50 pm",
+        "-"
+      ],
+      [
+        "Ruhia",
+        "04:01 pm",
+        "04:03 pm"
+      ],
+      [
+        "Akhanagar",
+        "04:12 pm",
+        "-"
+      ],
+      [
+        "Thakurgaon_Road",
+        "04:23 pm",
+        "04:26 pm"
+      ],
+      [
+        "Shibganj",
+        "04:34 pm",
+        "-"
+      ],
+      [
+        "Bhomradah",
+        "04:45 pm",
+        "-"
+      ],
+      [
+        "Pirganj",
+        "04:57 pm",
+        "05:00 pm"
+      ],
+      [
+        "Sultanpur",
+        "05:09 pm",
+        "-"
+      ],
+      [
+        "Setabganj",
+        "05:19 pm",
+        "05:21 pm"
+      ],
+      [
+        "Mongalpur",
+        "05:34 pm",
+        "-"
+      ],
+      [
+        "Kanchan_Junction",
+        "05:52 pm",
+        "-"
+      ],
+      [
+        "Dinajpur",
+        "06:00 pm",
+        "06:10 pm"
+      ],
+      [
+        "Kawgaon",
+        "06:21 pm",
+        "-"
+      ],
+      [
+        "Chirirbandar",
+        "06:34 pm",
+        "06:45 pm"
+      ],
+      [
+        "Manmathapur",
+        "06:54 pm",
+        "-"
+      ],
+      [
+        "Parbatipur",
+        "07:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "kapotaksha-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "06:45 am"
+      ],
+      [
+        "Noapara",
+        "07:18 am",
+        "07:20 am"
+      ],
+      [
+        "Jashore",
+        "07:48 am",
+        "07:51 am"
+      ],
+      [
+        "Mubarakganj",
+        "08:18 am",
+        "08:20 am"
+      ],
+      [
+        "Kotchandpur",
+        "08:31 am",
+        "08:33 am"
+      ],
+      [
+        "Safdarpur",
+        "08:42 am",
+        "-"
+      ],
+      [
+        "Darshana_Halt",
+        "09:02 am",
+        "09:05 am"
+      ],
+      [
+        "Chuadanga",
+        "09:24 am",
+        "09:27 am"
+      ],
+      [
+        "Alamdanga",
+        "09:42 am",
+        "09:44 am"
+      ],
+      [
+        "Poradaha",
+        "10:00 am",
+        "10:03 am"
+      ],
+      [
+        "Mirpur",
+        "10:13 am",
+        "10:15 am"
+      ],
+      [
+        "Bheramara",
+        "10:25 am",
+        "10:27 am"
+      ],
+      [
+        "Paksey",
+        "10:39 am",
+        "10:41 am"
+      ],
+      [
+        "Ishwardi",
+        "10:50 am",
+        "11:10 am"
+      ],
+      [
+        "Azim Nagar",
+        "11:22 am",
+        "11:24 am"
+      ],
+      [
+        "Abdulpur",
+        "11:45 am",
+        "-"
+      ],
+      [
+        "Rajshahi",
+        "12:20 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "02:30 pm"
+      ],
+      [
+        "Azim Nagar",
+        "03:16 pm",
+        "03:18 pm"
+      ],
+      [
+        "Ishwardi",
+        "03:30 pm",
+        "03:45 pm"
+      ],
+      [
+        "Paksey",
+        "03:55 pm",
+        "03:57 pm"
+      ],
+      [
+        "Bheramara",
+        "04:09 pm",
+        "04:12 pm"
+      ],
+      [
+        "Mirpur",
+        "04:22 pm",
+        "04:24 pm"
+      ],
+      [
+        "Poradaha",
+        "04:34 pm",
+        "04:37 pm"
+      ],
+      [
+        "Alamdanga",
+        "04:53 pm",
+        "04:55 pm"
+      ],
+      [
+        "Chuadanga",
+        "05:11 pm",
+        "05:14 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "05:34 pm",
+        "05:37 pm"
+      ],
+      [
+        "Safdarpur",
+        "05:55 pm",
+        "05:58 pm"
+      ],
+      [
+        "Kotchandpur",
+        "06:14 pm",
+        "06:16 pm"
+      ],
+      [
+        "Mubarakganj",
+        "06:28 pm",
+        "06:30 pm"
+      ],
+      [
+        "Jashore",
+        "07:05 pm",
+        "07:10 pm"
+      ],
+      [
+        "Noapara",
+        "07:38 pm",
+        "07:41 pm"
+      ],
+      [
+        "Khulna",
+        "08:25 pm",
+        "-"
+      ]
+    ]
+  ],
+  "kishorganj-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "10:52 am",
+        "10:57 am"
+      ],
+      [
+        "Narsingdi",
+        "11:36 am",
+        "11:39 am"
+      ],
+      [
+        "Methikanda",
+        "11:57 am",
+        "11:59 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "12:15 pm",
+        "12:35 pm"
+      ],
+      [
+        "Kuliarchar",
+        "12:54 pm",
+        "12:56 pm"
+      ],
+      [
+        "Bajitpur",
+        "01:04 pm",
+        "01:06 pm"
+      ],
+      [
+        "Sararchar",
+        "01:14 pm",
+        "01:16 pm"
+      ],
+      [
+        "Manikkhali",
+        "01:31 pm",
+        "01:33 pm"
+      ],
+      [
+        "Gachihata",
+        "01:40 pm",
+        "01:42 pm"
+      ],
+      [
+        "Kishorganj",
+        "02:10 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Kishorganj",
+        "-",
+        "04:00 pm"
+      ],
+      [
+        "Gachihata",
+        "04:15 pm",
+        "04:17 pm"
+      ],
+      [
+        "Manikkhali",
+        "04:27 pm",
+        "04:29 pm"
+      ],
+      [
+        "Sararchar",
+        "04:45 pm",
+        "04:47 pm"
+      ],
+      [
+        "Bajitpur",
+        "04:55 pm",
+        "04:57 pm"
+      ],
+      [
+        "Kuliarchar",
+        "05:05 pm",
+        "05:07 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "05:28 pm",
+        "05:48 pm"
+      ],
+      [
+        "Methikanda",
+        "06:04 pm",
+        "06:06 pm"
+      ],
+      [
+        "Narsingdi",
+        "06:27 pm",
+        "06:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "07:20 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "08:00 pm",
+        "-"
+      ]
+    ]
+  ],
+  "korotoa-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Santahar",
+        "-",
+        "09:25 am"
+      ],
+      [
+        "Bogura",
+        "10:09 am",
+        "10:19 am"
+      ],
+      [
+        "Sonatola",
+        "10:51 am",
+        "10:53 am"
+      ],
+      [
+        "Mahimaganj",
+        "11:03 am",
+        "11:05 am"
+      ],
+      [
+        "Bonar_Para",
+        "11:15 am",
+        "11:20 am"
+      ],
+      [
+        "Gaibandha",
+        "11:59 am",
+        "12:04 pm"
+      ],
+      [
+        "Bamondanga",
+        "12:33 pm",
+        "12:35 pm"
+      ],
+      [
+        "Pirgacha",
+        "12:53 pm",
+        "12:55 pm"
+      ],
+      [
+        "Kaunia",
+        "01:12 pm",
+        "01:15 pm"
+      ],
+      [
+        "Teesta_Junction",
+        "01:22 pm",
+        "-"
+      ],
+      [
+        "Lalmonirhat",
+        "01:40 pm",
+        "01:50 pm"
+      ],
+      [
+        "Aditmari",
+        "02:05 pm",
+        "02:07 pm"
+      ],
+      [
+        "Kankina",
+        "02:25 pm",
+        "02:27 pm"
+      ],
+      [
+        "Tushbhandar",
+        "02:34 pm",
+        "02:36 pm"
+      ],
+      [
+        "Hatibandha",
+        "03:02 pm",
+        "03:04 pm"
+      ],
+      [
+        "Barkhata",
+        "03:16 pm",
+        "03:18 pm"
+      ],
+      [
+        "Baura",
+        "03:27 pm",
+        "-"
+      ],
+      [
+        "Patgram",
+        "03:44 pm",
+        "03:47 pm"
+      ],
+      [
+        "Burimari",
+        "04:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Burimari",
+        "-",
+        "04:20 pm"
+      ],
+      [
+        "Patgram",
+        "04:33 pm",
+        "04:36 pm"
+      ],
+      [
+        "Baura",
+        "04:51 pm",
+        "-"
+      ],
+      [
+        "Barkhata",
+        "05:02 pm",
+        "05:04 pm"
+      ],
+      [
+        "Hatibandha",
+        "05:16 pm",
+        "05:19 pm"
+      ],
+      [
+        "Tushbhandar",
+        "05:43 pm",
+        "05:45 pm"
+      ],
+      [
+        "Kankina",
+        "05:52 pm",
+        "05:54 pm"
+      ],
+      [
+        "Aditmari",
+        "06:08 pm",
+        "06:10 pm"
+      ],
+      [
+        "Lalmonirhat",
+        "06:25 pm",
+        "06:45 pm"
+      ],
+      [
+        "Teesta_Junction",
+        "07:01 pm",
+        "-"
+      ],
+      [
+        "Kaunia",
+        "07:10 pm",
+        "07:13 pm"
+      ],
+      [
+        "Pirgacha",
+        "07:28 pm",
+        "07:31 pm"
+      ],
+      [
+        "Bamondanga",
+        "07:48 pm",
+        "07:50 pm"
+      ],
+      [
+        "Gaibandha",
+        "08:20 pm",
+        "08:23 pm"
+      ],
+      [
+        "Bonar_Para",
+        "08:45 pm",
+        "08:50 pm"
+      ],
+      [
+        "Mahimaganj",
+        "09:00 pm",
+        "09:02 pm"
+      ],
+      [
+        "Sonatola",
+        "09:11 pm",
+        "09:13 pm"
+      ],
+      [
+        "Bogura",
+        "09:45 pm",
+        "09:50 pm"
+      ],
+      [
+        "Santahar",
+        "10:40 pm",
+        "-"
+      ]
+    ]
+  ],
+  "kurigram-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "08:23 pm",
+        "08:28 pm"
+      ],
+      [
+        "Natore",
+        "12:15 am",
+        "12:17 am"
+      ],
+      [
+        "Madhnagar",
+        "12:31 am",
+        "12:33 am"
+      ],
+      [
+        "Santahar",
+        "01:05 am",
+        "01:10 am"
+      ],
+      [
+        "Joypurhat",
+        "01:55 am",
+        "01:58 am"
+      ],
+      [
+        "Parbatipur",
+        "03:00 am",
+        "03:10 am"
+      ],
+      [
+        "Badarganj",
+        "03:29 am",
+        "03:31 am"
+      ],
+      [
+        "Rangpur",
+        "03:58 am",
+        "04:03 am"
+      ],
+      [
+        "Kaunia",
+        "04:25 am",
+        "04:28 am"
+      ],
+      [
+        "Kurigram",
+        "05:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Kurigram",
+        "-",
+        "07:10 am"
+      ],
+      [
+        "Kaunia",
+        "07:50 am",
+        "07:53 am"
+      ],
+      [
+        "Rangpur",
+        "08:13 am",
+        "08:23 am"
+      ],
+      [
+        "Badarganj",
+        "08:51 am",
+        "08:54 am"
+      ],
+      [
+        "Parbatipur",
+        "09:25 am",
+        "09:45 am"
+      ],
+      [
+        "Joypurhat",
+        "10:42 am",
+        "10:45 am"
+      ],
+      [
+        "Santahar",
+        "11:20 am",
+        "11:30 am"
+      ],
+      [
+        "Madhnagar",
+        "12:02 pm",
+        "12:04 pm"
+      ],
+      [
+        "Natore",
+        "12:19 pm",
+        "12:22 pm"
+      ],
+      [
+        "Dhaka",
+        "05:05 pm",
+        "-"
+      ]
+    ]
+  ],
+  "lalmoni-commuter": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Lalmonirhat",
+        "-",
+        "06:30 am"
+      ],
+      [
+        "Mahendranagar",
+        "06:38 am",
+        "06:40 am"
+      ],
+      [
+        "Teesta_Junction",
+        "06:50 am",
+        "07:00 am"
+      ],
+      [
+        "Kaunia",
+        "07:06 am",
+        "07:09 am"
+      ],
+      [
+        "Mirbagh",
+        "07:19 am",
+        "07:21 am"
+      ],
+      [
+        "Rangpur",
+        "07:33 am",
+        "07:38 am"
+      ],
+      [
+        "Shyampur",
+        "07:53 am",
+        "07:55 am"
+      ],
+      [
+        "Badarganj",
+        "08:00 am",
+        "08:07 am"
+      ],
+      [
+        "Kholahati",
+        "08:19 am",
+        "08:21 am"
+      ],
+      [
+        "Parbatipur",
+        "08:35 am",
+        "08:55 am"
+      ],
+      [
+        "Chirirbandar",
+        "09:23 am",
+        "09:25 am"
+      ],
+      [
+        "Dinajpur",
+        "09:45 am",
+        "10:10 am"
+      ],
+      [
+        "Birol",
+        "10:30 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Birol",
+        "-",
+        "10:50 am"
+      ],
+      [
+        "Dinajpur",
+        "11:03 am",
+        "11:08 am"
+      ],
+      [
+        "Chirirbandar",
+        "11:30 am",
+        "11:32 am"
+      ],
+      [
+        "Parbatipur",
+        "12:00 pm",
+        "12:25 pm"
+      ],
+      [
+        "Kholahati",
+        "12:35 pm",
+        "12:37 pm"
+      ],
+      [
+        "Badarganj",
+        "12:47 pm",
+        "12:49 pm"
+      ],
+      [
+        "Shyampur",
+        "01:03 pm",
+        "01:05 pm"
+      ],
+      [
+        "Rangpur",
+        "01:20 pm",
+        "01:27 pm"
+      ],
+      [
+        "Mirbagh",
+        "01:39 pm",
+        "01:53 pm"
+      ],
+      [
+        "Kaunia",
+        "02:04 pm",
+        "02:07 pm"
+      ],
+      [
+        "Teesta_Junction",
+        "02:13 pm",
+        "02:25 pm"
+      ],
+      [
+        "Mahendranagar",
+        "02:32 pm",
+        "02:35 pm"
+      ],
+      [
+        "Lalmonirhat",
+        "02:50 pm",
+        "-"
+      ]
+    ]
+  ],
+  "lalmoni-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "09:45 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "10:08 pm",
+        "10:13 pm"
+      ],
+      [
+        "Joydebpur",
+        "10:36 pm",
+        "10:38 pm"
+      ],
+      [
+        "Tangail",
+        "11:32 pm",
+        "11:34 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "11:54 pm",
+        "11:56 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "12:12 am",
+        "12:14 am"
+      ],
+      [
+        "Ullapara",
+        "12:31 am",
+        "12:33 am"
+      ],
+      [
+        "Boral_Bridge",
+        "12:53 am",
+        "12:55 am"
+      ],
+      [
+        "Azim Nagar",
+        "02:07 am",
+        "02:09 am"
+      ],
+      [
+        "Natore",
+        "02:35 am",
+        "02:38 am"
+      ],
+      [
+        "Santahar",
+        "03:35 am",
+        "03:40 am"
+      ],
+      [
+        "Bogura",
+        "04:20 am",
+        "04:23 am"
+      ],
+      [
+        "Sonatola",
+        "04:53 am",
+        "04:55 am"
+      ],
+      [
+        "Bonar_Para",
+        "05:11 am",
+        "05:14 am"
+      ],
+      [
+        "Gaibandha",
+        "05:37 am",
+        "05:40 am"
+      ],
+      [
+        "Bamondanga",
+        "06:09 am",
+        "06:11 am"
+      ],
+      [
+        "Pirgacha",
+        "06:29 am",
+        "06:31 am"
+      ],
+      [
+        "Kaunia",
+        "06:48 am",
+        "06:51 am"
+      ],
+      [
+        "Teesta_Junction",
+        "06:58 am",
+        "07:00 am"
+      ],
+      [
+        "Lalmonirhat",
+        "07:20 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Lalmonirhat",
+        "-",
+        "09:50 am"
+      ],
+      [
+        "Teesta_Junction",
+        "10:06 am",
+        "10:08 am"
+      ],
+      [
+        "Kaunia",
+        "10:15 am",
+        "10:18 am"
+      ],
+      [
+        "Pirgacha",
+        "10:34 am",
+        "10:36 am"
+      ],
+      [
+        "Bamondanga",
+        "10:52 am",
+        "10:55 am"
+      ],
+      [
+        "Gaibandha",
+        "11:24 am",
+        "12:23 pm"
+      ],
+      [
+        "Bonar_Para",
+        "11:49 am",
+        "11:52 am"
+      ],
+      [
+        "Sonatola",
+        "12:09 pm",
+        "12:11 pm"
+      ],
+      [
+        "Bogura",
+        "12:41 pm",
+        "12:44 pm"
+      ],
+      [
+        "Santahar",
+        "01:30 pm",
+        "01:35 pm"
+      ],
+      [
+        "Natore",
+        "02:18 pm",
+        "02:21 pm"
+      ],
+      [
+        "Azim Nagar",
+        "02:48 pm",
+        "02:50 pm"
+      ],
+      [
+        "Boral_Bridge",
+        "03:37 pm",
+        "03:39 pm"
+      ],
+      [
+        "Ullapara",
+        "03:59 pm",
+        "04:03 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "04:22 pm",
+        "04:25 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "04:43 pm",
+        "04:50 pm"
+      ],
+      [
+        "Tangail",
+        "05:10 pm",
+        "05:18 pm"
+      ],
+      [
+        "Joydebpur",
+        "06:36 pm",
+        "06:40 pm"
+      ],
+      [
+        "Dhaka",
+        "07:45 pm",
+        "-"
+      ]
+    ]
+  ],
+  "madhumati-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "03:00 pm"
+      ],
+      [
+        "Mawa",
+        "03:36 pm",
+        "03:38 pm"
+      ],
+      [
+        "Padma",
+        "03:51 pm",
+        "03:53 pm"
+      ],
+      [
+        "Shibchar",
+        "04:03 pm",
+        "04:05 pm"
+      ],
+      [
+        "Bhanga",
+        "04:28 pm",
+        "04:30 pm"
+      ],
+      [
+        "Pukuria",
+        "04:45 pm",
+        "-"
+      ],
+      [
+        "Talma",
+        "04:46 pm",
+        "-"
+      ],
+      [
+        "Faridpur",
+        "05:03 pm",
+        "05:06 pm"
+      ],
+      [
+        "Amirabad",
+        "05:18 pm",
+        "-"
+      ],
+      [
+        "Pachuria",
+        "05:35 pm",
+        "-"
+      ],
+      [
+        "Rajbari",
+        "05:45 pm",
+        "06:00 pm"
+      ],
+      [
+        "Kalukhali",
+        "06:23 pm",
+        "06:25 pm"
+      ],
+      [
+        "Pangsha",
+        "06:35 pm",
+        "06:37 pm"
+      ],
+      [
+        "Khoksha",
+        "06:51 pm",
+        "06:53 pm"
+      ],
+      [
+        "Kumarkhali",
+        "07:03 pm",
+        "07:05 pm"
+      ],
+      [
+        "Kushtia_Court",
+        "07:22 pm",
+        "07:25 pm"
+      ],
+      [
+        "Poradaha",
+        "07:45 pm",
+        "08:10 pm"
+      ],
+      [
+        "Mirpur",
+        "08:20 pm",
+        "08:22 pm"
+      ],
+      [
+        "Bheramara",
+        "08:32 pm",
+        "08:35 pm"
+      ],
+      [
+        "Paksey",
+        "08:47 pm",
+        "08:49 pm"
+      ],
+      [
+        "Ishwardi",
+        "09:05 pm",
+        "09:25 pm"
+      ],
+      [
+        "Rajshahi",
+        "10:30 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "06:40 am"
+      ],
+      [
+        "Ishwardi",
+        "07:40 am",
+        "08:00 am"
+      ],
+      [
+        "Paksey",
+        "08:10 am",
+        "08:12 am"
+      ],
+      [
+        "Bheramara",
+        "08:24 am",
+        "08:27 am"
+      ],
+      [
+        "Mirpur",
+        "08:37 am",
+        "08:39 am"
+      ],
+      [
+        "Poradaha",
+        "08:50 am",
+        "09:10 am"
+      ],
+      [
+        "Kushtia_Court",
+        "09:22 am",
+        "09:25 am"
+      ],
+      [
+        "Kumarkhali",
+        "09:42 am",
+        "09:44 am"
+      ],
+      [
+        "Khoksha",
+        "10:01 am",
+        "10:03 am"
+      ],
+      [
+        "Pangsha",
+        "10:18 am",
+        "10:20 am"
+      ],
+      [
+        "Kalukhali",
+        "10:29 am",
+        "10:31 am"
+      ],
+      [
+        "Rajbari",
+        "10:50 am",
+        "11:05 am"
+      ],
+      [
+        "Pachuria",
+        "11:14 am",
+        "-"
+      ],
+      [
+        "Amirabad",
+        "11:32 am",
+        "-"
+      ],
+      [
+        "Faridpur",
+        "11:47 am",
+        "11:49 am"
+      ],
+      [
+        "Talma",
+        "12:05 pm",
+        "-"
+      ],
+      [
+        "Pukuria",
+        "12:10 pm",
+        "-"
+      ],
+      [
+        "Bhanga",
+        "12:24 pm",
+        "12:26 pm"
+      ],
+      [
+        "Shibchar",
+        "12:47 pm",
+        "12:49 pm"
+      ],
+      [
+        "Padma",
+        "12:59 pm",
+        "01:01 pm"
+      ],
+      [
+        "Mawa",
+        "01:14 pm",
+        "01:16 pm"
+      ],
+      [
+        "Dhaka",
+        "02:00 pm",
+        "-"
+      ]
+    ]
+  ],
+  "mahanagar-godhuli": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "03:00 pm"
+      ],
+      [
+        "Feni",
+        "04:20 pm",
+        "04:22 pm"
+      ],
+      [
+        "Gunabati",
+        "04:36 pm",
+        "04:38 pm"
+      ],
+      [
+        "Laksam",
+        "05:04 pm",
+        "05:06 pm"
+      ],
+      [
+        "Cumilla",
+        "05:27 pm",
+        "05:29 pm"
+      ],
+      [
+        "Akhaura",
+        "06:20 pm",
+        "06:23 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "06:41 pm",
+        "06:45 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "07:05 pm",
+        "07:08 pm"
+      ],
+      [
+        "Narsingdi",
+        "07:36 pm",
+        "07:38 pm"
+      ],
+      [
+        "Dhaka",
+        "08:45 pm",
+        "-"
+      ]
+    ]
+  ],
+  "mahanagar-provati": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "07:45 am"
+      ],
+      [
+        "Biman_Bandar",
+        "08:07 am",
+        "08:12 am"
+      ],
+      [
+        "Narsingdi",
+        "08:51 am",
+        "08:53 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "09:19 am",
+        "09:22 am"
+      ],
+      [
+        "Brahmanbaria",
+        "09:40 am",
+        "09:44 am"
+      ],
+      [
+        "Akhaura",
+        "10:05 am",
+        "10:08 am"
+      ],
+      [
+        "Cumilla",
+        "10:51 am",
+        "10:53 am"
+      ],
+      [
+        "Laksam",
+        "11:15 am",
+        "11:17 am"
+      ],
+      [
+        "Gunabati",
+        "11:43 am",
+        "11:45 am"
+      ],
+      [
+        "Feni",
+        "12:00 pm",
+        "12:02 pm"
+      ],
+      [
+        "Chattogram",
+        "01:35 pm",
+        "-"
+      ]
+    ]
+  ],
+  "meghna-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "05:15 pm"
+      ],
+      [
+        "Kumira",
+        "05:40 pm",
+        "05:42 pm"
+      ],
+      [
+        "Feni",
+        "06:40 pm",
+        "06:43 pm"
+      ],
+      [
+        "Hasanpur",
+        "07:05 pm",
+        "07:07 pm"
+      ],
+      [
+        "Nangolkot",
+        "07:15 pm",
+        "07:17 pm"
+      ],
+      [
+        "Laksam",
+        "07:35 pm",
+        "07:55 pm"
+      ],
+      [
+        "Chitoshi_Road",
+        "08:10 pm",
+        "08:12 pm"
+      ],
+      [
+        "Meher",
+        "08:21 pm",
+        "08:23 pm"
+      ],
+      [
+        "Hajiganj",
+        "08:37 pm",
+        "08:39 pm"
+      ],
+      [
+        "Modhu_Road",
+        "08:52 pm",
+        "08:54 pm"
+      ],
+      [
+        "Chandpur_Court",
+        "09:08 pm",
+        "-"
+      ],
+      [
+        "Chandpur",
+        "09:25 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chandpur",
+        "-",
+        "05:00 am"
+      ],
+      [
+        "Chandpur_Court",
+        "05:05 am",
+        "05:07 am"
+      ],
+      [
+        "Modhu_Road",
+        "05:22 am",
+        "05:24 am"
+      ],
+      [
+        "Hajiganj",
+        "05:35 am",
+        "05:37 am"
+      ],
+      [
+        "Meher",
+        "05:50 am",
+        "05:52 am"
+      ],
+      [
+        "Chitoshi_Road",
+        "06:04 am",
+        "06:06 am"
+      ],
+      [
+        "Laksam",
+        "06:20 am",
+        "06:40 am"
+      ],
+      [
+        "Nangolkot",
+        "06:54 am",
+        "06:56 am"
+      ],
+      [
+        "Hasanpur",
+        "07:03 am",
+        "07:05 am"
+      ],
+      [
+        "Feni",
+        "07:27 am",
+        "07:30 am"
+      ],
+      [
+        "Kumira",
+        "08:30 am",
+        "08:32 am"
+      ],
+      [
+        "Chattogram",
+        "09:00 am",
+        "-"
+      ]
+    ]
+  ],
+  "mohanagar-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "12:30 pm"
+      ],
+      [
+        "Kumira",
+        "12:56 pm",
+        "12:58 pm"
+      ],
+      [
+        "Feni",
+        "01:57 pm",
+        "01:59 pm"
+      ],
+      [
+        "Nangolkot",
+        "02:24 pm",
+        "02:26 pm"
+      ],
+      [
+        "Laksam",
+        "02:42 pm",
+        "02:44 pm"
+      ],
+      [
+        "Cumilla",
+        "03:06 pm",
+        "03:08 pm"
+      ],
+      [
+        "Quasba",
+        "03:38 pm",
+        "03:40 pm"
+      ],
+      [
+        "Akhaura",
+        "04:05 pm",
+        "04:08 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "04:26 pm",
+        "04:30 pm"
+      ],
+      [
+        "Ashuganj",
+        "04:45 pm",
+        "04:47 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "04:55 pm",
+        "04:57 pm"
+      ],
+      [
+        "Narsingdi",
+        "05:27 pm",
+        "05:29 pm"
+      ],
+      [
+        "Dhaka",
+        "06:40 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "09:20 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "09:43 pm",
+        "09:48 pm"
+      ],
+      [
+        "Narsingdi",
+        "10:27 pm",
+        "10:30 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "11:00 pm",
+        "11:03 pm"
+      ],
+      [
+        "Ashuganj",
+        "11:11 pm",
+        "11:13 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "11:28 pm",
+        "11:31 pm"
+      ],
+      [
+        "Akhaura",
+        "11:55 pm",
+        "11:58 pm"
+      ],
+      [
+        "Quasba",
+        "12:14 am",
+        "12:16 am"
+      ],
+      [
+        "Cumilla",
+        "12:46 am",
+        "12:48 am"
+      ],
+      [
+        "Laksam",
+        "01:10 am",
+        "01:12 am"
+      ],
+      [
+        "Nangolkot",
+        "01:26 am",
+        "01:28 am"
+      ],
+      [
+        "Feni",
+        "01:53 am",
+        "01:55 am"
+      ],
+      [
+        "Kumira",
+        "02:55 am",
+        "-"
+      ],
+      [
+        "Chattogram",
+        "03:30 am",
+        "-"
+      ]
+    ]
+  ],
+  "mohonganj-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "01:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "01:37 pm",
+        "01:42 pm"
+      ],
+      [
+        "Gafargaon",
+        "03:21 pm",
+        "03:24 pm"
+      ],
+      [
+        "Mymensingh",
+        "04:10 pm",
+        "04:30 pm"
+      ],
+      [
+        "Gouripur_Myn",
+        "04:54 pm",
+        "04:57 pm"
+      ],
+      [
+        "Shyamgonj",
+        "05:11 pm",
+        "05:14 pm"
+      ],
+      [
+        "Netrakona",
+        "05:33 pm",
+        "05:36 pm"
+      ],
+      [
+        "Thakrokona",
+        "05:50 pm",
+        "05:53 pm"
+      ],
+      [
+        "Barhatta",
+        "06:01 pm",
+        "06:04 pm"
+      ],
+      [
+        "Mohanganj",
+        "06:40 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Mohanganj",
+        "-",
+        "11:00 pm"
+      ],
+      [
+        "Barhatta",
+        "11:16 pm",
+        "11:19 pm"
+      ],
+      [
+        "Thakrokona",
+        "11:29 pm",
+        "11:32 pm"
+      ],
+      [
+        "Netrakona",
+        "11:50 pm",
+        "11:53 pm"
+      ],
+      [
+        "Shyamgonj",
+        "12:15 am",
+        "12:18 am"
+      ],
+      [
+        "Gouripur_Myn",
+        "12:32 am",
+        "12:35 am"
+      ],
+      [
+        "Mymensingh",
+        "01:10 am",
+        "01:30 am"
+      ],
+      [
+        "Gafargaon",
+        "02:18 am",
+        "02:21 am"
+      ],
+      [
+        "Dhaka",
+        "04:55 am",
+        "-"
+      ]
+    ]
+  ],
+  "nilsagar-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:45 am"
+      ],
+      [
+        "Biman_Bandar",
+        "07:08 am",
+        "07:13 am"
+      ],
+      [
+        "Joydebpur",
+        "07:36 am",
+        "07:39 am"
+      ],
+      [
+        "Ibrahimabad",
+        "08:54 am",
+        "09:03 am"
+      ],
+      [
+        "Muladhuli",
+        "10:16 am",
+        "10:18 am"
+      ],
+      [
+        "Natore",
+        "10:57 am",
+        "11:00 am"
+      ],
+      [
+        "Ahsanganj",
+        "11:20 am",
+        "11:22 am"
+      ],
+      [
+        "Santahar",
+        "11:55 am",
+        "12:05 pm"
+      ],
+      [
+        "Akkelpur",
+        "12:38 pm",
+        "12:40 pm"
+      ],
+      [
+        "Joypurhat",
+        "12:54 pm",
+        "12:57 pm"
+      ],
+      [
+        "Birampur",
+        "01:25 pm",
+        "01:28 pm"
+      ],
+      [
+        "Fulbari",
+        "01:39 pm",
+        "01:42 pm"
+      ],
+      [
+        "Parbatipur",
+        "02:00 pm",
+        "02:10 pm"
+      ],
+      [
+        "Saidpur",
+        "02:27 pm",
+        "02:31 pm"
+      ],
+      [
+        "Nilphamari",
+        "02:50 pm",
+        "02:55 pm"
+      ],
+      [
+        "Domar",
+        "03:16 pm",
+        "03:26 pm"
+      ],
+      [
+        "Chilahati",
+        "04:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Domar",
+        "08:18 pm",
+        "08:21 pm"
+      ],
+      [
+        "Nilphamari",
+        "08:37 pm",
+        "08:40 pm"
+      ],
+      [
+        "Saidpur",
+        "08:59 pm",
+        "09:04 pm"
+      ],
+      [
+        "Parbatipur",
+        "09:20 pm",
+        "09:40 pm"
+      ],
+      [
+        "Fulbari",
+        "09:58 pm",
+        "10:00 pm"
+      ],
+      [
+        "Birampur",
+        "10:11 pm",
+        "10:14 pm"
+      ],
+      [
+        "Joypurhat",
+        "10:43 pm",
+        "10:46 pm"
+      ],
+      [
+        "Akkelpur",
+        "11:00 pm",
+        "11:02 pm"
+      ],
+      [
+        "Santahar",
+        "11:20 pm",
+        "11:25 pm"
+      ],
+      [
+        "Ahsanganj",
+        "11:47 pm",
+        "11:49 pm"
+      ],
+      [
+        "Natore",
+        "12:10 am",
+        "12:13 am"
+      ],
+      [
+        "Muladhuli",
+        "01:12 am",
+        "01:14 am"
+      ],
+      [
+        "Ibrahimabad",
+        "02:46 am",
+        "02:49 am"
+      ],
+      [
+        "Joydebpur",
+        "04:11 am",
+        "04:15 am"
+      ],
+      [
+        "Dhaka",
+        "05:25 am",
+        "-"
+      ]
+    ]
+  ],
+  "padma-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:45 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "11:08 pm",
+        "11:13 pm"
+      ],
+      [
+        "Joydebpur",
+        "11:36 pm",
+        "11:38 pm"
+      ],
+      [
+        "Tangail",
+        "12:32 am",
+        "12:34 am"
+      ],
+      [
+        "Ibrahimabad",
+        "12:54 am",
+        "12:56 am"
+      ],
+      [
+        "SH M Monsur Ali",
+        "01:11 am",
+        "01:14 am"
+      ],
+      [
+        "Ullapara",
+        "01:30 am",
+        "01:33 am"
+      ],
+      [
+        "Boral_Bridge",
+        "01:51 am",
+        "01:53 am"
+      ],
+      [
+        "Chatmohar",
+        "02:07 am",
+        "02:10 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "02:30 am",
+        "02:33 am"
+      ],
+      [
+        "Abdulpur",
+        "02:48 am",
+        "02:50 am"
+      ],
+      [
+        "Sardah_Road",
+        "03:16 am",
+        "03:18 am"
+      ],
+      [
+        "Rajshahi",
+        "04:00 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "04:00 pm"
+      ],
+      [
+        "Sardah_Road",
+        "04:17 pm",
+        "04:19 pm"
+      ],
+      [
+        "Abdulpur",
+        "04:45 pm",
+        "04:47 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "05:01 pm",
+        "05:03 pm"
+      ],
+      [
+        "Chatmohar",
+        "05:22 pm",
+        "05:25 pm"
+      ],
+      [
+        "Boral_Bridge",
+        "05:38 pm",
+        "05:40 pm"
+      ],
+      [
+        "Ullapara",
+        "05:59 pm",
+        "06:02 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "06:18 pm",
+        "06:21 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "06:38 pm",
+        "06:40 pm"
+      ],
+      [
+        "Tangail",
+        "07:00 pm",
+        "07:02 pm"
+      ],
+      [
+        "Joydebpur",
+        "08:14 pm",
+        "08:18 pm"
+      ],
+      [
+        "Dhaka",
+        "09:15 pm",
+        "-"
+      ]
+    ]
+  ],
+  "paharika-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "07:50 am"
+      ],
+      [
+        "Feni",
+        "09:14 am",
+        "09:16 am"
+      ],
+      [
+        "Nangolkot",
+        "09:43 am",
+        "09:45 am"
+      ],
+      [
+        "Laksam",
+        "10:00 am",
+        "10:03 am"
+      ],
+      [
+        "Cumilla",
+        "10:26 am",
+        "10:28 am"
+      ],
+      [
+        "Quasba",
+        "10:58 am",
+        "11:00 am"
+      ],
+      [
+        "Akhaura",
+        "11:30 am",
+        "11:35 am"
+      ],
+      [
+        "Harashpur",
+        "12:05 pm",
+        "12:07 pm"
+      ],
+      [
+        "Nayapara",
+        "12:28 pm",
+        "12:30 pm"
+      ],
+      [
+        "Shaistaganj",
+        "12:50 pm",
+        "12:53 pm"
+      ],
+      [
+        "Sreemangal",
+        "01:30 pm",
+        "01:35 pm"
+      ],
+      [
+        "Bhanugach",
+        "01:55 pm",
+        "01:57 pm"
+      ],
+      [
+        "Shamshernagar",
+        "02:06 pm",
+        "02:08 pm"
+      ],
+      [
+        "Kulaura",
+        "02:32 pm",
+        "02:35 pm"
+      ],
+      [
+        "Baramchal",
+        "02:48 pm",
+        "02:50 pm"
+      ],
+      [
+        "Maijgaon",
+        "03:04 pm",
+        "03:06 pm"
+      ],
+      [
+        "Sylhet",
+        "03:55 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "10:30 am"
+      ],
+      [
+        "Maijgaon",
+        "11:09 am",
+        "11:11 am"
+      ],
+      [
+        "Kulaura",
+        "11:55 am",
+        "11:58 am"
+      ],
+      [
+        "Shamshernagar",
+        "12:21 pm",
+        "12:23 pm"
+      ],
+      [
+        "Bhanugach",
+        "12:32 pm",
+        "12:34 pm"
+      ],
+      [
+        "Sreemangal",
+        "12:57 pm",
+        "01:02 pm"
+      ],
+      [
+        "Shaistaganj",
+        "01:54 pm",
+        "01:57 pm"
+      ],
+      [
+        "Nayapara",
+        "02:17 pm",
+        "02:19 pm"
+      ],
+      [
+        "Harashpur",
+        "02:39 pm",
+        "02:41 pm"
+      ],
+      [
+        "Akhaura",
+        "03:20 pm",
+        "03:25 pm"
+      ],
+      [
+        "Quasba",
+        "03:41 pm",
+        "03:43 pm"
+      ],
+      [
+        "Cumilla",
+        "04:13 pm",
+        "04:15 pm"
+      ],
+      [
+        "Laksam",
+        "04:38 pm",
+        "04:40 pm"
+      ],
+      [
+        "Nangolkot",
+        "04:55 pm",
+        "04:57 pm"
+      ],
+      [
+        "Feni",
+        "05:24 pm",
+        "05:26 pm"
+      ],
+      [
+        "Chattogram",
+        "06:55 pm",
+        "-"
+      ]
+    ]
+  ],
+  "panchagarh-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "11:53 pm",
+        "11:58 pm"
+      ],
+      [
+        "Natore",
+        "03:27 am",
+        "03:30 am"
+      ],
+      [
+        "Santahar",
+        "04:25 am",
+        "04:30 am"
+      ],
+      [
+        "Joypurhat",
+        "05:01 am",
+        "05:04 am"
+      ],
+      [
+        "Parbatipur",
+        "06:05 am",
+        "06:25 am"
+      ],
+      [
+        "Dinajpur",
+        "06:58 am",
+        "07:03 am"
+      ],
+      [
+        "Pirganj",
+        "08:05 am",
+        "08:08 am"
+      ],
+      [
+        "Thakurgaon_Road",
+        "08:33 am",
+        "08:36 am"
+      ],
+      [
+        "Panchagarh",
+        "09:50 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Panchagarh",
+        "-",
+        "12:10 pm"
+      ],
+      [
+        "Thakurgaon_Road",
+        "12:50 pm",
+        "12:55 pm"
+      ],
+      [
+        "Pirganj",
+        "01:20 pm",
+        "01:23 pm"
+      ],
+      [
+        "Dinajpur",
+        "02:12 pm",
+        "02:20 pm"
+      ],
+      [
+        "Parbatipur",
+        "03:00 pm",
+        "03:20 pm"
+      ],
+      [
+        "Joypurhat",
+        "04:13 pm",
+        "04:16 pm"
+      ],
+      [
+        "Santahar",
+        "04:50 pm",
+        "04:55 pm"
+      ],
+      [
+        "Natore",
+        "05:36 pm",
+        "05:39 pm"
+      ],
+      [
+        "Dhaka",
+        "10:10 pm",
+        "-"
+      ]
+    ]
+  ],
+  "parabat-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "06:53 am",
+        "06:58 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "08:03 am",
+        "08:06 am"
+      ],
+      [
+        "Brahmanbaria",
+        "08:26 am",
+        "08:29 am"
+      ],
+      [
+        "Azampur",
+        "08:50 am",
+        "08:52 am"
+      ],
+      [
+        "Nayapara",
+        "09:30 am",
+        "09:32 am"
+      ],
+      [
+        "Shaistaganj",
+        "09:52 am",
+        "09:55 am"
+      ],
+      [
+        "Sreemangal",
+        "10:32 am",
+        "10:35 am"
+      ],
+      [
+        "Bhanugach",
+        "10:54 am",
+        "10:56 am"
+      ],
+      [
+        "Kulaura",
+        "11:25 am",
+        "11:28 am"
+      ],
+      [
+        "Maijgaon",
+        "11:55 am",
+        "11:57 am"
+      ],
+      [
+        "Sylhet",
+        "01:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "04:00 pm"
+      ],
+      [
+        "Maijgaon",
+        "04:39 pm",
+        "04:41 pm"
+      ],
+      [
+        "Kulaura",
+        "05:06 pm",
+        "05:09 pm"
+      ],
+      [
+        "Bhanugach",
+        "05:39 pm",
+        "05:41 pm"
+      ],
+      [
+        "Sreemangal",
+        "05:59 pm",
+        "06:02 pm"
+      ],
+      [
+        "Shaistaganj",
+        "06:46 pm",
+        "06:49 pm"
+      ],
+      [
+        "Nayapara",
+        "07:10 pm",
+        "07:12 pm"
+      ],
+      [
+        "Azampur",
+        "08:05 pm",
+        "08:07 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "08:30 pm",
+        "08:34 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "08:55 pm",
+        "08:58 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "10:12 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "10:40 pm",
+        "-"
+      ]
+    ]
+  ],
+  "parjotak-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Cox's Bazar",
+        "-",
+        "07:45 pm"
+      ],
+      [
+        "Chattogram",
+        "10:45 pm",
+        "11:15 pm"
+      ],
+      [
+        "Dhaka",
+        "04:20 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "06:15 am"
+      ],
+      [
+        "Biman_Bandar",
+        "06:38 am",
+        "06:43 am"
+      ],
+      [
+        "Chattogram",
+        "11:20 am",
+        "11:40 am"
+      ],
+      [
+        "Cox's Bazar",
+        "02:40 pm",
+        "-"
+      ]
+    ]
+  ],
+  "probal-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Cox's Bazar",
+        "-",
+        "10:20 am"
+      ],
+      [
+        "Ramu",
+        "10:33 am",
+        "10:35 am"
+      ],
+      [
+        "ISLAMABAD",
+        "10:51 am",
+        "10:53 am"
+      ],
+      [
+        "Dulahazara",
+        "11:10 am",
+        "11:12 am"
+      ],
+      [
+        "Chakaria",
+        "11:31 am",
+        "11:33 am"
+      ],
+      [
+        "HARBANG",
+        "11:42 am",
+        "11:44 am"
+      ],
+      [
+        "LOHAGARA",
+        "12:11 pm",
+        "12:13 pm"
+      ],
+      [
+        "Satkania",
+        "12:26 pm",
+        "12:28 pm"
+      ],
+      [
+        "Dohazari",
+        "12:42 pm",
+        "12:44 pm"
+      ],
+      [
+        "Patiya",
+        "01:06 pm",
+        "01:08 pm"
+      ],
+      [
+        "GOMDANDI",
+        "01:26 pm",
+        "01:28 pm"
+      ],
+      [
+        "Sholoshohor",
+        "01:50 pm",
+        "-"
+      ],
+      [
+        "Chattogram",
+        "02:10 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "03:10 pm"
+      ],
+      [
+        "Sholoshohor",
+        "03:21 pm",
+        "03:23 pm"
+      ],
+      [
+        "GOMDANDI",
+        "03:40 pm",
+        "03:42 pm"
+      ],
+      [
+        "Patiya",
+        "04:00 pm",
+        "04:02 pm"
+      ],
+      [
+        "Dohazari",
+        "04:22 pm",
+        "04:24 pm"
+      ],
+      [
+        "Satkania",
+        "04:35 pm",
+        "04:37 pm"
+      ],
+      [
+        "LOHAGARA",
+        "04:50 pm",
+        "04:52 pm"
+      ],
+      [
+        "HARBANG",
+        "05:18 pm",
+        "05:20 pm"
+      ],
+      [
+        "Chakaria",
+        "05:32 pm",
+        "05:34 pm"
+      ],
+      [
+        "Dulahazara",
+        "05:56 pm",
+        "05:58 pm"
+      ],
+      [
+        "ISLAMABAD",
+        "06:15 pm",
+        "06:17 pm"
+      ],
+      [
+        "Ramu",
+        "06:34 pm",
+        "06:36 pm"
+      ],
+      [
+        "Cox's Bazar",
+        "07:00 pm",
+        "-"
+      ]
+    ]
+  ],
+  "rangpur-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "09:10 am"
+      ],
+      [
+        "Biman_Bandar",
+        "09:33 am",
+        "09:38 am"
+      ],
+      [
+        "Ibrahimabad",
+        "11:33 am",
+        "11:35 am"
+      ],
+      [
+        "Chatmohar",
+        "12:31 pm",
+        "12:34 pm"
+      ],
+      [
+        "Natore",
+        "01:43 pm",
+        "01:46 pm"
+      ],
+      [
+        "Santahar",
+        "02:45 pm",
+        "02:50 pm"
+      ],
+      [
+        "Talora",
+        "03:13 pm",
+        "03:15 pm"
+      ],
+      [
+        "Bogura",
+        "03:36 pm",
+        "03:41 pm"
+      ],
+      [
+        "Sonatola",
+        "04:11 pm",
+        "04:13 pm"
+      ],
+      [
+        "Bonar_Para",
+        "04:30 pm",
+        "04:40 pm"
+      ],
+      [
+        "Gaibandha",
+        "05:03 pm",
+        "05:08 pm"
+      ],
+      [
+        "Bamondanga",
+        "05:37 pm",
+        "05:40 pm"
+      ],
+      [
+        "Pirgacha",
+        "05:58 pm",
+        "06:00 pm"
+      ],
+      [
+        "Kaunia",
+        "06:16 pm",
+        "06:36 pm"
+      ],
+      [
+        "Kurigram",
+        "07:20 pm",
+        "07:20 pm"
+      ],
+      [
+        "Rangpur",
+        "07:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rangpur",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Kaunia",
+        "08:20 pm",
+        "08:40 pm"
+      ],
+      [
+        "Kurigram",
+        "07:50 pm",
+        "07:30 pm"
+      ],
+      [
+        "Pirgacha",
+        "08:56 pm",
+        "08:58 pm"
+      ],
+      [
+        "Bamondanga",
+        "09:15 pm",
+        "09:18 pm"
+      ],
+      [
+        "Gaibandha",
+        "09:47 pm",
+        "09:52 pm"
+      ],
+      [
+        "Bonar_Para",
+        "10:15 pm",
+        "10:25 pm"
+      ],
+      [
+        "Sonatola",
+        "10:42 pm",
+        "10:44 pm"
+      ],
+      [
+        "Bogura",
+        "11:15 pm",
+        "11:20 pm"
+      ],
+      [
+        "Talora",
+        "11:40 pm",
+        "11:42 pm"
+      ],
+      [
+        "Santahar",
+        "12:10 am",
+        "12:15 am"
+      ],
+      [
+        "Natore",
+        "01:25 am",
+        "01:28 am"
+      ],
+      [
+        "Ibrahimabad",
+        "03:34 am",
+        "03:36 am"
+      ],
+      [
+        "Dhaka",
+        "06:00 am",
+        "-"
+      ]
+    ]
+  ],
+  "ruposhi-bangla-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Benapole",
+        "-",
+        "03:25 pm"
+      ],
+      [
+        "Jashore",
+        "04:12 pm",
+        "04:15 pm"
+      ],
+      [
+        "Narail",
+        "04:43 pm",
+        "04:46 pm"
+      ],
+      [
+        "Kashiani",
+        "05:08 pm",
+        "05:11 pm"
+      ],
+      [
+        "Bhanga_Junction",
+        "05:44 pm",
+        "05:47 pm"
+      ],
+      [
+        "Dhaka",
+        "07:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:45 am"
+      ],
+      [
+        "Bhanga_Junction",
+        "11:47 am",
+        "11:50 am"
+      ],
+      [
+        "Kashiani",
+        "12:19 pm",
+        "12:22 pm"
+      ],
+      [
+        "Narail",
+        "12:42 pm",
+        "12:45 pm"
+      ],
+      [
+        "Jashore",
+        "01:15 pm",
+        "01:25 pm"
+      ],
+      [
+        "Benapole",
+        "02:25 pm",
+        "-"
+      ]
+    ]
+  ],
+  "rupsha-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "07:15 am"
+      ],
+      [
+        "Noapara",
+        "07:48 am",
+        "07:51 am"
+      ],
+      [
+        "Jashore",
+        "08:19 am",
+        "08:23 am"
+      ],
+      [
+        "Mubarakganj",
+        "08:50 am",
+        "08:52 am"
+      ],
+      [
+        "Kotchandpur",
+        "09:03 am",
+        "09:05 am"
+      ],
+      [
+        "Darshana_Halt",
+        "09:41 am",
+        "09:44 am"
+      ],
+      [
+        "Chuadanga",
+        "10:03 am",
+        "10:06 am"
+      ],
+      [
+        "Alamdanga",
+        "10:21 am",
+        "10:23 am"
+      ],
+      [
+        "Poradaha",
+        "10:39 am",
+        "10:42 am"
+      ],
+      [
+        "Bheramara",
+        "10:59 am",
+        "11:02 am"
+      ],
+      [
+        "Paksey",
+        "11:14 am",
+        "11:16 am"
+      ],
+      [
+        "Ishwardi",
+        "11:25 am",
+        "11:40 am"
+      ],
+      [
+        "Natore",
+        "12:13 pm",
+        "12:16 pm"
+      ],
+      [
+        "Ahsanganj",
+        "12:57 pm",
+        "01:00 pm"
+      ],
+      [
+        "Santahar",
+        "01:25 pm",
+        "01:30 pm"
+      ],
+      [
+        "Akkelpur",
+        "01:50 pm",
+        "01:52 pm"
+      ],
+      [
+        "Joypurhat",
+        "02:05 pm",
+        "02:08 pm"
+      ],
+      [
+        "Birampur",
+        "02:36 pm",
+        "02:38 pm"
+      ],
+      [
+        "Fulbari",
+        "02:49 pm",
+        "02:51 pm"
+      ],
+      [
+        "Parbatipur",
+        "03:10 pm",
+        "03:20 pm"
+      ],
+      [
+        "Saidpur",
+        "03:37 pm",
+        "03:42 pm"
+      ],
+      [
+        "Nilphamari",
+        "04:05 pm",
+        "04:08 pm"
+      ],
+      [
+        "Domar",
+        "04:24 pm",
+        "04:27 pm"
+      ],
+      [
+        "Chilahati",
+        "05:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "08:30 am"
+      ],
+      [
+        "Domar",
+        "08:48 am",
+        "08:51 am"
+      ],
+      [
+        "Nilphamari",
+        "09:07 am",
+        "09:10 am"
+      ],
+      [
+        "Saidpur",
+        "09:30 am",
+        "09:35 am"
+      ],
+      [
+        "Parbatipur",
+        "09:55 am",
+        "10:15 am"
+      ],
+      [
+        "Fulbari",
+        "10:36 am",
+        "10:39 am"
+      ],
+      [
+        "Birampur",
+        "10:50 am",
+        "10:53 am"
+      ],
+      [
+        "Joypurhat",
+        "11:22 am",
+        "11:25 am"
+      ],
+      [
+        "Akkelpur",
+        "11:39 am",
+        "11:41 am"
+      ],
+      [
+        "Santahar",
+        "12:00 pm",
+        "12:05 pm"
+      ],
+      [
+        "Ahsanganj",
+        "12:28 pm",
+        "12:31 pm"
+      ],
+      [
+        "Natore",
+        "12:55 pm",
+        "01:00 pm"
+      ],
+      [
+        "Ishwardi",
+        "01:40 pm",
+        "02:00 pm"
+      ],
+      [
+        "Paksey",
+        "02:10 pm",
+        "02:12 pm"
+      ],
+      [
+        "Bheramara",
+        "02:24 pm",
+        "02:27 pm"
+      ],
+      [
+        "Poradaha",
+        "02:44 pm",
+        "02:47 pm"
+      ],
+      [
+        "Alamdanga",
+        "03:02 pm",
+        "03:04 pm"
+      ],
+      [
+        "Chuadanga",
+        "03:20 pm",
+        "03:23 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "03:45 pm",
+        "03:48 pm"
+      ],
+      [
+        "Kotchandpur",
+        "04:14 pm",
+        "04:16 pm"
+      ],
+      [
+        "Mubarakganj",
+        "04:28 pm",
+        "04:30 pm"
+      ],
+      [
+        "Jashore",
+        "04:58 pm",
+        "05:08 pm"
+      ],
+      [
+        "Noapara",
+        "05:36 pm",
+        "05:39 pm"
+      ],
+      [
+        "Khulna",
+        "06:25 pm",
+        "-"
+      ]
+    ]
+  ],
+  "sagardari-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "04:00 pm"
+      ],
+      [
+        "Noapara",
+        "04:33 pm",
+        "04:36 pm"
+      ],
+      [
+        "Jashore",
+        "05:03 pm",
+        "05:08 pm"
+      ],
+      [
+        "Mubarakganj",
+        "05:35 pm",
+        "05:37 pm"
+      ],
+      [
+        "Kotchandpur",
+        "05:49 pm",
+        "05:51 pm"
+      ],
+      [
+        "Safdarpur",
+        "06:00 pm",
+        "06:02 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "06:21 pm",
+        "06:24 pm"
+      ],
+      [
+        "Chuadanga",
+        "06:43 pm",
+        "06:46 pm"
+      ],
+      [
+        "Alamdanga",
+        "07:02 pm",
+        "07:04 pm"
+      ],
+      [
+        "Poradaha",
+        "07:20 pm",
+        "07:23 pm"
+      ],
+      [
+        "Mirpur",
+        "07:33 pm",
+        "07:35 pm"
+      ],
+      [
+        "Bheramara",
+        "07:45 pm",
+        "07:47 pm"
+      ],
+      [
+        "Paksey",
+        "07:59 pm",
+        "08:01 pm"
+      ],
+      [
+        "Ishwardi",
+        "08:10 pm",
+        "08:30 pm"
+      ],
+      [
+        "Azim Nagar",
+        "08:43 pm",
+        "08:45 pm"
+      ],
+      [
+        "Abdulpur",
+        "08:53 pm",
+        "08:56 pm"
+      ],
+      [
+        "Rajshahi",
+        "10:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Abdulpur",
+        "06:40 am",
+        "06:42 am"
+      ],
+      [
+        "Azim Nagar",
+        "06:51 am",
+        "06:53 am"
+      ],
+      [
+        "Ishwardi",
+        "07:10 am",
+        "07:30 am"
+      ],
+      [
+        "Paksey",
+        "07:40 am",
+        "07:42 am"
+      ],
+      [
+        "Bheramara",
+        "07:54 am",
+        "07:57 am"
+      ],
+      [
+        "Mirpur",
+        "08:07 am",
+        "08:09 am"
+      ],
+      [
+        "Poradaha",
+        "08:19 am",
+        "08:22 am"
+      ],
+      [
+        "Alamdanga",
+        "08:38 am",
+        "08:40 am"
+      ],
+      [
+        "Chuadanga",
+        "08:56 am",
+        "08:59 am"
+      ],
+      [
+        "Darshana_Halt",
+        "09:20 am",
+        "09:23 am"
+      ],
+      [
+        "Safdarpur",
+        "09:40 am",
+        "09:42 am"
+      ],
+      [
+        "Kotchandpur",
+        "09:51 am",
+        "09:53 am"
+      ],
+      [
+        "Mubarakganj",
+        "10:05 am",
+        "10:07 am"
+      ],
+      [
+        "Jashore",
+        "10:35 am",
+        "10:39 am"
+      ],
+      [
+        "Noapara",
+        "11:07 am",
+        "11:10 am"
+      ],
+      [
+        "Khulna",
+        "12:10 pm",
+        "-"
+      ]
+    ]
+  ],
+  "shaikat-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "06:15 am"
+      ],
+      [
+        "Sholoshohor",
+        "06:25 am",
+        "06:27 am"
+      ],
+      [
+        "Janali_Hat",
+        "06:39 am",
+        "06:41 am"
+      ],
+      [
+        "Patiya",
+        "07:05 am",
+        "07:07 am"
+      ],
+      [
+        "Dohazari",
+        "07:29 am",
+        "07:31 am"
+      ],
+      [
+        "Satkania",
+        "07:42 am",
+        "07:44 am"
+      ],
+      [
+        "Chakaria",
+        "08:35 am",
+        "08:37 am"
+      ],
+      [
+        "Dulahazara",
+        "08:58 am",
+        "09:00 am"
+      ],
+      [
+        "Ramu",
+        "09:31 am",
+        "09:33 am"
+      ],
+      [
+        "Cox's Bazar",
+        "09:50 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Cox's Bazar",
+        "-",
+        "08:00 pm"
+      ],
+      [
+        "Ramu",
+        "08:15 pm",
+        "08:17 pm"
+      ],
+      [
+        "Dulahazara",
+        "08:48 pm",
+        "08:50 pm"
+      ],
+      [
+        "Chakaria",
+        "09:12 pm",
+        "09:14 pm"
+      ],
+      [
+        "Satkania",
+        "10:05 pm",
+        "10:07 pm"
+      ],
+      [
+        "Dohazari",
+        "10:18 pm",
+        "10:20 pm"
+      ],
+      [
+        "Patiya",
+        "10:42 pm",
+        "10:44 pm"
+      ],
+      [
+        "Janali_Hat",
+        "11:10 pm",
+        "11:12 pm"
+      ],
+      [
+        "Chattogram",
+        "11:50 pm",
+        "-"
+      ]
+    ]
+  ],
+  "silkcity-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "02:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "02:53 pm",
+        "02:58 pm"
+      ],
+      [
+        "Joydebpur",
+        "03:21 pm",
+        "03:24 pm"
+      ],
+      [
+        "Mirzapur",
+        "03:57 pm",
+        "03:59 pm"
+      ],
+      [
+        "Tangail",
+        "04:26 pm",
+        "04:28 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "04:48 pm",
+        "04:50 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "05:06 pm",
+        "05:09 pm"
+      ],
+      [
+        "Jamtail",
+        "05:17 pm",
+        "05:19 pm"
+      ],
+      [
+        "Ullapara",
+        "05:31 pm",
+        "05:34 pm"
+      ],
+      [
+        "Boral_Bridge",
+        "06:06 pm",
+        "06:09 pm"
+      ],
+      [
+        "Chatmohar",
+        "06:23 pm",
+        "06:28 pm"
+      ],
+      [
+        "Ishwardi Bypass",
+        "06:48 pm",
+        "06:51 pm"
+      ],
+      [
+        "Abdulpur",
+        "07:06 pm",
+        "07:09 pm"
+      ],
+      [
+        "Rajshahi",
+        "08:20 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "07:40 am"
+      ],
+      [
+        "Abdulpur",
+        "08:20 am",
+        "08:22 am"
+      ],
+      [
+        "Ishwardi Bypass",
+        "08:37 am",
+        "08:39 am"
+      ],
+      [
+        "Chatmohar",
+        "08:58 am",
+        "09:01 am"
+      ],
+      [
+        "Boral_Bridge",
+        "09:14 am",
+        "09:17 am"
+      ],
+      [
+        "Ullapara",
+        "09:36 am",
+        "09:39 am"
+      ],
+      [
+        "Jamtail",
+        "09:51 am",
+        "09:53 am"
+      ],
+      [
+        "SH M Monsur Ali",
+        "10:01 am",
+        "10:04 am"
+      ],
+      [
+        "Ibrahimabad",
+        "10:20 am",
+        "10:22 am"
+      ],
+      [
+        "Tangail",
+        "10:42 am",
+        "10:44 am"
+      ],
+      [
+        "Mirzapur",
+        "11:08 am",
+        "11:10 am"
+      ],
+      [
+        "Joydebpur",
+        "12:05 pm",
+        "12:08 pm"
+      ],
+      [
+        "Dhaka",
+        "01:10 pm",
+        "-"
+      ]
+    ]
+  ],
+  "simanta-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "09:15 pm"
+      ],
+      [
+        "Daulatpur",
+        "09:27 pm",
+        "09:29 pm"
+      ],
+      [
+        "Noapara",
+        "09:52 pm",
+        "09:55 pm"
+      ],
+      [
+        "Jashore",
+        "10:23 pm",
+        "10:27 pm"
+      ],
+      [
+        "Mubarakganj",
+        "10:54 pm",
+        "10:56 pm"
+      ],
+      [
+        "Kotchandpur",
+        "11:08 pm",
+        "11:10 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "11:35 pm",
+        "11:38 pm"
+      ],
+      [
+        "Chuadanga",
+        "11:57 pm",
+        "12:00 am"
+      ],
+      [
+        "Alamdanga",
+        "12:16 am",
+        "12:18 am"
+      ],
+      [
+        "Poradaha",
+        "12:34 am",
+        "12:37 am"
+      ],
+      [
+        "Bheramara",
+        "12:54 am",
+        "12:57 am"
+      ],
+      [
+        "Ishwardi",
+        "01:20 am",
+        "01:30 am"
+      ],
+      [
+        "Natore",
+        "02:05 am",
+        "02:08 am"
+      ],
+      [
+        "Santahar",
+        "03:05 am",
+        "03:10 am"
+      ],
+      [
+        "Akkelpur",
+        "03:30 am",
+        "03:32 am"
+      ],
+      [
+        "Joypurhat",
+        "03:46 am",
+        "03:49 am"
+      ],
+      [
+        "Birampur",
+        "04:17 am",
+        "04:19 am"
+      ],
+      [
+        "Fulbari",
+        "04:30 am",
+        "04:32 am"
+      ],
+      [
+        "Parbatipur",
+        "04:50 am",
+        "05:00 am"
+      ],
+      [
+        "Saidpur",
+        "05:17 am",
+        "05:22 am"
+      ],
+      [
+        "Nilphamari",
+        "05:41 am",
+        "05:45 am"
+      ],
+      [
+        "Domar",
+        "06:01 am",
+        "06:23 am"
+      ],
+      [
+        "Chilahati",
+        "06:45 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "06:30 pm"
+      ],
+      [
+        "Domar",
+        "06:48 pm",
+        "06:51 pm"
+      ],
+      [
+        "Nilphamari",
+        "07:07 pm",
+        "07:10 pm"
+      ],
+      [
+        "Saidpur",
+        "07:29 pm",
+        "07:34 pm"
+      ],
+      [
+        "Parbatipur",
+        "07:50 pm",
+        "08:10 pm"
+      ],
+      [
+        "Fulbari",
+        "08:28 pm",
+        "08:31 pm"
+      ],
+      [
+        "Birampur",
+        "08:42 pm",
+        "08:45 pm"
+      ],
+      [
+        "Joypurhat",
+        "09:14 pm",
+        "09:17 pm"
+      ],
+      [
+        "Akkelpur",
+        "09:31 pm",
+        "09:33 pm"
+      ],
+      [
+        "Santahar",
+        "09:55 pm",
+        "10:00 pm"
+      ],
+      [
+        "Natore",
+        "10:40 pm",
+        "10:43 pm"
+      ],
+      [
+        "Ishwardi",
+        "11:20 pm",
+        "11:40 pm"
+      ],
+      [
+        "Bheramara",
+        "12:00 am",
+        "12:03 am"
+      ],
+      [
+        "Poradaha",
+        "12:21 am",
+        "12:24 am"
+      ],
+      [
+        "Alamdanga",
+        "12:40 am",
+        "12:42 am"
+      ],
+      [
+        "Chuadanga",
+        "01:00 am",
+        "01:03 am"
+      ],
+      [
+        "Darshana_Halt",
+        "01:24 am",
+        "01:26 am"
+      ],
+      [
+        "Kotchandpur",
+        "01:50 am",
+        "01:52 am"
+      ],
+      [
+        "Mubarakganj",
+        "02:04 am",
+        "02:06 am"
+      ],
+      [
+        "Jashore",
+        "02:41 am",
+        "02:45 am"
+      ],
+      [
+        "Noapara",
+        "03:13 am",
+        "03:16 am"
+      ],
+      [
+        "Daulatpur",
+        "03:41 am",
+        "03:43 am"
+      ],
+      [
+        "Khulna",
+        "04:10 am",
+        "-"
+      ]
+    ]
+  ],
+  "sirajganj-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sirajganj_Bazar",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Sirajganjraipur",
+        "06:08 am",
+        "06:10 am"
+      ],
+      [
+        "Jamtail",
+        "06:25 am",
+        "06:45 am"
+      ],
+      [
+        "SH M Monsur Ali",
+        "06:53 am",
+        "06:56 am"
+      ],
+      [
+        "SOYDABAD",
+        "07:03 am",
+        "07:06 am"
+      ],
+      [
+        "Ibrahimabad",
+        "07:18 am",
+        "07:20 am"
+      ],
+      [
+        "Tangail",
+        "07:40 am",
+        "07:48 am"
+      ],
+      [
+        "Mirzapur",
+        "08:12 am",
+        "-"
+      ],
+      [
+        "Hi-Tech City",
+        "08:31 am",
+        "08:33 am"
+      ],
+      [
+        "Joydebpur",
+        "09:14 am",
+        "09:17 am"
+      ],
+      [
+        "Biman_Bandar",
+        "09:43 am",
+        "09:46 am"
+      ],
+      [
+        "Dhaka",
+        "10:15 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "04:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "04:38 pm",
+        "04:43 pm"
+      ],
+      [
+        "Joydebpur",
+        "05:06 pm",
+        "05:09 pm"
+      ],
+      [
+        "Mirzapur",
+        "05:42 pm",
+        "-"
+      ],
+      [
+        "Tangail",
+        "06:11 pm",
+        "06:13 pm"
+      ],
+      [
+        "Ibrahimabad",
+        "06:33 pm",
+        "06:39 pm"
+      ],
+      [
+        "SH M Monsur Ali",
+        "06:55 pm",
+        "06:57 pm"
+      ],
+      [
+        "Jamtail",
+        "07:05 pm",
+        "07:30 pm"
+      ],
+      [
+        "Sirajganjraipur",
+        "07:43 pm",
+        "07:45 pm"
+      ],
+      [
+        "Sirajganj_Bazar",
+        "08:10 pm",
+        "-"
+      ]
+    ]
+  ],
+  "sonar-bangla-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "05:00 pm"
+      ],
+      [
+        "Dhaka",
+        "09:55 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "07:00 am"
+      ],
+      [
+        "Biman_Bandar",
+        "07:22 am",
+        "07:27 am"
+      ],
+      [
+        "Chattogram",
+        "11:55 am",
+        "-"
+      ]
+    ]
+  ],
+  "suborno-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "07:00 am"
+      ],
+      [
+        "Dhaka",
+        "11:55 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "04:30 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "04:53 pm",
+        "04:58 pm"
+      ],
+      [
+        "Chattogram",
+        "09:25 pm",
+        "-"
+      ]
+    ]
+  ],
+  "sundarban-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Khulna",
+        "-",
+        "09:45 pm"
+      ],
+      [
+        "Daulatpur",
+        "09:57 pm",
+        "09:59 pm"
+      ],
+      [
+        "Noapara",
+        "10:22 pm",
+        "10:25 pm"
+      ],
+      [
+        "Jashore",
+        "10:53 pm",
+        "10:57 pm"
+      ],
+      [
+        "Mubarakganj",
+        "11:24 pm",
+        "11:26 pm"
+      ],
+      [
+        "Kotchandpur",
+        "11:38 pm",
+        "11:40 pm"
+      ],
+      [
+        "Chuadanga",
+        "12:21 am",
+        "12:24 am"
+      ],
+      [
+        "Alamdanga",
+        "12:40 am",
+        "12:42 am"
+      ],
+      [
+        "Poradaha",
+        "12:58 am",
+        "01:00 am"
+      ],
+      [
+        "Kushtia_Court",
+        "01:12 am",
+        "01:15 am"
+      ],
+      [
+        "Pangsha",
+        "01:51 am",
+        "01:53 am"
+      ],
+      [
+        "Rajbari",
+        "02:30 am",
+        "02:40 am"
+      ],
+      [
+        "Faridpur",
+        "03:12 am",
+        "03:15 am"
+      ],
+      [
+        "Bhanga",
+        "03:45 am",
+        "03:47 am"
+      ],
+      [
+        "Dhaka",
+        "05:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "08:00 am"
+      ],
+      [
+        "Bhanga",
+        "09:07 am",
+        "09:09 am"
+      ],
+      [
+        "Faridpur",
+        "09:39 am",
+        "09:42 am"
+      ],
+      [
+        "Rajbari",
+        "10:15 am",
+        "10:25 am"
+      ],
+      [
+        "Pangsha",
+        "10:59 am",
+        "11:01 am"
+      ],
+      [
+        "Kushtia_Court",
+        "11:35 am",
+        "11:38 am"
+      ],
+      [
+        "Poradaha",
+        "11:50 am",
+        "11:53 am"
+      ],
+      [
+        "Alamdanga",
+        "12:09 pm",
+        "12:11 pm"
+      ],
+      [
+        "Chuadanga",
+        "12:27 pm",
+        "12:30 pm"
+      ],
+      [
+        "Darshana_Halt",
+        "12:50 pm",
+        "12:53 pm"
+      ],
+      [
+        "Kotchandpur",
+        "01:16 pm",
+        "01:18 pm"
+      ],
+      [
+        "Mubarakganj",
+        "01:30 pm",
+        "01:33 pm"
+      ],
+      [
+        "Jashore",
+        "02:04 pm",
+        "02:08 pm"
+      ],
+      [
+        "Noapara",
+        "02:41 pm",
+        "02:44 pm"
+      ],
+      [
+        "Daulatpur",
+        "03:08 pm",
+        "03:10 pm"
+      ],
+      [
+        "Khulna",
+        "03:40 pm",
+        "-"
+      ]
+    ]
+  ],
+  "tista-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "07:30 am"
+      ],
+      [
+        "Biman_Bandar",
+        "07:53 am",
+        "07:58 am"
+      ],
+      [
+        "Joydebpur",
+        "08:23 am",
+        "08:26 am"
+      ],
+      [
+        "Gafargaon",
+        "09:44 am",
+        "09:47 am"
+      ],
+      [
+        "Mymensingh",
+        "10:32 am",
+        "10:35 am"
+      ],
+      [
+        "Piyarpur",
+        "11:03 am",
+        "11:05 am"
+      ],
+      [
+        "Jamalpur_Town",
+        "11:36 am",
+        "11:40 am"
+      ],
+      [
+        "Melandah_Bazar",
+        "11:56 am",
+        "11:58 am"
+      ],
+      [
+        "Islampur_Bazar",
+        "12:16 pm",
+        "12:18 pm"
+      ],
+      [
+        "Dewanganj_Bazar",
+        "12:50 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dewanganj_Bazar",
+        "-",
+        "03:00 pm"
+      ],
+      [
+        "Islampur_Bazar",
+        "03:14 pm",
+        "03:16 pm"
+      ],
+      [
+        "Melandah_Bazar",
+        "03:31 pm",
+        "03:33 pm"
+      ],
+      [
+        "Jamalpur_Town",
+        "03:51 pm",
+        "03:56 pm"
+      ],
+      [
+        "Piyarpur",
+        "04:26 pm",
+        "04:28 pm"
+      ],
+      [
+        "Mymensingh",
+        "05:03 pm",
+        "05:06 pm"
+      ],
+      [
+        "Gafargaon",
+        "05:52 pm",
+        "05:54 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "07:47 pm",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "08:30 pm",
+        "-"
+      ]
+    ]
+  ],
+  "titumir-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "06:20 am"
+      ],
+      [
+        "Abdulpur",
+        "07:00 am",
+        "07:20 am"
+      ],
+      [
+        "Natore",
+        "07:47 am",
+        "07:51 am"
+      ],
+      [
+        "Madhnagar",
+        "08:05 am",
+        "08:07 am"
+      ],
+      [
+        "Ahsanganj",
+        "08:16 am",
+        "08:19 am"
+      ],
+      [
+        "Santahar",
+        "08:45 am",
+        "08:50 am"
+      ],
+      [
+        "Akkelpur",
+        "09:10 am",
+        "09:12 am"
+      ],
+      [
+        "Jamalganj",
+        "09:20 am",
+        "09:22 am"
+      ],
+      [
+        "Joypurhat",
+        "09:30 am",
+        "09:33 am"
+      ],
+      [
+        "Panchbibi",
+        "09:44 am",
+        "09:46 am"
+      ],
+      [
+        "Hili",
+        "09:56 am",
+        "09:58 am"
+      ],
+      [
+        "Birampur",
+        "10:10 am",
+        "10:13 am"
+      ],
+      [
+        "Fulbari",
+        "10:31 am",
+        "10:34 am"
+      ],
+      [
+        "Parbatipur",
+        "11:10 am",
+        "11:30 am"
+      ],
+      [
+        "Saidpur",
+        "11:47 am",
+        "11:52 am"
+      ],
+      [
+        "Nilphamari",
+        "12:11 pm",
+        "12:14 pm"
+      ],
+      [
+        "Domar",
+        "12:30 pm",
+        "12:33 pm"
+      ],
+      [
+        "Chilahati",
+        "01:00 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chilahati",
+        "-",
+        "03:00 pm"
+      ],
+      [
+        "Domar",
+        "03:21 pm",
+        "03:24 pm"
+      ],
+      [
+        "Nilphamari",
+        "03:41 pm",
+        "03:44 pm"
+      ],
+      [
+        "Saidpur",
+        "04:15 pm",
+        "04:19 pm"
+      ],
+      [
+        "Parbatipur",
+        "04:35 pm",
+        "04:55 pm"
+      ],
+      [
+        "Fulbari",
+        "05:13 pm",
+        "05:16 pm"
+      ],
+      [
+        "Birampur",
+        "05:27 pm",
+        "05:30 pm"
+      ],
+      [
+        "Panchbibi",
+        "05:59 pm",
+        "06:01 pm"
+      ],
+      [
+        "Joypurhat",
+        "06:12 pm",
+        "06:15 pm"
+      ],
+      [
+        "Jamalganj",
+        "06:23 pm",
+        "06:25 pm"
+      ],
+      [
+        "Akkelpur",
+        "06:33 pm",
+        "06:35 pm"
+      ],
+      [
+        "Santahar",
+        "06:55 pm",
+        "07:00 pm"
+      ],
+      [
+        "Ahsanganj",
+        "07:22 pm",
+        "07:24 pm"
+      ],
+      [
+        "Madhnagar",
+        "07:33 pm",
+        "07:35 pm"
+      ],
+      [
+        "Natore",
+        "07:50 pm",
+        "07:53 pm"
+      ],
+      [
+        "Abdulpur",
+        "08:10 pm",
+        "08:30 pm"
+      ],
+      [
+        "Rajshahi",
+        "09:30 pm",
+        "-"
+      ]
+    ]
+  ],
+  "tungipara-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Gobra",
+        "-",
+        "06:30 am"
+      ],
+      [
+        "Borashi",
+        "06:39 am",
+        "06:41 am"
+      ],
+      [
+        "Gopalganj",
+        "06:50 am",
+        "06:53 am"
+      ],
+      [
+        "Chandradighalia",
+        "07:05 am",
+        "07:07 am"
+      ],
+      [
+        "Choto Bahirbag",
+        "07:18 am",
+        "07:20 am"
+      ],
+      [
+        "Chapta",
+        "07:32 am",
+        "07:34 am"
+      ],
+      [
+        "Kashiani",
+        "07:44 am",
+        "07:47 am"
+      ],
+      [
+        "Boalmari_Bazar",
+        "08:09 am",
+        "08:11 am"
+      ],
+      [
+        "Madhukhali",
+        "08:30 am",
+        "08:32 am"
+      ],
+      [
+        "Baharpur",
+        "08:55 am",
+        "08:57 am"
+      ],
+      [
+        "Kalukhali",
+        "09:10 am",
+        "09:12 am"
+      ],
+      [
+        "Pangsha",
+        "09:21 am",
+        "09:23 am"
+      ],
+      [
+        "Khoksha",
+        "09:36 am",
+        "09:38 am"
+      ],
+      [
+        "Kumarkhali",
+        "09:47 am",
+        "09:49 am"
+      ],
+      [
+        "Kushtia_Court",
+        "10:06 am",
+        "10:09 am"
+      ],
+      [
+        "Poradaha",
+        "10:30 am",
+        "11:00 am"
+      ],
+      [
+        "Bheramara",
+        "11:17 am",
+        "11:20 am"
+      ],
+      [
+        "Ishwardi",
+        "11:40 am",
+        "12:00 pm"
+      ],
+      [
+        "Rajshahi",
+        "01:15 pm",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Rajshahi",
+        "-",
+        "03:30 pm"
+      ],
+      [
+        "Ishwardi",
+        "04:30 pm",
+        "04:40 pm"
+      ],
+      [
+        "Bheramara",
+        "05:00 pm",
+        "05:03 pm"
+      ],
+      [
+        "Poradaha",
+        "05:20 pm",
+        "05:45 pm"
+      ],
+      [
+        "Kushtia_Court",
+        "05:57 pm",
+        "06:00 pm"
+      ],
+      [
+        "Kumarkhali",
+        "06:18 pm",
+        "06:20 pm"
+      ],
+      [
+        "Khoksha",
+        "06:30 pm",
+        "06:32 pm"
+      ],
+      [
+        "Pangsha",
+        "06:58 pm",
+        "07:00 pm"
+      ],
+      [
+        "Kalukhali",
+        "07:10 pm",
+        "07:12 pm"
+      ],
+      [
+        "Naliagram",
+        "07:40 pm",
+        "-"
+      ],
+      [
+        "Baharpur",
+        "07:26 pm",
+        "07:28 pm"
+      ],
+      [
+        "Madhukhali",
+        "07:51 pm",
+        "07:54 pm"
+      ],
+      [
+        "Boalmari_Bazar",
+        "08:14 pm",
+        "08:16 pm"
+      ],
+      [
+        "Kashiani",
+        "08:40 pm",
+        "08:43 pm"
+      ],
+      [
+        "Chapta",
+        "08:52 pm",
+        "08:54 pm"
+      ],
+      [
+        "Choto Bahirbag",
+        "09:06 pm",
+        "09:08 pm"
+      ],
+      [
+        "Chandradighalia",
+        "09:19 pm",
+        "09:21 pm"
+      ],
+      [
+        "Gopalganj",
+        "09:33 pm",
+        "09:38 pm"
+      ],
+      [
+        "Borashi",
+        "09:49 pm",
+        "09:51 pm"
+      ],
+      [
+        "Gobra",
+        "10:10 pm",
+        "-"
+      ]
+    ]
+  ],
+  "turna": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "11:30 pm"
+      ],
+      [
+        "Feni",
+        "12:50 am",
+        "12:52 am"
+      ],
+      [
+        "Laksam",
+        "01:30 am",
+        "01:32 am"
+      ],
+      [
+        "Cumilla",
+        "01:55 am",
+        "01:57 am"
+      ],
+      [
+        "Akhaura",
+        "02:47 am",
+        "02:50 am"
+      ],
+      [
+        "Brahmanbaria",
+        "03:07 am",
+        "03:10 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "03:30 am",
+        "03:33 am"
+      ],
+      [
+        "Dhaka",
+        "05:10 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "11:15 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "11:38 pm",
+        "11:43 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "12:49 am",
+        "12:52 am"
+      ],
+      [
+        "Brahmanbaria",
+        "01:12 am",
+        "01:16 am"
+      ],
+      [
+        "Akhaura",
+        "01:47 am",
+        "01:50 am"
+      ],
+      [
+        "Cumilla",
+        "02:33 am",
+        "02:35 am"
+      ],
+      [
+        "Laksam",
+        "02:58 am",
+        "03:00 am"
+      ],
+      [
+        "Feni",
+        "03:40 am",
+        "03:42 am"
+      ],
+      [
+        "Chattogram",
+        "05:15 am",
+        "-"
+      ]
+    ]
+  ],
+  "udayan-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Chattogram",
+        "-",
+        "09:45 pm"
+      ],
+      [
+        "Feni",
+        "11:04 pm",
+        "11:07 pm"
+      ],
+      [
+        "Laksam",
+        "11:45 pm",
+        "11:47 pm"
+      ],
+      [
+        "Cumilla",
+        "12:09 am",
+        "12:12 am"
+      ],
+      [
+        "Akhaura",
+        "01:05 am",
+        "01:10 am"
+      ],
+      [
+        "Shaistaganj",
+        "02:29 am",
+        "02:32 am"
+      ],
+      [
+        "Sreemangal",
+        "03:10 am",
+        "03:13 am"
+      ],
+      [
+        "Shamshernagar",
+        "03:38 am",
+        "03:40 am"
+      ],
+      [
+        "Kulaura",
+        "04:04 am",
+        "04:07 am"
+      ],
+      [
+        "Maijgaon",
+        "04:35 am",
+        "04:37 am"
+      ],
+      [
+        "Sylhet",
+        "05:45 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "10:00 pm"
+      ],
+      [
+        "Maijgaon",
+        "10:39 pm",
+        "10:41 pm"
+      ],
+      [
+        "Baramchal",
+        "10:58 pm",
+        "11:00 pm"
+      ],
+      [
+        "Kulaura",
+        "11:13 pm",
+        "11:16 pm"
+      ],
+      [
+        "Shamshernagar",
+        "11:40 pm",
+        "11:42 pm"
+      ],
+      [
+        "Sreemangal",
+        "12:08 am",
+        "12:13 am"
+      ],
+      [
+        "Shaistaganj",
+        "12:50 am",
+        "12:53 am"
+      ],
+      [
+        "Akhaura",
+        "02:15 am",
+        "02:20 am"
+      ],
+      [
+        "Cumilla",
+        "03:03 am",
+        "03:05 am"
+      ],
+      [
+        "Laksam",
+        "03:27 am",
+        "03:29 am"
+      ],
+      [
+        "Feni",
+        "04:07 am",
+        "04:09 am"
+      ],
+      [
+        "Chattogram",
+        "05:35 am",
+        "-"
+      ]
+    ]
+  ],
+  "upaban-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "10:00 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "10:23 pm",
+        "10:28 pm"
+      ],
+      [
+        "Narsingdi",
+        "11:09 pm",
+        "11:11 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "11:40 pm",
+        "11:43 pm"
+      ],
+      [
+        "Shaistaganj",
+        "01:22 am",
+        "01:25 am"
+      ],
+      [
+        "Sreemangal",
+        "02:09 am",
+        "02:11 am"
+      ],
+      [
+        "Bhanugach",
+        "02:30 am",
+        "02:32 am"
+      ],
+      [
+        "Shamshernagar",
+        "02:41 am",
+        "02:43 am"
+      ],
+      [
+        "Kulaura",
+        "03:08 am",
+        "03:11 am"
+      ],
+      [
+        "Baramchal",
+        "03:25 am",
+        "03:27 am"
+      ],
+      [
+        "Maijgaon",
+        "03:43 am",
+        "03:45 am"
+      ],
+      [
+        "Sylhet",
+        "05:00 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Sylhet",
+        "-",
+        "11:30 pm"
+      ],
+      [
+        "Maijgaon",
+        "12:09 am",
+        "12:11 am"
+      ],
+      [
+        "Baramchal",
+        "12:28 am",
+        "12:30 am"
+      ],
+      [
+        "Kulaura",
+        "12:43 am",
+        "12:46 am"
+      ],
+      [
+        "Shamshernagar",
+        "01:09 am",
+        "01:11 am"
+      ],
+      [
+        "Bhanugach",
+        "01:20 am",
+        "01:22 am"
+      ],
+      [
+        "Sreemangal",
+        "01:41 am",
+        "01:44 am"
+      ],
+      [
+        "Shaistaganj",
+        "02:30 am",
+        "02:33 am"
+      ],
+      [
+        "Bhairab_Bazar",
+        "04:03 am",
+        "04:06 am"
+      ],
+      [
+        "Biman_Bandar",
+        "05:12 am",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "05:40 am",
+        "-"
+      ]
+    ]
+  ],
+  "upakul-express": [
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Noakhali",
+        "-",
+        "06:00 am"
+      ],
+      [
+        "Maijdi Court",
+        "06:07 am",
+        "06:09 am"
+      ],
+      [
+        "Choumuhani",
+        "06:23 am",
+        "06:25 am"
+      ],
+      [
+        "Bajra",
+        "06:34 am",
+        "06:36 am"
+      ],
+      [
+        "Sonaimuri",
+        "06:45 am",
+        "06:47 am"
+      ],
+      [
+        "Natherpetua",
+        "07:00 am",
+        "07:02 am"
+      ],
+      [
+        "Laksam",
+        "07:25 am",
+        "07:30 am"
+      ],
+      [
+        "Cumilla",
+        "07:52 am",
+        "07:54 am"
+      ],
+      [
+        "Quasba",
+        "08:24 am",
+        "08:26 am"
+      ],
+      [
+        "Akhaura",
+        "08:50 am",
+        "08:53 am"
+      ],
+      [
+        "Brahmanbaria",
+        "09:11 am",
+        "09:15 am"
+      ],
+      [
+        "Ashuganj",
+        "09:30 am",
+        "09:32 am"
+      ],
+      [
+        "Narsingdi",
+        "10:05 am",
+        "10:07 am"
+      ],
+      [
+        "Biman_Bandar",
+        "10:47 am",
+        "-"
+      ],
+      [
+        "Dhaka",
+        "11:20 am",
+        "-"
+      ]
+    ],
+    [
+      [
+        "Station",
+        "Arrival",
+        "Departure"
+      ],
+      [
+        "Dhaka",
+        "-",
+        "03:10 pm"
+      ],
+      [
+        "Biman_Bandar",
+        "03:33 pm",
+        "03:38 pm"
+      ],
+      [
+        "Narsingdi",
+        "04:17 pm",
+        "04:20 pm"
+      ],
+      [
+        "Bhairab_Bazar",
+        "04:50 pm",
+        "04:53 pm"
+      ],
+      [
+        "Ashuganj",
+        "05:00 pm",
+        "05:03 pm"
+      ],
+      [
+        "Brahmanbaria",
+        "05:17 pm",
+        "05:21 pm"
+      ],
+      [
+        "Akhaura",
+        "05:47 pm",
+        "05:50 pm"
+      ],
+      [
+        "Quasba",
+        "06:06 pm",
+        "06:08 pm"
+      ],
+      [
+        "Cumilla",
+        "06:38 pm",
+        "06:40 pm"
+      ],
+      [
+        "Laksam",
+        "07:03 pm",
+        "07:06 pm"
+      ],
+      [
+        "Natherpetua",
+        "07:28 pm",
+        "-"
+      ],
+      [
+        "Sonaimuri",
+        "07:42 pm",
+        "-"
+      ],
+      [
+        "Bajra",
+        "07:53 pm",
+        "-"
+      ],
+      [
+        "Choumuhani",
+        "08:04 pm",
+        "08:06 pm"
+      ],
+      [
+        "Maijdi Court",
+        "08:20 pm",
+        "-"
+      ],
+      [
+        "Noakhali",
+        "08:40 pm",
+        "-"
+      ]
+    ]
+  ]
+}
