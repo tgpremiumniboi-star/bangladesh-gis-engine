@@ -596,11 +596,13 @@
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
     <script>
+        const API_BASE = window.location.origin;
+
         // Initialize the map centered on Dhaka (23.8103, 90.4125)
         const map = L.map('map').setView([23.8103, 90.4125], 14);
 
         // Local MBTiles raster basemap
-        L.tileLayer('/api/tiles/{z}/{x}/{y}.png', {
+        L.tileLayer(API_BASE + '/api/tiles/{z}/{x}/{y}.png', {
             maxZoom: 18,
             maxNativeZoom: 14,
             attribution: 'Offline Map Data',
@@ -615,7 +617,7 @@
         };
 
         // 0. Country Border
-        const borderLayer = L.vectorGrid.protobuf('/api/mvt/border/{z}/{x}/{y}.pbf', {
+        const borderLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/border/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             interactive: false,
             vectorTileLayerStyles: {
@@ -626,7 +628,7 @@
         }).addTo(map);
 
         // 0.5 Neighborhoods
-        const neighborhoodLayer = L.vectorGrid.protobuf('/api/mvt/neighborhoods/{z}/{x}/{y}.pbf', {
+        const neighborhoodLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/neighborhoods/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'neighborhoods': function (props, zoom) {
@@ -643,7 +645,7 @@
 
 
         // 1. Land Use
-        const landuseLayer = L.vectorGrid.protobuf('/api/mvt/landuse/{z}/{x}/{y}.pbf', {
+        const landuseLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/landuse/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'landuse': function (props, zoom) {
@@ -658,10 +660,10 @@
         document.getElementById('layer-buildings').addEventListener('change', function (e) {
             if (this.checked) {
                 if (!buildingLayer) {
-                    buildingLayer = new OSMBuildings(map).load('/api/geojson/buildings/{z}/{x}/{y}.json');
+                    buildingLayer = new OSMBuildings(map).load(API_BASE + '/api/geojson/buildings/{z}/{x}/{y}.json');
                 } else {
                     // OSMBuildings doesn't easily unbind/rebind, we can just style it transparent or we can just destroy and recreate
-                    buildingLayer = new OSMBuildings(map).load('/api/geojson/buildings/{z}/{x}/{y}.json');
+                    buildingLayer = new OSMBuildings(map).load(API_BASE + '/api/geojson/buildings/{z}/{x}/{y}.json');
                 }
             } else {
                 if (buildingLayer) {
@@ -672,7 +674,7 @@
         });
 
         // 3. Roads
-        const roadLayer = L.vectorGrid.protobuf('/api/mvt/roads/{z}/{x}/{y}.pbf', {
+        const roadLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/roads/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             interactive: false,
             vectorTileLayerStyles: {
@@ -688,7 +690,7 @@
         });
 
         // 4. AI Roads
-        const aiRoadLayer = L.vectorGrid.protobuf('/api/mvt/ai_roads/{z}/{x}/{y}.pbf', {
+        const aiRoadLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/ai_roads/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             interactive: false,
             vectorTileLayerStyles: {
@@ -699,7 +701,7 @@
         });
 
         // 5. POIs
-        const poiLayer = L.vectorGrid.protobuf('/api/mvt/pois/{z}/{x}/{y}.pbf', {
+        const poiLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/pois/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'pois': function (props, zoom) {
@@ -712,7 +714,7 @@
         });
 
         // 6. Overture
-        const overtureLayer = L.vectorGrid.protobuf('/api/mvt/overture/{z}/{x}/{y}.pbf', {
+        const overtureLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/overture/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'overture': function (props, zoom) {
@@ -732,7 +734,7 @@
         });
 
         // 7. Cell Towers
-        const cellTowerLayer = L.vectorGrid.protobuf('/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2', {
+        const cellTowerLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2', {
             ...vtOptions,
             minZoom: 12,
             vectorTileLayerStyles: {
@@ -779,7 +781,7 @@
         });
 
         // 8. Public Transport
-        const transportLayer = L.vectorGrid.protobuf('/api/mvt/transport/{z}/{x}/{y}.pbf', {
+        const transportLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/transport/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'transport': function (props, zoom) {
@@ -805,7 +807,7 @@
         });
 
         // 8.2 Airports (Overture)
-        const airportsLayer = L.vectorGrid.protobuf('/api/mvt/airports/{z}/{x}/{y}.pbf', {
+        const airportsLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/airports/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'airports': function (props, zoom) {
@@ -821,7 +823,7 @@
         });
 
         // 8.3 Helipads (Overture)
-        const helipadsLayer = L.vectorGrid.protobuf('/api/mvt/helipads/{z}/{x}/{y}.pbf', {
+        const helipadsLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/helipads/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'helipads': function (props, zoom) {
@@ -838,7 +840,7 @@
 
 
         // 8.5 Railway Network
-        const railwayLayer = L.vectorGrid.protobuf('/api/mvt/railways/{z}/{x}/{y}.pbf', {
+        const railwayLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/railways/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'railways': function (props, zoom) {
@@ -856,7 +858,7 @@
         });
 
         // 8.7 Addresses Layer
-        const addressLayer = L.vectorGrid.protobuf('/api/mvt/addresses/{z}/{x}/{y}.pbf', {
+        const addressLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/addresses/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'addresses': function (props, zoom) {
@@ -875,7 +877,7 @@
         });
 
         // 9. Power Grid & Infrastructure (neon style: glow halo + bright core)
-        const powerLayer = L.vectorGrid.protobuf('/api/mvt/power_grid/{z}/{x}/{y}.pbf', {
+        const powerLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/power_grid/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'power_grid': function (props, zoom) {
@@ -911,7 +913,7 @@
         });
 
         // 10. Hydrology (Waterways & Coastline)
-        const hydrologyLayer = L.vectorGrid.protobuf('/api/mvt/hydrology/{z}/{x}/{y}.pbf', {
+        const hydrologyLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/hydrology/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             vectorTileLayerStyles: {
                 'hydrology': function (props, zoom) {
@@ -940,7 +942,7 @@
         });
 
         // 11. Flood Risk (JRC Global Surface Water occurrence, raster overlay)
-        const floodRiskLayer = L.tileLayer('/api/floodtiles/{z}/{x}/{y}.png', {
+        const floodRiskLayer = L.tileLayer(API_BASE + '/api/floodtiles/{z}/{x}/{y}.png', {
             maxZoom: 18,
             maxNativeZoom: 11,
             opacity: 0.65,
@@ -949,7 +951,7 @@
         });
 
         // 12. Elevation Vulnerability (SRTM/Terrarium hillshade + hypsometric tint)
-        const hillshadeLayer = L.tileLayer('/api/hillshade/{z}/{x}/{y}.png', {
+        const hillshadeLayer = L.tileLayer(API_BASE + '/api/hillshade/{z}/{x}/{y}.png', {
             maxZoom: 18,
             maxNativeZoom: 11,
             opacity: 0.7,
@@ -958,7 +960,7 @@
         });
 
         // 13. Elevation Contours
-        const contourLayer = L.vectorGrid.protobuf('/api/mvt/contours/{z}/{x}/{y}.pbf', {
+        const contourLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/contours/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             minZoom: 11,
             vectorTileLayerStyles: {
@@ -979,7 +981,7 @@
         });
 
         // 13.5 Population Density (Kontur H3)
-        const populationLayer = L.vectorGrid.protobuf('/api/mvt/population/{z}/{x}/{y}.pbf', {
+        const populationLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/population/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             minZoom: 11,
             vectorTileLayerStyles: {
@@ -1021,7 +1023,7 @@
 
         async function updateFlights() {
             try {
-                const res = await fetch('/api/flights');
+                const res = await fetch(API_BASE + '/api/flights');
                 const data = await res.json();
                 flightLayer.clearLayers();
                 (data.flights || []).forEach(f => {
@@ -1071,7 +1073,7 @@
 
         async function updateShips() {
             try {
-                const res = await fetch('/api/ships');
+                const res = await fetch(API_BASE + '/api/ships');
                 const data = await res.json();
                 shipLayer.clearLayers();
                 (data.ships || []).forEach(s => {
@@ -1104,7 +1106,7 @@
         });
 
         // 16. Fishing Vessel Activity (Global Fishing Watch, trailing 30 days)
-        const fishingLayer = L.vectorGrid.protobuf('/api/mvt/fishing/{z}/{x}/{y}.pbf', {
+        const fishingLayer = L.vectorGrid.protobuf(API_BASE + '/api/mvt/fishing/{z}/{x}/{y}.pbf', {
             ...vtOptions,
             maxNativeZoom: 9,
             vectorTileLayerStyles: {
@@ -1140,7 +1142,7 @@
 
         async function updateMarineTrafficShips() {
             try {
-                const response = await fetch('/api/ships/bd');
+                const response = await fetch(API_BASE + '/api/ships/bd');
                 if (!response.ok) throw new Error("Failed to fetch ships");
                 const data = await response.json();
 
@@ -1189,7 +1191,7 @@
 
         async function updateEarthquakes() {
             try {
-                const res = await fetch('/api/earthquakes');
+                const res = await fetch(API_BASE + '/api/earthquakes');
                 const data = await res.json();
                 earthquakeLayer.clearLayers();
                 (data.features || []).forEach(f => {
@@ -1249,7 +1251,7 @@
 
         async function updateDisasters() {
             try {
-                const res = await fetch('/api/disasters');
+                const res = await fetch(API_BASE + '/api/disasters');
                 const data = await res.json();
                 disasterLayer.clearLayers();
                 (data.disasters || []).forEach(d => {
@@ -1285,7 +1287,7 @@
         // + river gauge return-period alerts - predictive, unlike the JRC
         // historical water-occurrence layer)
         // -----------------------------------------------------
-        const glofasForecastLayer = L.tileLayer('/api/wms/glofas/forecast/{z}/{x}/{y}.png', {
+        const glofasForecastLayer = L.tileLayer(API_BASE + '/api/wms/glofas/forecast/{z}/{x}/{y}.png', {
             maxZoom: 18,
             maxNativeZoom: 9,
             opacity: 0.75,
@@ -1293,7 +1295,7 @@
             errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
         });
 
-        const glofasGaugesLayer = L.tileLayer('/api/wms/glofas/gauges/{z}/{x}/{y}.png', {
+        const glofasGaugesLayer = L.tileLayer(API_BASE + '/api/wms/glofas/gauges/{z}/{x}/{y}.png', {
             maxZoom: 18,
             maxNativeZoom: 9,
             opacity: 0.9,
@@ -1382,7 +1384,7 @@
 
         async function updateSatelliteTracking() {
             try {
-                const res = await fetch('/api/satellites');
+                const res = await fetch(API_BASE + '/api/satellites');
                 const data = await res.json();
                 satelliteTrackingLayer.clearLayers();
                 (data.satellites || []).forEach(s => {
@@ -1419,7 +1421,7 @@
 
         async function updateWindLayer() {
             try {
-                const res = await fetch('/api/weather/wind.json');
+                const res = await fetch(API_BASE + '/api/weather/wind.json');
                 const data = await res.json();
                 
                 if (windLayer) {
@@ -1487,7 +1489,7 @@
         async function updateFloodMonitoring() {
             try {
                 // 1. Fetch Rivers GeoJSON (Static)
-                const riverRes = await fetch('/api/ffwc/river_attributes');
+                const riverRes = await fetch(API_BASE + '/api/ffwc/river_attributes');
                 const riverData = await riverRes.json();
                 
                 floodLayerGroup.clearLayers();
@@ -1497,11 +1499,11 @@
                 }).addTo(floodLayerGroup);
 
                 // 2. Fetch Static Stations Info
-                const stationsRes = await fetch('/api/ffwc/stations');
+                const stationsRes = await fetch(API_BASE + '/api/ffwc/stations');
                 const stationsInfo = await stationsRes.json();
 
                 // 3. Fetch Live Recent Observations via backend proxy
-                const liveRes = await fetch('/api/ffwc/live');
+                const liveRes = await fetch(API_BASE + '/api/ffwc/live');
                 const liveData = await liveRes.json();
 
                 // 4. Match and plot stations
@@ -1683,9 +1685,9 @@
 
                 if (!trainSchedules) {
                     try {
-                        const res = await fetch('/api/train_schedules');
+                        const res = await fetch(API_BASE + '/api/train_schedules');
                         trainSchedules = await res.json();
-                        const res2 = await fetch('/api/station_coords');
+                        const res2 = await fetch(API_BASE + '/api/station_coords');
                         stationCoords = await res2.json();
 
                         // Populate dropdown
@@ -1775,7 +1777,7 @@
             try {
                 // Use our new precise Railway Router instead of OSRM!
                 const requestBody = { stations: routeStations.map(s => [s.coords[0], s.coords[1]]) };
-                const res = await fetch('/api/route_train_db', {
+                const res = await fetch(API_BASE + '/api/route_train_db', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
@@ -1949,9 +1951,9 @@
                 if (!busSchedules) {
                     try {
                         const [res1, res2, coordsRes] = await Promise.all([
-                            fetch('/api/bus_schedules?operator=si'),
-                            fetch('/api/bus_schedules?operator=london'),
-                            fetch('/api/bus_station_coords')
+                            fetch(API_BASE + '/api/bus_schedules?operator=si'),
+                            fetch(API_BASE + '/api/bus_schedules?operator=london'),
+                            fetch(API_BASE + '/api/bus_station_coords')
                         ]);
                         const data1 = await res1.json();
                         const data2 = await res2.json();
@@ -2046,7 +2048,7 @@
 
             let routeGeom = null;
             try {
-                const url = `/api/route?slat=${startCoord[0]}&slon=${startCoord[1]}&elat=${endCoord[0]}&elon=${endCoord[1]}`;
+                const url = `${API_BASE}/api/route?slat=${startCoord[0]}&slon=${startCoord[1]}&elat=${endCoord[0]}&elon=${endCoord[1]}`;
                 const res = await fetch(url);
                 const data = await res.json();
                 
@@ -2145,7 +2147,7 @@
         let railwaysLayer = null;
         document.getElementById('layer-railways').addEventListener('change', function (e) {
             if (e.target.checked) {
-                railwaysLayer = L.vectorGrid.protobuf("/api/mvt/railways/{z}/{x}/{y}.pbf", {
+                railwaysLayer = L.vectorGrid.protobuf(API_BASE + "/api/mvt/railways/{z}/{x}/{y}.pbf", {
                     vectorTileLayerStyles: {
                         railways: {
                             weight: 4,
@@ -2170,7 +2172,7 @@
         document.getElementById('layer-gas').addEventListener('change', async function(e) {
             if (e.target.checked) {
                 try {
-                    const res = await fetch('/api/gas_pipelines');
+                    const res = await fetch(API_BASE + '/api/gas_pipelines');
                     const data = await res.json();
                     gasPipelineLayer = L.geoJSON(data, {
                         style: function (feature) {
@@ -2201,7 +2203,7 @@
         document.getElementById('layer-gas-power').addEventListener('change', async function(e) {
             if (e.target.checked) {
                 try {
-                    const res = await fetch('/api/gas_power_plants');
+                    const res = await fetch(API_BASE + '/api/gas_power_plants');
                     const data = await res.json();
                     
                     const myIcon = L.divIcon({
@@ -2558,7 +2560,7 @@
             document.getElementById('btn-mega-run').style.display = 'none';
             
             try {
-                const res = await fetch('/api/simulate_megaproject', {
+                const res = await fetch(API_BASE + '/api/simulate_megaproject', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ coordinates: megaProjectCoords })
@@ -2703,7 +2705,7 @@
                 document.getElementById('dispatch-stats').innerHTML = `Routing nearest responder... ⏳`;
                 
                 try {
-                    const res = await fetch('/api/simulate_dispatch', {
+                    const res = await fetch(API_BASE + '/api/simulate_dispatch', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, emergency_type: type })
@@ -2777,7 +2779,7 @@
                 document.getElementById('disaster-stats').innerHTML = `<div style="text-align:center;">Calculating cascading failures...<br><span style="font-size:20px">⏳</span></div>`;
 
                 try {
-                    const res = await fetch('/api/simulate_disaster', {
+                    const res = await fetch(API_BASE + '/api/simulate_disaster', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, radius_km: radiusKm })
@@ -2863,7 +2865,7 @@
                 document.getElementById('evacuate-stats').innerHTML = `<div style="text-align:center;">Calculating dynamic evacuation routes...<br><span style="font-size:20px">⏳</span></div>`;
 
                 try {
-                    const res = await fetch('/api/evacuate', {
+                    const res = await fetch(API_BASE + '/api/evacuate', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, radius_km: radiusKm })
@@ -2916,7 +2918,7 @@
                 document.getElementById('flood-stats').innerHTML = `<div style="text-align:center;">Interpolating topographic DEM and computing flood mask...<br><span style="font-size:20px">🌊</span></div>`;
 
                 try {
-                    const res = await fetch('/api/simulate_flood', {
+                    const res = await fetch(API_BASE + '/api/simulate_flood', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, radius_km: radiusKm, water_level: waterLevel })
@@ -2976,7 +2978,7 @@
                 document.getElementById('epidemic-stats').innerHTML = `<div style="text-align:center;">Modeling transmission vectors...<br><span style="font-size:20px">🦟</span></div>`;
 
                 try {
-                    const res = await fetch('/api/simulate_epidemic', {
+                    const res = await fetch(API_BASE + '/api/simulate_epidemic', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, radius_km: radiusKm, days: days })
@@ -3038,7 +3040,7 @@
                 document.getElementById('traffic-stats').innerHTML = `<div style="text-align:center;">Calculating commuter assignments...<br><span style="font-size:20px">🚗</span></div>`;
 
                 try {
-                    const res = await fetch('/api/simulate_traffic', {
+                    const res = await fetch(API_BASE + '/api/simulate_traffic', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ lat, lon, radius_km: radiusKm, commuters: commuters })
@@ -3131,7 +3133,7 @@
             document.getElementById('loading').style.display = 'block';
 
             try {
-                const url = `/api/route?slat=${routeStart.lat}&slon=${routeStart.lng}&elat=${routeEnd.lat}&elon=${routeEnd.lng}`;
+                const url = `${API_BASE}/api/route?slat=${routeStart.lat}&slon=${routeStart.lng}&elat=${routeEnd.lat}&elon=${routeEnd.lng}`;
                 const res = await fetch(url);
                 const data = await res.json();
 
@@ -3245,7 +3247,7 @@
             }
             searchDebounce = setTimeout(async () => {
                 try {
-                    const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+                    const res = await fetch(`${API_BASE}/api/geocode?q=${encodeURIComponent(q)}`);
                     const data = await res.json();
                     renderResults(data.results || []);
                 } catch (e) {
@@ -3268,7 +3270,7 @@
             const popup = L.popup().setLatLng(e.latlng).setContent('Looking up address...').openOn(map);
 
             try {
-                const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lng}`);
+                const res = await fetch(`${API_BASE}/api/reverse-geocode?lat=${lat}&lon=${lng}`);
                 const data = await res.json();
 
                 if (data.error) {
@@ -3321,7 +3323,7 @@
             document.getElementById('loading').style.display = 'block';
 
             try {
-                const res = await fetch(`/api/triangulate?lat=${lat}&lon=${lng}`);
+                const res = await fetch(`${API_BASE}/api/triangulate?lat=${lat}&lon=${lng}`);
                 const data = await res.json();
                 
                 if (data.towers) {
@@ -3442,7 +3444,7 @@
                     fillOpacity: 1
                 }).addTo(viewshedLayer).bindPopup("Observer Point").openPopup();
 
-                const res = await fetch(`/api/buildings_radius?lat=${lat}&lon=${lng}&radius=500`);
+                const res = await fetch(`${API_BASE}/api/buildings_radius?lat=${lat}&lon=${lng}&radius=500`);
                 const data = await res.json();
                 
                 if (data.features) {

@@ -752,29 +752,37 @@
             }
         }
 
+        const API_BASE = window.location.origin;
+
         // -------------------------------------------------------------
         // MapLibre GL JS Hardware-Accelerated 3D Map Setup
         // -------------------------------------------------------------
         const map = new maplibregl.Map({
             container: 'map',
+            transformRequest: (url) => {
+                if (url.startsWith('/')) {
+                    return { url: window.location.origin + url };
+                }
+                return { url };
+            },
             style: {
                 version: 8,
                 sources: {
                     'basemap_source': {
                         type: 'raster',
-                        tiles: ['/api/tiles/{z}/{x}/{y}.png'],
+                        tiles: [API_BASE + '/api/tiles/{z}/{x}/{y}.png'],
                         tileSize: 256,
                         maxzoom: 14
                     },
                     'hillshade_source': {
                         type: 'raster',
-                        tiles: ['/api/hillshade/{z}/{x}/{y}.png'],
+                        tiles: [API_BASE + '/api/hillshade/{z}/{x}/{y}.png'],
                         tileSize: 256,
                         maxzoom: 11
                     },
                     'floodrisk_source': {
                         type: 'raster',
-                        tiles: ['/api/floodtiles/{z}/{x}/{y}.png'],
+                        tiles: [API_BASE + '/api/floodtiles/{z}/{x}/{y}.png'],
                         tileSize: 256,
                         maxzoom: 11
                     }
@@ -837,126 +845,126 @@
             // Vector Sources
             map.addSource('roads_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/roads/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/roads/{z}/{x}/{y}.pbf'],
                 minzoom: 6,
                 maxzoom: 18
             });
 
             map.addSource('ai_roads_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/ai_roads/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/ai_roads/{z}/{x}/{y}.pbf'],
                 minzoom: 13,
                 maxzoom: 18
             });
 
             map.addSource('buildings_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/buildings/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/buildings/{z}/{x}/{y}.pbf'],
                 minzoom: 13,
                 maxzoom: 18
             });
 
             map.addSource('hydrology_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/hydrology/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/hydrology/{z}/{x}/{y}.pbf'],
                 minzoom: 6,
                 maxzoom: 18
             });
 
             map.addSource('waterbodies_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/waterbodies/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/waterbodies/{z}/{x}/{y}.pbf'],
                 minzoom: 12,
                 maxzoom: 18
             });
 
             map.addSource('railways_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/railways/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/railways/{z}/{x}/{y}.pbf'],
                 minzoom: 6,
                 maxzoom: 18
             });
 
             map.addSource('power_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/power_grid/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/power_grid/{z}/{x}/{y}.pbf'],
                 minzoom: 6,
                 maxzoom: 18
             });
 
             map.addSource('celltowers_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2'],
+                tiles: [API_BASE + '/api/mvt/celltowers/{z}/{x}/{y}.pbf?v=2'],
                 minzoom: 12,
                 maxzoom: 18
             });
 
             map.addSource('population_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/population/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/population/{z}/{x}/{y}.pbf'],
                 minzoom: 11,
                 maxzoom: 18
             });
 
             map.addSource('contours_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/contours/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/contours/{z}/{x}/{y}.pbf'],
                 minzoom: 11,
                 maxzoom: 18
             });
 
             map.addSource('pois_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/pois/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/pois/{z}/{x}/{y}.pbf'],
                 minzoom: 13,
                 maxzoom: 18
             });
 
             map.addSource('overture_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/overture/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/overture/{z}/{x}/{y}.pbf'],
                 minzoom: 13,
                 maxzoom: 18
             });
 
             map.addSource('transport_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/transport/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/transport/{z}/{x}/{y}.pbf'],
                 minzoom: 12,
                 maxzoom: 18
             });
 
             map.addSource('airports_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/airports/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/airports/{z}/{x}/{y}.pbf'],
                 minzoom: 8,
                 maxzoom: 18
             });
 
             map.addSource('helipads_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/helipads/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/helipads/{z}/{x}/{y}.pbf'],
                 minzoom: 10,
                 maxzoom: 18
             });
 
             map.addSource('addresses_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/addresses/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/addresses/{z}/{x}/{y}.pbf'],
                 minzoom: 14,
                 maxzoom: 18
             });
 
             map.addSource('neighborhoods_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/neighborhoods/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/neighborhoods/{z}/{x}/{y}.pbf'],
                 minzoom: 6,
                 maxzoom: 18
             });
 
             map.addSource('landuse_src', {
                 type: 'vector',
-                tiles: ['/api/mvt/landuse/{z}/{x}/{y}.pbf'],
+                tiles: [API_BASE + '/api/mvt/landuse/{z}/{x}/{y}.pbf'],
                 minzoom: 13,
                 maxzoom: 18
             });
@@ -1273,7 +1281,7 @@
             });
 
             // Load Districts GeoJSON
-            fetch('/api/districts')
+            fetch(API_BASE + '/api/districts')
                 .then(r => r.json())
                 .then(data => {
                     map.addSource('districts_src', { type: 'geojson', data: data });
@@ -1305,7 +1313,7 @@
         // Gas Pipelines & Power Plants
         // -------------------------------------------------------------
         function loadGasInfra() {
-            fetch('/api/gas_pipelines')
+            fetch(API_BASE + '/api/gas_pipelines')
                 .then(r => r.json())
                 .then(fc => {
                     map.addSource('gas_pipelines_src', { type: 'geojson', data: fc });
@@ -1318,7 +1326,7 @@
                     });
                 });
 
-            fetch('/api/gas_power_plants')
+            fetch(API_BASE + '/api/gas_power_plants')
                 .then(r => r.json())
                 .then(fc => {
                     map.addSource('gas_power_src', { type: 'geojson', data: fc });
@@ -1346,7 +1354,7 @@
         }
 
         function fetchDisasters() {
-            fetch('/api/disasters')
+            fetch(API_BASE + '/api/disasters')
                 .then(r => r.json())
                 .then(data => {
                     disastersMarkers.forEach(m => m.remove());
@@ -1487,7 +1495,7 @@
                 return;
             }
             geocodeTimer = setTimeout(() => {
-                fetch(`/api/geocode?q=${encodeURIComponent(q)}`)
+                fetch(`${API_BASE}/api/geocode?q=${encodeURIComponent(q)}`)
                     .then(r => r.json())
                     .then(data => {
                         const results = data.results || [];
@@ -1619,7 +1627,7 @@
             const radius = parseFloat(document.getElementById('epi-radius').value);
             document.getElementById('epi-cases-val').innerText = 'Simulating Outbreak...';
 
-            fetch('/api/simulate_epidemic', {
+            fetch(API_BASE + '/api/simulate_epidemic', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, radius_km: radius, days: 30 })
@@ -1719,7 +1727,7 @@
             const statsBox = document.getElementById('flood-stats');
             statsBox.innerHTML = 'Calculating DEM inundation across spatial building shards...';
 
-            fetch('/api/simulate_flood', {
+            fetch(API_BASE + '/api/simulate_flood', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, radius_km: 2.5, water_level: level })
@@ -1759,7 +1767,7 @@
             const statsBox = document.getElementById('disaster-stats');
             statsBox.innerHTML = 'Simulating grid cascading collapse...';
 
-            fetch('/api/simulate_disaster', {
+            fetch(API_BASE + '/api/simulate_disaster', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, radius_km: 5.0 })
@@ -1791,7 +1799,7 @@
             const statsBox = document.getElementById('evacuate-stats');
             statsBox.innerHTML = 'Computing multi-source Dijkstra routes...';
 
-            fetch('/api/evacuate', {
+            fetch(API_BASE + '/api/evacuate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, radius_km: 3.0 })
@@ -1833,7 +1841,7 @@
             const statsBox = document.getElementById('traffic-stats');
             statsBox.innerHTML = 'Computing commuter bottleneck flow...';
 
-            fetch('/api/simulate_traffic', {
+            fetch(API_BASE + '/api/simulate_traffic', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, radius_km: 6.0, commuters: commuters })
@@ -1935,7 +1943,7 @@
             const statsBox = document.getElementById('dispatch-stats');
             statsBox.innerHTML = 'Routing emergency responders...';
 
-            fetch('/api/simulate_dispatch', {
+            fetch(API_BASE + '/api/simulate_dispatch', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ lat: lat, lon: lon, emergency_type: type })
@@ -1997,7 +2005,7 @@
             const statsBox = document.getElementById('mega-stats');
             statsBox.innerHTML = 'Injecting new highway & running Dijkstra economic matrix...';
 
-            fetch('/api/simulate_megaproject', {
+            fetch(API_BASE + '/api/simulate_megaproject', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ coordinates: megaCoords })
@@ -2054,7 +2062,7 @@
             const statsBox = document.getElementById('tactical-stats');
             statsBox.innerHTML = 'Calculating shortest path via pgRouting...';
 
-            fetch(`/api/route?slat=${tacticalStart[0]}&slon=${tacticalStart[1]}&elat=${tacticalEnd[0]}&elon=${tacticalEnd[1]}`)
+            fetch(`${API_BASE}/api/route?slat=${tacticalStart[0]}&slon=${tacticalStart[1]}&elat=${tacticalEnd[0]}&elon=${tacticalEnd[1]}`)
                 .then(r => r.json())
                 .then(res => {
                     if (res.error) {
@@ -2090,7 +2098,7 @@
             const statsBox = document.getElementById('triangulate-stats');
             statsBox.innerHTML = 'Locating 3 nearest towers...';
 
-            fetch(`/api/triangulate?lat=${lat}&lon=${lon}`)
+            fetch(`${API_BASE}/api/triangulate?lat=${lat}&lon=${lon}`)
                 .then(r => r.json())
                 .then(data => {
                     const towers = data.towers || [];
@@ -2123,7 +2131,7 @@
             const statsBox = document.getElementById('viewshed-stats');
             statsBox.innerHTML = 'Calculating building occlusions within 500m...';
 
-            fetch(`/api/buildings_radius?lat=${lat}&lon=${lon}&radius=500`)
+            fetch(`${API_BASE}/api/buildings_radius?lat=${lat}&lon=${lon}&radius=500`)
                 .then(r => r.json())
                 .then(data => {
                     statsBox.innerHTML = `
@@ -2158,7 +2166,7 @@
 
         function loadTransitData() {
             // Trains
-            fetch('/api/train_schedules')
+            fetch(API_BASE + '/api/train_schedules')
                 .then(r => r.json())
                 .then(data => {
                     trainSchedules = data;
@@ -2171,15 +2179,15 @@
                     });
                 });
 
-            fetch('/api/station_coords')
+            fetch(API_BASE + '/api/station_coords')
                 .then(r => r.json())
                 .then(data => { stationCoords = data; });
 
             // Buses
             Promise.all([
-                fetch('/api/bus_schedules?operator=si').then(r => r.json()),
-                fetch('/api/bus_schedules?operator=london').then(r => r.json()),
-                fetch('/api/bus_station_coords').then(r => r.json())
+                fetch(API_BASE + '/api/bus_schedules?operator=si').then(r => r.json()),
+                fetch(API_BASE + '/api/bus_schedules?operator=london').then(r => r.json()),
+                fetch(API_BASE + '/api/bus_station_coords').then(r => r.json())
             ]).then(([si, london, bcoords]) => {
                 busSchedules = { ...si, ...london };
                 busCoords = bcoords;
@@ -2219,7 +2227,7 @@
                 }
             }
             if (stations.length >= 2) {
-                fetch('/api/route_train_db', {
+                fetch(API_BASE + '/api/route_train_db', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ stations: stations.map(s => [s[0], s[1]]) })
@@ -2264,7 +2272,7 @@
             if (busCoords[sName] && busCoords[eName]) {
                 const sc = busCoords[sName];
                 const ec = busCoords[eName];
-                fetch(`/api/route?slat=${sc[0]}&slon=${sc[1]}&elat=${ec[0]}&elon=${ec[1]}`)
+                fetch(`${API_BASE}/api/route?slat=${sc[0]}&slon=${sc[1]}&elat=${ec[0]}&elon=${ec[1]}`)
                     .then(r => r.json())
                     .then(res => {
                         if (res.geometry) {
@@ -2298,7 +2306,7 @@
         }
 
         function updateLiveFlights() {
-            fetch('/api/flights')
+            fetch(API_BASE + '/api/flights')
                 .then(r => r.json())
                 .then(data => {
                     const fc = {
@@ -2342,7 +2350,7 @@
         }
 
         function updateLiveShips() {
-            fetch('/api/vessels')
+            fetch(API_BASE + '/api/vessels')
                 .then(r => r.json())
                 .then(fc => {
                     if (map.getSource('live_ships_src')) {
@@ -2371,7 +2379,7 @@
                 if (map.getSource('live_quakes_src')) map.removeSource('live_quakes_src');
                 return;
             }
-            fetch('/api/earthquakes')
+            fetch(API_BASE + '/api/earthquakes')
                 .then(r => r.json())
                 .then(fc => {
                     map.addSource('live_quakes_src', { type: 'geojson', data: fc });
@@ -2397,7 +2405,7 @@
                 if (map.getSource('live_sats_src')) map.removeSource('live_sats_src');
                 return;
             }
-            fetch('/api/satellites')
+            fetch(API_BASE + '/api/satellites')
                 .then(r => r.json())
                 .then(data => {
                     const fc = {
@@ -2425,7 +2433,7 @@
                 if (map.getSource('live_ffwc_src')) map.removeSource('live_ffwc_src');
                 return;
             }
-            fetch('/api/ffwc/stations')
+            fetch(API_BASE + '/api/ffwc/stations')
                 .then(r => r.json())
                 .then(stations => {
                     const fc = {
