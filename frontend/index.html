@@ -602,6 +602,7 @@
         // Local MBTiles raster basemap
         L.tileLayer('/api/tiles/{z}/{x}/{y}.png', {
             maxZoom: 18,
+            maxNativeZoom: 14,
             attribution: 'Offline Map Data',
             errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
         }).addTo(map);
