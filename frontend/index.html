@@ -3214,7 +3214,25 @@
             results.forEach(r => {
                 const item = document.createElement('div');
                 item.className = 'search-result';
-                item.innerHTML = `${r.label} <span class="src-badge">${SOURCE_LABELS[r.source] || r.source}</span>`;
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.justifyContent = 'space-between';
+                item.style.padding = '8px 12px';
+                item.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+                item.style.cursor = 'pointer';
+
+                const distBadge = r.distance_str ? `<span style="font-size:10px; color:#00e5ff; background:rgba(0,229,255,0.12); border:1px solid rgba(0,229,255,0.25); padding:2px 6px; border-radius:10px; white-space:nowrap; margin-left:8px;">${r.distance_str}</span>` : '';
+
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px; min-width:0; flex:1;">
+                        <span style="font-size:18px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.06); border-radius:6px; flex-shrink:0;">${r.icon || '📍'}</span>
+                        <div style="min-width:0; overflow:hidden;">
+                            <div style="font-weight:600; font-size:12px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.label}</div>
+                            <div style="font-size:10px; color:#94a3b8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.sublabel || ''}</div>
+                        </div>
+                    </div>
+                    ${distBadge}
+                `;
                 item.addEventListener('click', () => {
                     try {
                         const lat = Number(r.lat);
@@ -3227,8 +3245,22 @@
                         searchInput.value = r.label;
                         if (searchMarker) map.removeLayer(searchMarker);
                         searchMarker = L.marker([lat, lon]).addTo(map);
-                        searchMarker.bindPopup(`<b>${r.label}</b><br><span style="color:gray;">${SOURCE_LABELS[r.source] || r.source}</span>`).openPopup();
-                        map.flyTo([lat, lon], 16);
+                        searchMarker.bindPopup(`
+                            <div style="font-family:inherit; min-width:180px; padding:2px;">
+                                <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                                    <span style="font-size:18px;">${r.icon || '📍'}</span>
+                                    <b style="color:#0f172a; font-size:13px;">${r.label}</b>
+                                </div>
+                                <div style="font-size:11px; color:#64748b; margin-bottom:6px;">${r.sublabel || ''}</div>
+                                <div style="font-size:10px; color:#0284c7; background:#f0f9ff; padding:3px 6px; border-radius:4px;">📍 ${lat.toFixed(5)}, ${lon.toFixed(5)}</div>
+                            </div>
+                        `).openPopup();
+                        
+                        let zoom = 16;
+                        if (r.category === 'district') zoom = 12;
+                        else if (r.category === 'upazila') zoom = 13;
+                        else if (r.category === 'neighborhood' || r.category === 'locality') zoom = 15;
+                        map.flyTo([lat, lon], zoom);
                     } catch (err) {
                         console.error("Error jumping to search result:", err, r);
                     }
@@ -3247,7 +3279,8 @@
             }
             searchDebounce = setTimeout(async () => {
                 try {
-                    const res = await fetch(`${API_BASE}/api/geocode?q=${encodeURIComponent(q)}`);
+                    const center = map.getCenter();
+                    const res = await fetch(`${API_BASE}/api/geocode?q=${encodeURIComponent(q)}&lon=${center.lng.toFixed(4)}&lat=${center.lat.toFixed(4)}`);
                     const data = await res.json();
                     renderResults(data.results || []);
                 } catch (e) {

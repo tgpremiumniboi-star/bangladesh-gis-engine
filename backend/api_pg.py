@@ -1041,60 +1041,115 @@ def get_flood_tile(z: int, x: int, y: int):
     return Response(status_code=404)
 
 # ---------------------------------------------------------
-# Geocoding Search Endpoint (pg_trgm fuzzy search across
-# addresses, POIs, neighborhoods and road names)
+# Google Maps-Grade Geocoding Search Engine
+# (Unified search_index with pg_trgm fuzzy matching,
+#  spatial proximity biasing, category icons and breadcrumbs)
 # ---------------------------------------------------------
+CATEGORY_ICONS = {
+    'hospital': '🏥', 'clinic': '🏥', 'doctors': '🏥', 'pharmacy': '💊',
+    'university': '🎓', 'college': '🎓', 'school': '🏫', 'education': '🎓',
+    'restaurant': '🍴', 'cafe': '☕', 'fast_food': '🍔', 'food': '🍴',
+    'bank': '🏦', 'atm': '🏧',
+    'place_of_worship': '🕌', 'mosque': '🕌', 'temple': '🛕', 'church': '⛪',
+    'supermarket': '🛒', 'mall': '🛍️', 'shop': '🛍️', 'clothing_store': '👗',
+    'hotel': '🏨', 'motel': '🏨', 'resort': '🏖️',
+    'police': '👮', 'fire_station': '🚒', 'post_office': '📮',
+    'airport': '✈️', 'helipad': '🚁', 'railway_station': '🚆', 'bus_stop': '🚌',
+    'district': '🏛️', 'upazila': '📍', 'neighborhood': '📍', 'locality': '📍',
+    'address': '🏠', 'building': '🏢', 'road': '🛣️', 'park': '🌳'
+}
+
+_geocode_cache = {}
+
+def _get_category_icon(cat: str) -> str:
+    cat_lower = (cat or '').lower()
+    for k, icon in CATEGORY_ICONS.items():
+        if k in cat_lower:
+            return icon
+    return '📍'
+
+def _calc_dist_km(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
+    import math
+    p1_lon, p1_lat, p2_lon, p2_lat = map(math.radians, [lon1, lat1, lon2, lat2])
+    dlon = p2_lon - p1_lon
+    dlat = p2_lat - p1_lat
+    a = math.sin(dlat/2)**2 + math.cos(p1_lat) * math.cos(p2_lat) * math.sin(dlon/2)**2
+    c = 2 * math.asin(math.sqrt(a))
+    return 6371.0 * c
+
 @app.get("/api/geocode")
-def geocode(q: str):
+def geocode(q: str, lon: float = None, lat: float = None):
     q = q.strip()
     if len(q) < 2:
         return JSONResponse(content={"results": []})
 
+    cache_key = (q.lower(), round(lon, 2) if lon is not None else None, round(lat, 2) if lat is not None else None)
+    if cache_key in _geocode_cache:
+        return JSONResponse(content={"results": _geocode_cache[cache_key]})
+
     conn = pg_pool.getconn()
+    if not conn:
+        return JSONResponse(content={"results": []})
+
     try:
         cursor = conn.cursor()
-        like_pattern = f"%{q}%"
+        has_bias = lon is not None and lat is not None and (88.0 <= lon <= 93.0) and (20.5 <= lat <= 26.8)
+        bias_lon = lon if has_bias else 90.4125
+        bias_lat = lat if has_bias else 23.8103
+
         query = """
-            SELECT label, source, lon, lat, similarity(label, %(q)s) AS score
-            FROM (
-                SELECT full_address AS label, 'address' AS source,
-                       ST_X(geometry) AS lon, ST_Y(geometry) AS lat
-                FROM addresses
-                WHERE full_address ILIKE %(like)s OR full_address %% %(q)s
-
-                UNION ALL
-
-                SELECT name AS label, 'poi' AS source,
-                       ST_X(ST_Centroid(geometry)) AS lon, ST_Y(ST_Centroid(geometry)) AS lat
-                FROM pois
-                WHERE name IS NOT NULL AND name <> '' AND (name ILIKE %(like)s OR name %% %(q)s)
-
-                UNION ALL
-
-                SELECT wof_name AS label, 'place' AS source,
-                       ST_X(ST_Centroid(geometry)) AS lon, ST_Y(ST_Centroid(geometry)) AS lat
-                FROM neighborhoods
-                WHERE wof_name IS NOT NULL AND (wof_name ILIKE %(like)s OR wof_name %% %(q)s)
-
-                UNION ALL
-
-                SELECT name AS label, 'road' AS source,
-                       ST_X(ST_Centroid(geometry)) AS lon, ST_Y(ST_Centroid(geometry)) AS lat
-                FROM roads
-                WHERE name IS NOT NULL AND name <> '' AND (name ILIKE %(like)s OR name %% %(q)s)
-            ) combined
+            SELECT 
+                label, sublabel, category, source, importance, lon, lat,
+                (similarity(label, %(q)s) * 60.0) + importance - 
+                (CASE WHEN %(has_bias)s THEN ((geom <-> ST_SetSRID(ST_MakePoint(%(bias_lon)s, %(bias_lat)s), 4326)) * 15.0) ELSE 0.0 END) AS score
+            FROM search_index
+            WHERE label ILIKE %(like)s OR label %% %(q)s
             ORDER BY score DESC
             LIMIT 10;
         """
-        cursor.execute(query, {"q": q, "like": like_pattern})
+        cursor.execute(query, {
+            "q": q,
+            "like": f"%{q}%",
+            "has_bias": has_bias,
+            "bias_lon": bias_lon,
+            "bias_lat": bias_lat
+        })
         rows = cursor.fetchall()
-        results = [{"label": r[0], "source": r[1], "lon": r[2], "lat": r[3]} for r in rows]
+        
+        results = []
+        for r in rows:
+            lbl, sublbl, cat, src, imp, r_lon, r_lat, scr = r
+            icon = _get_category_icon(cat)
+            dist_str = ""
+            dist_val = None
+            if has_bias:
+                d_km = _calc_dist_km(bias_lon, bias_lat, r_lon, r_lat)
+                dist_val = round(d_km, 2)
+                dist_str = f"{int(d_km * 1000)} m away" if d_km < 1.0 else f"{d_km:.1f} km away"
+            
+            results.append({
+                "label": lbl,
+                "sublabel": sublbl or f"{cat.capitalize()}, Bangladesh",
+                "category": cat,
+                "source": src,
+                "icon": icon,
+                "lon": round(r_lon, 6),
+                "lat": round(r_lat, 6),
+                "distance_km": dist_val,
+                "distance_str": dist_str
+            })
+
+        if len(_geocode_cache) > 10000:
+            _geocode_cache.clear()
+        _geocode_cache[cache_key] = results
+
         return JSONResponse(content={"results": results})
     except Exception as e:
         print(f"Geocode Error: {e}")
         return JSONResponse(content={"error": str(e)}, status_code=500)
     finally:
         pg_pool.putconn(conn)
+
 
 
 MAX_REVERSE_GEOCODE_DISTANCE_M = 5000

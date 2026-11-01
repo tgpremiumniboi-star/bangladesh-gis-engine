@@ -166,41 +166,82 @@
 
         .search-results {
             position: absolute;
-            top: 46px;
+            top: 48px;
             left: 0;
             right: 0;
-            background: var(--bg-glass);
-            backdrop-filter: blur(14px);
-            border: 1px solid var(--border-glass);
-            border-radius: 8px;
-            max-height: 240px;
+            background: rgba(10, 15, 29, 0.95);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            max-height: 380px;
             overflow-y: auto;
             display: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+            z-index: 1000;
         }
 
         .search-item {
-            padding: 9px 12px;
-            font-size: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
             cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.15s ease;
+        }
+
+        .search-item:hover {
+            background: rgba(0, 229, 255, 0.15);
+            padding-left: 17px;
+        }
+
+        .search-item-icon {
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-item-info {
+            flex: 1;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
-        .search-item:hover {
-            background: rgba(0, 229, 255, 0.15);
-        }
-
         .search-item-title {
-            color: white;
+            color: #ffffff;
             font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .search-item-sub {
-            color: var(--text-muted);
-            font-size: 10px;
+            color: #94a3b8;
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-item-dist {
+            color: #00e5ff;
+            font-size: 11px;
+            font-weight: 500;
+            flex-shrink: 0;
+            background: rgba(0, 229, 255, 0.1);
+            padding: 2px 7px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
         }
 
         /* Sidebar Panels */
@@ -1481,11 +1522,12 @@
         }
 
         // -------------------------------------------------------------
-        // Geocoder Search Logic
+        // Google Maps-Grade Geocoder Search Logic
         // -------------------------------------------------------------
         const geocoderInput = document.getElementById('geocoder-input');
         const searchResults = document.getElementById('search-results');
         let geocodeTimer = null;
+        let currentSearchMarker = null;
 
         geocoderInput.addEventListener('input', (e) => {
             const q = e.target.value.trim();
@@ -1495,40 +1537,81 @@
                 return;
             }
             geocodeTimer = setTimeout(() => {
-                fetch(`${API_BASE}/api/geocode?q=${encodeURIComponent(q)}`)
+                const center = map.getCenter();
+                const url = `${API_BASE}/api/geocode?q=${encodeURIComponent(q)}&lon=${center.lng.toFixed(4)}&lat=${center.lat.toFixed(4)}`;
+                fetch(url)
                     .then(r => r.json())
                     .then(data => {
                         const results = data.results || [];
                         if (results.length === 0) {
-                            searchResults.innerHTML = '<div class="search-item"><span class="search-item-title">No matching locations found</span></div>';
+                            searchResults.innerHTML = '<div class="search-item"><div class="search-item-icon">🔍</div><div class="search-item-info"><span class="search-item-title">No matching locations found</span><span class="search-item-sub">Try searching for a road, sector, hospital or area name</span></div></div>';
                             searchResults.style.display = 'block';
                             return;
                         }
-                        searchResults.innerHTML = results.map(item => `
-                            <div class="search-item" onclick="flyToLocation(${item.lon}, ${item.lat}, '${escape(item.label)}')">
-                                <span class="search-item-title">${item.label}</span>
-                                <span class="search-item-sub">Type: ${item.source.toUpperCase()} • Lon: ${item.lon.toFixed(4)}, Lat: ${item.lat.toFixed(4)}</span>
+                        searchResults.innerHTML = results.map((item) => `
+                            <div class="search-item" onclick="flyToLocation(${item.lon}, ${item.lat}, '${escape(item.label)}', '${escape(item.sublabel || '')}', '${item.icon || '📍'}', '${item.category || ''}')">
+                                <div class="search-item-icon">${item.icon || '📍'}</div>
+                                <div class="search-item-info">
+                                    <div class="search-item-title">${item.label}</div>
+                                    <div class="search-item-sub">${item.sublabel}</div>
+                                </div>
+                                ${item.distance_str ? `<div class="search-item-dist">${item.distance_str}</div>` : ''}
                             </div>
                         `).join('');
                         searchResults.style.display = 'block';
                     })
                     .catch(err => console.error('Geocode error:', err));
-            }, 250);
+            }, 180);
         });
 
-        function flyToLocation(lon, lat, label) {
+        function flyToLocation(lon, lat, label, sublabel, icon, category) {
             searchResults.style.display = 'none';
             geocoderInput.value = unescape(label);
+            
+            let targetZoom = 16.5;
+            if (category === 'district') targetZoom = 12.0;
+            else if (category === 'upazila') targetZoom = 13.5;
+            else if (category === 'neighborhood' || category === 'locality') targetZoom = 15.0;
+            else if (category === 'road') targetZoom = 15.5;
+
             map.flyTo({
                 center: [lon, lat],
-                zoom: 15.5,
-                pitch: 55,
-                bearing: -15,
+                zoom: targetZoom,
+                pitch: 50,
+                bearing: -10,
                 duration: 1800
             });
-            new maplibregl.Marker({ color: '#00e5ff' })
+
+            if (currentSearchMarker) {
+                currentSearchMarker.remove();
+            }
+
+            const cleanLabel = unescape(label);
+            const cleanSub = unescape(sublabel || '');
+            const cleanIcon = icon || '📍';
+
+            const popupContent = `
+                <div style="font-family: inherit; min-width: 200px; padding: 4px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="font-size: 20px;">${cleanIcon}</span>
+                        <div style="font-weight: 700; font-size: 14px; color: #0f172a;">${cleanLabel}</div>
+                    </div>
+                    <div style="font-size: 11px; color: #64748b; margin-bottom: 8px; line-height: 1.4;">${cleanSub}</div>
+                    <div style="display: flex; gap: 6px; font-size: 10px; color: #0284c7; background: #f0f9ff; padding: 4px 8px; border-radius: 6px;">
+                        <span>📍 ${lat.toFixed(5)}, ${lon.toFixed(5)}</span>
+                    </div>
+                </div>
+            `;
+
+            const popup = new maplibregl.Popup({ offset: 35, closeButton: true })
+                .setHTML(popupContent);
+
+            currentSearchMarker = new maplibregl.Marker({ color: '#00e5ff' })
                 .setLngLat([lon, lat])
+                .setPopup(popup)
                 .addTo(map);
+
+            currentSearchMarker.togglePopup();
         }
 
         document.addEventListener('click', (e) => {
